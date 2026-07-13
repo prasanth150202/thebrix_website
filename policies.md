@@ -68,7 +68,7 @@ These Terms shall be governed by and interpreted in accordance with applicable l
 ## **13\. Contact Information**
 
 For any questions regarding these Terms, contact:  
-📧 [**support@thecartninja.com**](mailto:support@thecartninja.com)
+📧 [**support@thebrix.io**](mailto:support@thebrix.io)
 
 # **Privacy Policy**
 
@@ -144,7 +144,7 @@ Depending on your location, you may have the right to:
 - Withdraw consent
 
 To exercise these rights, contact us at:  
-📧 [**support@thecartninja.com**](mailto:support@thecartninja.com)
+📧 [**support@thebrix.io**](mailto:support@thebrix.io)
 
 ## **8\. Third-Party Services**
 
@@ -157,4 +157,4 @@ We may update this Privacy Policy from time to time. Changes will be posted on t
 ## **10\. Contact Us**
 
 If you have any questions about this Privacy Policy, contact us at:  
-📧 [**support@thecartninja.com**](mailto:support@thecartninja.com)
+📧 [**support@thebrix.io**](mailto:support@thebrix.io)
