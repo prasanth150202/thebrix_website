@@ -1827,17 +1827,14 @@ h1 em {
 .footer-rating b { color: #fff; }
 
 .footer-shopify {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
+  display: inline-block;
   margin-top: 14px;
-  padding: 9px 15px;
-  border-radius: 10px;
-  background: var(--green);
-  color: #fff;
-  font-size: .85rem;
-  font-weight: 600;
   transition: transform .15s ease, filter .15s ease;
+}
+.footer-shopify-badge {
+  display: block;
+  width: 196px;
+  height: 52px;
 }
 .footer-shopify:hover { transform: translateY(-2px); filter: brightness(1.06); }
 
