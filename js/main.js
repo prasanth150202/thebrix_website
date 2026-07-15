@@ -478,6 +478,69 @@ document.querySelectorAll('.price-cta, #ctaInstall, .btn-primary.btn-lg').forEac
   });
 })();
 
+/* ---------- why-brix before/after pictorial: gsap entrance ---------- */
+
+(function beforeAfterPict() {
+  const pict = document.querySelector('.ba-pict');
+  if (!pict || !HAS_GSAP) return;
+
+  const before = pict.querySelector('.is-before');
+  const arrow = pict.querySelector('.ba-pict-arrow');
+  const after = pict.querySelector('.is-after');
+  const fill = pict.querySelector('.bp-fill');
+  const pops = after ? after.querySelectorAll('.bp-upsell, .bp-coupons') : [];
+
+  gsap.set(before, { opacity: 0, x: -26 });
+  gsap.set(after, { opacity: 0, x: 26 });
+  gsap.set(arrow, { opacity: 0, scale: 0 });
+  gsap.set(pops, { opacity: 0, y: 8 });
+  if (fill) gsap.set(fill, { width: '18%' });
+
+  ScrollTrigger.create({
+    trigger: pict,
+    start: 'top 82%',
+    once: true,
+    onEnter: () => {
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      tl.to(before, { opacity: 1, x: 0, duration: .6 })
+        .to(after, { opacity: 1, x: 0, duration: .6 }, '-=.42')
+        .to(arrow, { opacity: 1, scale: 1, duration: .5, ease: 'back.out(2.2)' }, '-=.4')
+        .to(fill, { width: '95%', duration: 1.1, ease: 'power2.out' }, '-=.25')
+        .to(pops, { opacity: 1, y: 0, duration: .45, ease: 'back.out(1.7)', stagger: .12 }, '-=.85');
+    }
+  });
+})();
+
+/* ---------- countries world map: gsap draw-in + pin drop ---------- */
+
+(function worldMapReveal() {
+  const svg = document.querySelector('.wm-svg');
+  if (!svg || !HAS_GSAP) return;
+
+  const land = svg.querySelectorAll('.wm-land path, .wm-land circle');
+  const arcs = svg.querySelectorAll('.wm-arcs path');
+  const pins = svg.querySelectorAll('.wm-pin');
+  const legend = document.querySelectorAll('.wm-legend .country-chip');
+
+  gsap.set(land, { opacity: 0 });
+  gsap.set(arcs, { opacity: 0 });
+  gsap.set(pins, { opacity: 0, y: -12 });
+  gsap.set(legend, { opacity: 0, y: 8, scale: .85 });
+
+  ScrollTrigger.create({
+    trigger: svg,
+    start: 'top 80%',
+    once: true,
+    onEnter: () => {
+      const tl = gsap.timeline();
+      tl.to(land, { opacity: 1, duration: .5, ease: 'power1.out', stagger: .06 })
+        .to(arcs, { opacity: 1, duration: .6, ease: 'power1.out', stagger: .1 }, '-=.2')
+        .to(pins, { opacity: 1, y: 0, duration: .5, ease: 'back.out(1.9)', stagger: .1 }, '-=.5')
+        .to(legend, { opacity: 1, y: 0, scale: 1, duration: .4, ease: 'back.out(1.8)', stagger: .05 }, '-=.5');
+    }
+  });
+})();
+
 /* ---------- case study teaser: gsap entrance ---------- */
 
 (function csTeaserReveal() {
@@ -702,6 +765,12 @@ document.getElementById('newsForm')?.addEventListener('submit', e => {
 
   document.body.appendChild(launcher);
   document.body.appendChild(panel);
+
+  // gsap pop-in from the corner (falls back to instant appearance)
+  if (HAS_GSAP) {
+    gsap.set(launcher, { scale: 0, opacity: 0, transformOrigin: 'bottom right' });
+    gsap.to(launcher, { scale: 1, opacity: 1, duration: .55, ease: 'back.out(2)', delay: 1.2 });
+  }
 
   const body = panel.querySelector('#bxBody');
   const input = panel.querySelector('#bxInput');

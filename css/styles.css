@@ -2867,8 +2867,9 @@ body.gsap-on .hero-chip { animation: none; }
   width: 95%;
   border-radius: 100px;
   background: var(--reward-grad);
-  animation: bpfill 1.4s cubic-bezier(.3,.9,.35,1) both;
 }
+/* GSAP drives the fill on scroll; this is the no-GSAP fallback */
+body:not(.gsap-on) .bp-fill { animation: bpfill 1.4s cubic-bezier(.3,.9,.35,1) both; }
 @keyframes bpfill { from { width: 18%; } to { width: 95%; } }
 
 .bp-upsell {
@@ -2980,7 +2981,8 @@ body.gsap-on .hero-chip { animation: none; }
   transform-origin: center;
   animation: wmpulse 2.8s ease-out infinite;
 }
-.wm-pin { animation: wmpop .5s both; animation-delay: var(--d, 0s); }
+/* GSAP drops the pins in on scroll; this is the no-GSAP fallback */
+body:not(.gsap-on) .wm-pin { animation: wmpop .5s both; animation-delay: var(--d, 0s); }
 .wm-pin:nth-child(2n) .wm-ring { fill: var(--green); }
 .wm-pin:nth-child(2n) .wm-dot { fill: var(--green); }
 @keyframes wmpulse {
