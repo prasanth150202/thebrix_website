@@ -436,34 +436,6 @@ document.querySelectorAll('.price-cta, #ctaInstall, .btn-primary.btn-lg').forEac
   io.observe(box);
 })();
 
-/* ---------- why-brix chat panel: gsap entrance ---------- */
-
-(function whyBrixChat() {
-  const panel = document.getElementById('wbPanel');
-  if (!panel || !HAS_GSAP) return;
-
-  const typing = document.getElementById('wbTyping');
-  const bubbles = document.querySelectorAll('#wbThread .wb-bubble');
-  if (!bubbles.length) return;
-
-  gsap.set(bubbles, { opacity: 0, y: 12 });
-
-  ScrollTrigger.create({
-    trigger: panel,
-    start: 'top 75%',
-    once: true,
-    onEnter: () => {
-      const tl = gsap.timeline();
-      tl.call(() => typing.classList.add('show'))
-        .to({}, { duration: .7 })
-        .call(() => typing.classList.remove('show'))
-        .to(bubbles, {
-          opacity: 1, y: 0, duration: .5, ease: 'power2.out', stagger: .13
-        });
-    }
-  });
-})();
-
 /* ---------- why-aov meters: gsap fill on scroll ---------- */
 
 (function whyAovMeters() {
@@ -502,49 +474,6 @@ document.querySelectorAll('.price-cta, #ctaInstall, .btn-primary.btn-lg').forEac
     once: true,
     onEnter: () => gsap.to(chips, {
       opacity: 1, y: 0, scale: 1, duration: .45, ease: 'back.out(1.7)', stagger: .05
-    })
-  });
-})();
-
-/* ---------- before/after: gsap directional stagger ---------- */
-
-(function beforeAfterReveal() {
-  const grid = document.querySelector('#before-after .ba-grid');
-  if (!grid || !HAS_GSAP) return;
-
-  const before = grid.querySelectorAll('.ba-before .ba-list li');
-  const after = grid.querySelectorAll('.ba-after .ba-list li');
-  if (!before.length && !after.length) return;
-  gsap.set(before, { opacity: 0, x: -18 });
-  gsap.set(after, { opacity: 0, x: 18 });
-
-  ScrollTrigger.create({
-    trigger: grid,
-    start: 'top 72%',
-    once: true,
-    onEnter: () => {
-      gsap.to(before, { opacity: 1, x: 0, duration: .5, ease: 'power2.out', stagger: .07 });
-      gsap.to(after, { opacity: 1, x: 0, duration: .5, ease: 'power2.out', stagger: .07, delay: .18 });
-    }
-  });
-})();
-
-/* ---------- trusted-by: gsap country chip pop-in ---------- */
-
-(function countriesReveal() {
-  const wrap = document.querySelector('.countries-row');
-  if (!wrap || !HAS_GSAP) return;
-
-  const chips = wrap.querySelectorAll('.country-chip');
-  if (!chips.length) return;
-  gsap.set(chips, { opacity: 0, y: 8, scale: .85 });
-
-  ScrollTrigger.create({
-    trigger: wrap,
-    start: 'top 82%',
-    once: true,
-    onEnter: () => gsap.to(chips, {
-      opacity: 1, y: 0, scale: 1, duration: .4, ease: 'back.out(1.8)', stagger: .05
     })
   });
 })();
@@ -719,3 +648,141 @@ document.getElementById('newsForm')?.addEventListener('submit', e => {
   form.querySelector('button').disabled = true;
   document.getElementById('newsOk')?.classList.add('show');
 });
+
+/* ---------- floating Brix AI chat widget (site-wide) ---------- */
+
+(function brixChat() {
+  if (document.querySelector('.bx-launcher')) return;
+
+  const QA = [
+    { q: 'Will Brix slow down my store?',
+      a: 'No. Brix loads asynchronously after your page renders and weighs less than a single product image (~28&nbsp;KB), so it has no effect on your Core Web Vitals.' },
+    { q: 'Does it work with my theme?',
+      a: 'Yes — Brix works with every Online Store 2.0 theme out of the box and matches your fonts and colours automatically. For heavily customised themes our team does free setup.' },
+    { q: 'What does Brix AI change in my store?',
+      a: 'Only what you allow it to: reward-tier amounts, which offers are active, and which products appear in upsells and bundles. Every change is logged and reversible in one click.' },
+    { q: 'Does it work with subscription or currency apps?',
+      a: 'Yes. Brix supports Shopify Markets, multi-currency and major subscription apps. Reward tiers convert to each shopper’s local currency automatically.' },
+    { q: 'Can I try the paid features first?',
+      a: 'Starter and Pro both start with a 14-day free trial, billed monthly through Shopify afterwards — cancel anytime. Free is free forever, no trial needed.' },
+    { q: 'What happens if I uninstall?',
+      a: 'Brix removes itself cleanly with no leftover code in your theme. Export your discounts and analytics first, and your store is exactly as it was.' }
+  ];
+
+  const GREETING = 'Hi! I’m Brix AI 👋 Ask me anything about growing your Shopify AOV — or tap a common question below.';
+  const FALLBACK = 'Great question! I’m a preview assistant for now — a smarter Brix AI is on the way. In the meantime, tap one of the common questions above, or email <b>support@thebrix.io</b> and a human will help.';
+
+  const launcher = document.createElement('button');
+  launcher.className = 'bx-launcher';
+  launcher.type = 'button';
+  launcher.setAttribute('aria-label', 'Open Brix AI chat');
+  launcher.innerHTML =
+    '<span class="bx-launcher-ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.48 3 2 6.94 2 11.8c0 2.6 1.28 4.94 3.32 6.55L4.5 21.5l3.94-1.64c1.1.35 2.31.54 3.56.54 5.52 0 10-3.94 10-8.8S17.52 3 12 3z"/></svg></span>' +
+    '<span class="bx-launcher-label">Ask Brix AI</span>' +
+    '<span class="bx-launcher-dot" aria-hidden="true"></span>';
+
+  const panel = document.createElement('div');
+  panel.className = 'bx-panel';
+  panel.setAttribute('role', 'dialog');
+  panel.setAttribute('aria-label', 'Brix AI chat');
+  panel.innerHTML =
+    '<div class="bx-head">' +
+      '<span class="bx-head-ava"><img src="assets/brix-mark-light.png" alt=""></span>' +
+      '<span class="bx-head-tt"><b>Brix AI</b><span><span class="bx-head-live" aria-hidden="true"></span>Online · replies instantly</span></span>' +
+      '<button class="bx-close" type="button" aria-label="Close chat"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>' +
+    '</div>' +
+    '<div class="bx-body" id="bxBody"></div>' +
+    '<div class="bx-foot">' +
+      '<div class="bx-inputrow">' +
+        '<input class="bx-input" id="bxInput" type="text" placeholder="Ask about AOV, upsells, pricing…" aria-label="Type your question">' +
+        '<button class="bx-send" id="bxSend" type="button" aria-label="Send message"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>' +
+      '</div>' +
+      '<p class="bx-note">Preview assistant — full Brix AI coming soon</p>' +
+    '</div>';
+
+  document.body.appendChild(launcher);
+  document.body.appendChild(panel);
+
+  const body = panel.querySelector('#bxBody');
+  const input = panel.querySelector('#bxInput');
+  const sendBtn = panel.querySelector('#bxSend');
+  const closeBtn = panel.querySelector('.bx-close');
+  const scrollDown = () => { body.scrollTop = body.scrollHeight; };
+
+  const addMsg = (html, who) => {
+    const m = document.createElement('div');
+    m.className = 'bx-msg bx-msg-' + who;
+    m.innerHTML = html;
+    body.appendChild(m);
+    scrollDown();
+  };
+
+  let suggestsEl = null;
+  const removeSuggests = () => { if (suggestsEl) { suggestsEl.remove(); suggestsEl = null; } };
+  const renderSuggests = () => {
+    removeSuggests();
+    suggestsEl = document.createElement('div');
+    suggestsEl.className = 'bx-suggests';
+    let html = '<p class="bx-suggests-label">Common questions</p>';
+    QA.forEach((item, i) => { html += '<button class="bx-chip" type="button" data-i="' + i + '">' + item.q + '</button>'; });
+    suggestsEl.innerHTML = html;
+    body.appendChild(suggestsEl);
+    scrollDown();
+    suggestsEl.querySelectorAll('.bx-chip').forEach(chip => {
+      chip.addEventListener('click', () => ask(QA[+chip.dataset.i].q, QA[+chip.dataset.i].a));
+    });
+  };
+
+  const aiReply = html => {
+    const done = () => { addMsg(html, 'ai'); renderSuggests(); };
+    if (REDUCED) { done(); return; }
+    const t = document.createElement('div');
+    t.className = 'bx-typing';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    body.appendChild(t);
+    scrollDown();
+    setTimeout(() => { t.remove(); done(); }, 750);
+  };
+
+  const ask = (question, answer) => {
+    removeSuggests();
+    addMsg(question, 'user');
+    aiReply(answer);
+  };
+
+  let seeded = false;
+  const seed = () => {
+    if (seeded) return;
+    seeded = true;
+    addMsg(GREETING, 'ai');
+    renderSuggests();
+  };
+
+  const open = () => {
+    document.body.classList.add('bx-open');
+    launcher.querySelector('.bx-launcher-dot')?.remove();
+    seed();
+    setTimeout(() => input.focus(), 260);
+  };
+  const close = () => document.body.classList.remove('bx-open');
+
+  launcher.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.body.classList.contains('bx-open')) close();
+  });
+
+  const send = () => {
+    const val = input.value.trim();
+    if (!val) return;
+    input.value = '';
+    const v = val.toLowerCase();
+    const hit = QA.find(item =>
+      item.q.toLowerCase().replace(/[^a-z ]/g, '').split(' ')
+        .filter(w => w.length > 3).some(w => v.includes(w))
+    );
+    ask(val, hit ? hit.a : FALLBACK);
+  };
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+})();

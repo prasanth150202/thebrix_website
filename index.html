@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=17">
+  <link rel="stylesheet" href="css/styles.css?v=19">
   <link rel="icon" type="image/png" href="assets/favicon.png">
 </head>
 <body>
@@ -44,30 +44,70 @@
 <section class="section" id="why-brix">
   <div class="container f-grid">
     <div class="f-copy">
-      <p class="eyebrow reveal">Why Brix</p>
+      <p class="eyebrow reveal">Why Brix?</p>
       <h2 class="reveal">Built for Shopify brands that want smarter cart growth</h2>
-      <p class="reveal">Brix is not just a Shopify cart drawer app. It is an AI-powered AOV optimization platform built to help merchants understand what to offer, where to show it, and how to improve every cart interaction.</p>
-      <p class="reveal" style="--d:.06s">From cart rewards progress bars to AI upsell suggestions, Brix gives your store the tools to turn single-product purchases into higher-value orders.</p>
+      <p class="reveal">Brix is not just a Shopify cart drawer app. It is an AI-powered AOV optimization platform — the Shopify AOV booster app built to help merchants understand what to offer, where to show it, and how to improve every cart interaction.</p>
+      <p class="reveal" style="--d:.06s">From cart rewards progress bars to AI upsell suggestions, Brix gives your store the tools to turn single-product purchases into higher-value orders — combining cart upsell, Shopify slide cart, coupon slider, rewards bar and AI analytics in one simple platform.</p>
+      <div class="wb-cta reveal" style="--d:.12s">
+        <a class="btn btn-primary btn-lg" href="#install">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M15.34 3.03c-.09-.06-.19-.06-.31-.03l-.58.18c-.14-.4-.33-.83-.61-1.26C13.28.98 12.6.5 11.9.5h-.15c-.5-.62-1.13-.9-1.68-.88-1.05.03-2.09.79-2.94 2.13-.6.95-1.05 2.14-1.18 3.06l-2.1.65c-.62.2-.64.22-.72.8L1.5 19.44 14.29 22 21 20.55S15.42 3.09 15.34 3.03z"/></svg>
+          Start growing your AOV
+        </a>
+        <p class="wb-cta-note">Try for free and increase AOV in 5 minutes</p>
+      </div>
     </div>
     <div class="wb-visual">
       <div class="wb-glow" aria-hidden="true"></div>
-      <div class="wb-panel reveal" style="--d:.1s" id="wbPanel">
-        <div class="wb-head">
-          <span class="wb-ava"><img src="assets/brix-mark-light.png" alt=""></span>
-          <span class="wb-head-name">Brix AI</span>
-          <span class="wb-live"><span class="wb-live-dot" aria-hidden="true"></span>Always on</span>
-        </div>
-        <div class="wb-thread" id="wbThread">
-          <div class="wb-typing" id="wbTyping"><span></span><span></span><span></span></div>
-          <div class="wb-bubble"><span class="wb-check" aria-hidden="true">✓</span>Recommend the right add-on products inside the cart</div>
-          <div class="wb-bubble"><span class="wb-check" aria-hidden="true">✓</span>Create Frequently Bought Together offers that feel natural</div>
-          <div class="wb-bubble"><span class="wb-check" aria-hidden="true">✓</span>Show coupon codes directly inside the cart drawer</div>
-          <div class="wb-bubble"><span class="wb-check" aria-hidden="true">✓</span>Motivate shoppers with a gamified rewards progress bar</div>
-          <div class="wb-bubble"><span class="wb-check" aria-hidden="true">✓</span>Track cart performance with AI analysis</div>
-          <div class="wb-bubble"><span class="wb-check" aria-hidden="true">✓</span>Customize the cart experience to match your brand</div>
-        </div>
-        <p class="wb-panel-note">Brix combines cart upsell, Shopify slide cart, coupon slider, rewards bar, and AI analytics in one simple platform.</p>
+      <div class="ba-pict reveal" style="--d:.1s">
+        <figure class="bp is-before">
+          <figcaption class="bp-tag">Before Brix</figcaption>
+          <div class="bp-card">
+            <div class="bp-hd"><span class="bp-hd-title">Your cart</span><span class="bp-hd-count">1 item</span></div>
+            <div class="bp-line">
+              <span class="cm-thumb th-a" aria-hidden="true"></span>
+              <span class="bp-info"><b>Alpine hoodie</b><small>Moss · M</small></span>
+              <span class="bp-price">$48</span>
+            </div>
+            <p class="bp-empty">No upsells · no rewards · offers missed</p>
+            <div class="bp-foot"><span>Subtotal</span><b>$48.00</b></div>
+            <span class="bp-checkout">Checkout</span>
+          </div>
+        </figure>
+
+        <span class="ba-pict-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+
+        <figure class="bp is-after">
+          <figcaption class="bp-tag bp-tag-after">After Brix</figcaption>
+          <div class="bp-card bp-card-smart">
+            <div class="bp-hd"><span class="bp-hd-title">Your cart</span><span class="bp-hd-count bp-hd-count-on">3 items</span></div>
+            <div class="bp-reward">
+              <p class="bp-reward-msg"><b>Free gift unlocked!</b> Sherpa socks added</p>
+              <div class="bp-track"><span class="bp-fill"></span></div>
+            </div>
+            <div class="bp-line">
+              <span class="cm-thumb th-a" aria-hidden="true"></span>
+              <span class="bp-info"><b>Alpine hoodie</b><small>Moss · M</small></span>
+              <span class="bp-price">$48</span>
+            </div>
+            <div class="bp-line">
+              <span class="cm-thumb th-b" aria-hidden="true"></span>
+              <span class="bp-info"><b>Trail beanie</b><small>Charcoal</small></span>
+              <span class="bp-price">$34</span>
+            </div>
+            <div class="bp-upsell">
+              <span class="cm-thumb th-c" aria-hidden="true"></span>
+              <span class="bp-info"><b>Camp mug set</b><small>Closes the gap to your gift</small></span>
+              <span class="bp-add">+ Add</span>
+            </div>
+            <div class="bp-coupons"><span class="bp-coupon bp-coupon-on">SAVE10</span><span class="bp-coupon">FREESHIP</span></div>
+            <div class="bp-foot"><span>Subtotal</span><b class="bp-foot-up">$124.00</b></div>
+            <span class="bp-checkout bp-checkout-on">Checkout</span>
+          </div>
+        </figure>
       </div>
+      <p class="ba-pict-cap">From passive cart to smart cart — <b>+32% AOV</b></p>
     </div>
   </div>
 </section>
@@ -168,7 +208,7 @@
         <h2 class="reveal">More traffic is expensive.<br>Higher AOV is smarter</h2>
         <p class="reveal" style="--d:.04s">Most Shopify brands spend heavily on ads, influencers, emails, and retargeting just to bring shoppers to the store. But when customers reach the cart, many stores lose the opportunity to increase order value.</p>
         <p class="reveal" style="--d:.08s"><b>That is where Brix helps.</b> Instead of depending only on new traffic, Brix helps you generate more revenue from shoppers who are already ready to buy — using a cart abandonment app Shopify brands trust to keep carts active, not one of the countless best Shopify apps to increase sales that only work by spending more on ads.</p>
-        <p class="reveal" style="--d:.12s">With the right cart upsell app for Shopify, every cart can become an opportunity to add more value, increase revenue, and reduce missed sales.</p>
+        <p class="reveal" style="--d:.12s">With the right cart upsell app for Shopify, every cart becomes an opportunity to increase average order value Shopify merchants usually leave on the table — adding more value, lifting revenue, and reducing missed sales.</p>
       </div>
       <div class="waov-visual">
         <div class="waov-glow" aria-hidden="true"></div>
@@ -209,43 +249,6 @@
   </div>
 </section>
 
-<!-- ============ BEFORE / AFTER ============ -->
-<section class="section" id="before-after">
-  <div class="container">
-    <div class="section-head reveal">
-      <p class="eyebrow">Before &amp; after</p>
-      <h2>From passive cart to smart cart</h2>
-    </div>
-    <div class="ba-grid">
-      <div class="ba-col ba-before reveal">
-        <p class="ba-h">Before Brix</p>
-        <ul class="ba-list">
-          <li>Shoppers add one product and move to checkout</li>
-          <li>No smart upsells inside the cart</li>
-          <li>Discount codes are missed or forgotten</li>
-          <li>Free shipping rewards are not clearly visible</li>
-          <li>Frequently Bought Together offers are not shown at the right moment</li>
-          <li>Store owners guess what products to recommend</li>
-          <li>Cart abandonment increases because the cart feels passive</li>
-        </ul>
-      </div>
-      <div class="ba-col ba-after reveal" style="--d:.08s">
-        <p class="ba-h">After Brix</p>
-        <ul class="ba-list">
-          <li>Shoppers see relevant add-ons before checkout</li>
-          <li>AI recommends better upsell opportunities</li>
-          <li>Coupon slider shows live offers in one tap</li>
-          <li>Rewards progress bar motivates shoppers to spend more</li>
-          <li>Frequently Bought Together bundles increase order value</li>
-          <li>Merchants track AOV, upsell revenue, coupon performance, and cart opportunities</li>
-          <li>The cart becomes an active revenue growth channel</li>
-        </ul>
-      </div>
-    </div>
-    <p class="ba-final reveal" style="--d:.12s">Brix helps Shopify brands move from a basic cart drawer to a conversion-focused cart experience built for higher AOV.</p>
-  </div>
-</section>
-
 <!-- ============ TRUSTED BY / COUNTRIES ============ -->
 <section class="section section-soft" id="trusted-by">
   <div class="container">
@@ -254,18 +257,58 @@
       <h2>Global revenue optimization platform for Shopify merchants</h2>
       <p class="section-sub">Brix is built for modern DTC and ecommerce brands that want to improve cart revenue, reduce missed opportunities, and create a better buying experience. Whether you are running a fashion store, beauty brand, food brand, wellness store, electronics store, or lifestyle brand, Brix helps you increase average order value in Shopify with intelligent recommendations and high-converting cart features.</p>
     </div>
-    <p class="logos-label reveal" style="--d:.04s">Powering carts at</p>
-    <div class="logos-row reveal" style="--d:.06s" aria-label="Customer stores">
-      <span class="wordmark wm-1">CoreEat</span>
-      <span class="wordmark wm-2">Puretots</span>
-      <span class="wordmark wm-3">MadMinimalist</span>
-      <span class="wordmark wm-4">Aadhya&nbsp;Herbal&nbsp;Care</span>
-      <span class="wordmark wm-5">Blackape</span>
-      <span class="wordmark wm-6">Elther</span>
-    </div>
-    <div class="countries reveal" style="--d:.1s">
+    <div class="countries reveal" style="--d:.06s">
       <p class="countries-label">Countries we serve</p>
-      <div class="countries-row">
+      <div class="worldmap">
+        <svg class="wm-svg" viewBox="0 0 1000 440" role="img" aria-label="World map highlighting the regions Brix serves: North America, United States, Canada, Europe, India, Singapore and Australia">
+          <defs>
+            <radialGradient id="wmGlow" cx="50%" cy="46%" r="62%">
+              <stop offset="0%" stop-color="#0E9BE5" stop-opacity=".10"/>
+              <stop offset="100%" stop-color="#0E9BE5" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect x="0" y="0" width="1000" height="440" fill="url(#wmGlow)"/>
+          <g class="wm-grid" stroke="#0B86CC" stroke-opacity=".08" stroke-width="1">
+            <line x1="0" y1="70" x2="1000" y2="70"/>
+            <line x1="0" y1="140" x2="1000" y2="140"/>
+            <line x1="0" y1="210" x2="1000" y2="210"/>
+            <line x1="0" y1="280" x2="1000" y2="280"/>
+            <line x1="0" y1="350" x2="1000" y2="350"/>
+            <line x1="140" y1="0" x2="140" y2="440"/>
+            <line x1="300" y1="0" x2="300" y2="440"/>
+            <line x1="460" y1="0" x2="460" y2="440"/>
+            <line x1="620" y1="0" x2="620" y2="440"/>
+            <line x1="780" y1="0" x2="780" y2="440"/>
+            <line x1="920" y1="0" x2="920" y2="440"/>
+          </g>
+          <g class="wm-land" fill="#C4E3F7">
+            <path d="M56,69 L153,83 L264,78 L306,111 L306,139 L275,181 L231,178 L208,194 L189,175 L161,147 L156,117 L111,83 Z"/>
+            <path d="M292,222 L403,272 L389,314 L306,394 L300,361 L278,278 L283,236 Z"/>
+            <path d="M475,131 L578,139 L611,83 L528,89 L478,111 Z"/>
+            <path d="M453,158 L597,161 L642,219 L611,319 L556,344 L536,278 L472,236 L453,194 Z"/>
+            <path d="M578,78 L778,50 L889,78 L903,125 L839,167 L750,189 L717,228 L667,181 L625,139 L611,97 Z"/>
+            <path d="M817,311 L894,294 L917,333 L875,356 L828,347 Z"/>
+            <circle cx="792" cy="252" r="7"/>
+            <circle cx="812" cy="266" r="5"/>
+          </g>
+          <g class="wm-arcs" fill="none" stroke="#0B86CC" stroke-opacity=".38" stroke-width="1.6" stroke-dasharray="3 6" stroke-linecap="round">
+            <path d="M233,144 Q380,60 528,111"/>
+            <path d="M528,111 Q623,95 719,189"/>
+            <path d="M719,189 Q780,200 789,247"/>
+            <path d="M789,247 Q860,270 872,325"/>
+            <path d="M233,144 Q205,110 205,94"/>
+          </g>
+          <g class="wm-pins">
+            <g class="wm-pin"><circle class="wm-ring" cx="205" cy="94" r="9"/><circle class="wm-dot" cx="205" cy="94" r="4.2"/><text class="wm-label" x="205" y="80" text-anchor="middle">Canada</text></g>
+            <g class="wm-pin" style="--d:.1s"><circle class="wm-ring" cx="233" cy="144" r="9"/><circle class="wm-dot" cx="233" cy="144" r="4.2"/><text class="wm-label" x="233" y="166" text-anchor="middle">United States</text></g>
+            <g class="wm-pin" style="--d:.2s"><circle class="wm-ring" cx="528" cy="111" r="9"/><circle class="wm-dot" cx="528" cy="111" r="4.2"/><text class="wm-label" x="528" y="97" text-anchor="middle">Europe</text></g>
+            <g class="wm-pin" style="--d:.3s"><circle class="wm-ring" cx="719" cy="189" r="9"/><circle class="wm-dot" cx="719" cy="189" r="4.2"/><text class="wm-label" x="719" y="211" text-anchor="middle">India</text></g>
+            <g class="wm-pin" style="--d:.4s"><circle class="wm-ring" cx="789" cy="247" r="9"/><circle class="wm-dot" cx="789" cy="247" r="4.2"/><text class="wm-label" x="789" y="269" text-anchor="middle">Singapore</text></g>
+            <g class="wm-pin" style="--d:.5s"><circle class="wm-ring" cx="872" cy="325" r="9"/><circle class="wm-dot" cx="872" cy="325" r="4.2"/><text class="wm-label" x="872" y="347" text-anchor="middle">Australia</text></g>
+          </g>
+        </svg>
+      </div>
+      <div class="wm-legend">
         <span class="country-chip">North America</span>
         <span class="country-chip">United States</span>
         <span class="country-chip">Canada</span>
@@ -326,7 +369,7 @@
           </div>
         </div>
         <h3>Rewards Progress Bar</h3>
-        <p>The Brix cart rewards progress bar shows shoppers how close they are to unlocking free shipping, discounts, gifts or special offers — turning the cart into a gamified shopping experience. Ideal for stores searching for cart progress bar Shopify, rewards bar Shopify app, or gamified cart Shopify solutions.</p>
+        <p>The Brix cart rewards progress bar shows shoppers how close they are to unlocking free shipping, discounts, gifts or special offers — turning the cart into a gamified shopping experience. Ideal for stores searching for cart progress bar Shopify, rewards bar Shopify app, gamified cart Shopify solutions, or full Shopify cart gamification.</p>
         <span class="fc-link">Learn more →</span>
       </a>
 
@@ -483,42 +526,6 @@
   </div>
 </section>
 
-<!-- ============ FAQ ============ -->
-<section class="section section-soft" id="faq">
-  <div class="container container-narrow">
-    <div class="section-head reveal">
-      <p class="eyebrow">Questions</p>
-      <h2>Before you ask</h2>
-    </div>
-    <div class="faq-list reveal" style="--d:.08s">
-      <details class="faq-item">
-        <summary>Will Brix slow down my store?<span class="faq-ic"></span></summary>
-        <p>No. Brix loads asynchronously after your page renders and weighs less than a single product image (~28&nbsp;KB). It has no effect on your Core Web Vitals scores.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Does it work with my theme?<span class="faq-ic"></span></summary>
-        <p>Brix works with every Online Store 2.0 theme out of the box, and matches your fonts and colors automatically. For heavily customized themes, our support team does free setup.</p>
-      </details>
-      <details class="faq-item">
-        <summary>What exactly does Brix AI change in my store?<span class="faq-ic"></span></summary>
-        <p>Only the things you’ve given it: reward tier amounts, which offers are active, and which products appear in upsells and bundles. Every change is logged, and you can undo any of them with one click.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Does it work with subscription or currency apps?<span class="faq-ic"></span></summary>
-        <p>Yes. Brix supports Shopify Markets, multi-currency, and plays nicely with major subscription apps. Reward tiers convert to the shopper’s local currency automatically.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Can I try the paid features first?<span class="faq-ic"></span></summary>
-        <p>Starter and Pro both start with a 14-day free trial — billed monthly through Shopify afterwards, cancel anytime. Free is free forever, no trial needed.</p>
-      </details>
-      <details class="faq-item">
-        <summary>What happens if I uninstall?<span class="faq-ic"></span></summary>
-        <p>Brix removes itself cleanly — no leftover code in your theme. Your discounts and analytics export before you go, and your store is exactly as it was.</p>
-      </details>
-    </div>
-  </div>
-</section>
-
 <!-- ============ CASE STUDY (HOME TEASER) ============ -->
 <section class="section section-soft" id="case-study-home">
   <div class="container container-narrow">
@@ -643,6 +650,6 @@
 
 <script src="js/vendor/gsap.min.js"></script>
 <script src="js/vendor/ScrollTrigger.min.js"></script>
-<script src="js/main.js?v=5"></script>
+<script src="js/main.js?v=6"></script>
 </body>
 </html>
