@@ -733,7 +733,17 @@ document.getElementById('newsForm')?.addEventListener('submit', e => {
   ];
 
   const GREETING = 'Hi! I’m Brix AI 👋 Ask me anything about growing your Shopify AOV — or tap a common question below.';
-  const FALLBACK = 'Great question! I’m a preview assistant for now — a smarter Brix AI is on the way. In the meantime, tap one of the common questions above, or email <b>support@thebrix.io</b> and a human will help.';
+  const FALLBACK = 'Sorry, Brix AI is temporarily unavailable. Please try again in a moment, or email <b>support@thebrix.io</b> and a human will help.';
+
+  const escapeHtml = str => str.replace(/[&<>"']/g, ch => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[ch]));
+
+  let history = [];
+  const pushHistory = (role, content) => {
+    history.push({ role, content });
+    if (history.length > 20) history = history.slice(-20);
+  };
 
   const launcher = document.createElement('button');
   launcher.className = 'bx-launcher';
@@ -760,7 +770,7 @@ document.getElementById('newsForm')?.addEventListener('submit', e => {
         '<input class="bx-input" id="bxInput" type="text" placeholder="Ask about AOV, upsells, pricing…" aria-label="Type your question">' +
         '<button class="bx-send" id="bxSend" type="button" aria-label="Send message"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>' +
       '</div>' +
-      '<p class="bx-note">Preview assistant — full Brix AI coming soon</p>' +
+      '<p class="bx-note">Answers are generated from BRIX documentation</p>' +
     '</div>';
 
   document.body.appendChild(launcher);
@@ -841,16 +851,55 @@ document.getElementById('newsForm')?.addEventListener('submit', e => {
     if (e.key === 'Escape' && document.body.classList.contains('bx-open')) close();
   });
 
+  const askRemote = async question => {
+    removeSuggests();
+    addMsg(escapeHtml(question), 'user');
+
+    const t = document.createElement('div');
+    t.className = 'bx-typing';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    if (!REDUCED) { body.appendChild(t); scrollDown(); }
+
+    input.disabled = true;
+    sendBtn.disabled = true;
+
+    let html = FALLBACK;
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: question, history })
+      });
+      if (!res.ok) throw new Error('bad status ' + res.status);
+      const data = await res.json();
+      if (data && typeof data.reply === 'string' && data.reply.trim()) {
+        pushHistory('user', question);
+        pushHistory('assistant', data.reply);
+        html = escapeHtml(data.reply).replace(/\n/g, '<br>');
+      }
+    } catch (err) {
+      // network/API failure — fall through to FALLBACK
+    } finally {
+      input.disabled = false;
+      sendBtn.disabled = false;
+      if (t.parentNode) t.remove();
+      addMsg(html, 'ai');
+      renderSuggests();
+      input.focus();
+    }
+  };
+
   const send = () => {
     const val = input.value.trim();
-    if (!val) return;
+    if (!val || input.disabled) return;
     input.value = '';
     const v = val.toLowerCase();
     const hit = QA.find(item =>
       item.q.toLowerCase().replace(/[^a-z ]/g, '').split(' ')
         .filter(w => w.length > 3).some(w => v.includes(w))
     );
-    ask(val, hit ? hit.a : FALLBACK);
+    if (hit) { ask(val, hit.a); return; }
+    askRemote(val);
   };
   sendBtn.addEventListener('click', send);
   input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });

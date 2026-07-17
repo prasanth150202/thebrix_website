@@ -1,0 +1,8 @@
+{
+  "name": "thebrix-website",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0"
+  }
+}
