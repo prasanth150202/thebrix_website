@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="canonical" href="https://thebrix.io/how-to.html">
+  <title>How-to guides — Set up Brix step by step</title>
+  <meta name="description" content="Step-by-step Brix tutorials for Shopify: set up Frequently Bought Together, build a bundle page, work with Brix AI, customize your cart drawer, and add a coupon banner.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=22">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="container nav-in">
+    <a class="logo" href="/" aria-label="Brix home">
+      <img class="logo-img" src="assets/brix-logo-dark.png" alt="Brix">
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="features.html">Features</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="case-studies.html">Case studies</a>
+      <a href="blog.html">Blog</a>
+      <a href="how-to.html" class="active">Guides</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-primary btn-sm" href="/#install">Install free</a>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navDrawer">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="nav-drawer" id="navDrawer">
+    <a href="features.html">Features</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="case-studies.html">Case studies</a>
+    <a href="blog.html">Blog</a>
+    <a href="how-to.html">Guides</a>
+    <a class="btn btn-primary" href="/#install">Install free</a>
+  </div>
+</header>
+
+<main>
+
+<section class="page-hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="container">
+    <p class="eyebrow reveal">How-to guides</p>
+    <h1 class="reveal" style="--d:.06s">Set up Brix, <em>step by step</em></h1>
+    <p class="hero-sub reveal" style="--d:.12s">Short, friendly walkthroughs for every part of Brix — with clear steps and a picture of what you’ll see. Pick a guide and follow along.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head-row reveal" style="margin-bottom:32px;">
+      <div>
+        <p class="eyebrow">Jump to a guide</p>
+        <h2>Five guides, five minutes each</h2>
+      </div>
+    </div>
+    <div class="toc-grid">
+
+      <a class="toc-card reveal" href="#fbt">
+        <span class="toc-ic gic-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4 7.5 4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+        <span>
+          <span class="toc-step">Guide 01</span>
+          <b>Frequently Bought Together</b>
+          <small>Recommend related products inside the cart.</small>
+        </span>
+      </a>
+
+      <a class="toc-card reveal" style="--d:.05s" href="#combo">
+        <span class="toc-ic gic-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+        <span>
+          <span class="toc-step">Guide 02</span>
+          <b>Build a Combo page</b>
+          <small>Create a dedicated bundle page in minutes.</small>
+        </span>
+      </a>
+
+      <a class="toc-card reveal" style="--d:.1s" href="#ai">
+        <span class="toc-ic gic-3"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 3l1.6 4.4L17 9l-4.4 1.6L11 15l-1.6-4.4L5 9l4.4-1.6L11 3z"/><path d="M18 13l.9 2.4L21 16.5l-2.1.8L18 20l-.9-2.7L15 16.5l2.1-1.1L18 13z"/></svg></span>
+        <span>
+          <span class="toc-step">Guide 03</span>
+          <b>Work smarter with Brix AI</b>
+          <small>Let AI write copy and answer questions.</small>
+        </span>
+      </a>
+
+      <a class="toc-card reveal" style="--d:.15s" href="#cart">
+        <span class="toc-ic gic-4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></span>
+        <span>
+          <span class="toc-step">Guide 04</span>
+          <b>Customize your cart drawer</b>
+          <small>Design the cart with a live preview.</small>
+        </span>
+      </a>
+
+      <a class="toc-card reveal" style="--d:.2s" href="#coupon">
+        <span class="toc-ic gic-5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>
+        <span>
+          <span class="toc-step">Guide 05</span>
+          <b>Set up a Coupon Banner</b>
+          <small>Show promo codes near Add to Cart.</small>
+        </span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- Guide 01 — FBT -->
+<section class="section section-soft" id="fbt">
+  <div class="container">
+    <div class="guide-head reveal">
+      <span class="guide-badge gic-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4 7.5 4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+      <div>
+        <p class="guide-eyebrow">Guide 01 · Cart offers</p>
+        <h2>Set up Frequently Bought Together</h2>
+        <p class="guide-intro">Customers often buy just one product because related items aren’t shown at the right moment. With Brix Frequently Bought Together, you recommend relevant products right inside the cart drawer.</p>
+      </div>
+    </div>
+
+    <div class="guide-grid">
+      <ol class="guide-steps reveal">
+        <li class="guide-step"><span class="guide-step-num">1</span><div><h3>Open FBT</h3><p>From the Brix dashboard, go to <b>FBT</b> in the left navigation.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">2</span><div><h3>Pick a template</h3><p>Choose one of three layouts: a compact horizontal row, a card grid, or a featured single-product layout.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">3</span><div><h3>Choose how recommendations are built</h3><p><b>Manual</b> to pick products yourself, <b>Automatic</b> to let Brix suggest related items, or <b>AI-Powered</b> for smarter personalized picks on supported plans.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">4</span><div><h3>Customize the block</h3><p>Set the section title, button text, price visibility, maximum products, and display limit — then click <b>Save</b>.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">5</span><div><h3>Enable it in your theme</h3><p>Click <b>Enable in theme editor</b>. In Shopify’s Theme Editor, open <b>App embeds</b>, turn on the <b>FBT Widget</b> from Brix, and click <b>Save</b>.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">6</span><div><h3>Confirm it’s live</h3><p>Return to Brix and refresh to check the widget status. Once active, your block appears on your product pages.</p></div></li>
+      </ol>
+
+      <div class="guide-visual reveal" style="--d:.1s">
+        <div class="ui-mock">
+          <div class="ui-bar"><i></i><i></i><i></i><span>Product page</span></div>
+          <div class="ui-body">
+            <p class="ui-title">Frequently bought together</p>
+            <div class="ui-row"><span class="ui-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="cm-thumb th-a"></span><span class="ui-row-info"><b>Vitamin C Serum</b><small>In your cart</small></span><span class="ui-price">$28</span></div>
+            <div class="ui-row"><span class="ui-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="cm-thumb th-c"></span><span class="ui-row-info"><b>Hydrating Moisturizer</b><small>Pairs well</small></span><span class="ui-price">$24</span></div>
+            <div class="ui-row"><span class="ui-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="cm-thumb th-b"></span><span class="ui-row-info"><b>Gentle Cleanser</b><small>Pairs well</small></span><span class="ui-price">$19</span></div>
+            <div class="ui-cta">Add 3 items to cart · $71</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="guide-done reveal"><span class="guide-done-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Done — your Frequently Bought Together recommendations are ready to help customers discover relevant products and grow cart value.</p>
+  </div>
+</section>
+
+<!-- Guide 02 — Build a Combo -->
+<section class="section" id="combo">
+  <div class="container">
+    <div class="guide-head reveal">
+      <span class="guide-badge gic-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+      <div>
+        <p class="guide-eyebrow">Guide 02 · Bundles</p>
+        <h2>Create a Build a Combo page</h2>
+        <p class="guide-intro">Customers may want several products together, but finding the right combination takes time. With Brix Combo, you create dedicated bundle pages that make selection easy.</p>
+      </div>
+    </div>
+
+    <div class="guide-grid">
+      <ol class="guide-steps reveal">
+        <li class="guide-step"><span class="guide-step-num">1</span><div><h3>Start a bundle</h3><p>From the dashboard, open <b>Build a Combo Pro</b> and click <b>Create a Bundle</b>.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">2</span><div><h3>Choose a layout</h3><p><b>Guided Architect</b> for step-by-step selection, <b>Velocity Stream</b> for fast category browsing, or <b>Editorial Split</b> for a premium, image-focused look.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">3</span><div><h3>Add steps &amp; products</h3><p>Add your steps or categories and pick products straight from your Shopify catalog.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">4</span><div><h3>Style it and add a discount</h3><p>Attach a discount and customize colours, fonts, buttons, and header content. Need copy? Click the <b>Brix AI sparkle</b> to generate titles and descriptions.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">5</span><div><h3>Publish</h3><p>Click <b>Publish</b> — Brix automatically creates a dedicated Shopify page for your bundle.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">6</span><div><h3>Manage &amp; measure</h3><p>Edit, duplicate, or manage bundles from the dashboard and track views and revenue. Open <b>Brix Analytics</b> for visitors, click-through, and bundle revenue.</p></div></li>
+      </ol>
+
+      <div class="guide-visual reveal" style="--d:.1s">
+        <div class="ui-mock">
+          <div class="ui-bar"><i></i><i></i><i></i><span>Build a Combo</span></div>
+          <div class="ui-body">
+            <p class="ui-title">Summer Skincare Set</p>
+            <div class="ui-tiles">
+              <div class="ui-tile"><span class="cm-thumb th-a"></span><small>Step 1</small><b>Cleanser</b></div>
+              <span class="ui-plus">+</span>
+              <div class="ui-tile"><span class="cm-thumb th-c"></span><small>Step 2</small><b>Serum</b></div>
+              <span class="ui-plus">+</span>
+              <div class="ui-tile"><span class="cm-thumb th-b"></span><small>Step 3</small><b>SPF</b></div>
+            </div>
+            <div class="ui-price-row"><span>Bundle price</span><span><b>$59</b><span class="ui-save">Save 15%</span></span></div>
+            <div class="ui-cta">Publish bundle page</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="guide-done reveal"><span class="guide-done-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Done — your bundle page is ready to help customers discover better combinations and build higher-value orders.</p>
+  </div>
+</section>
+
+<!-- Guide 03 — Brix AI -->
+<section class="section section-soft" id="ai">
+  <div class="container">
+    <div class="guide-head reveal">
+      <span class="guide-badge gic-3"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 3l1.6 4.4L17 9l-4.4 1.6L11 15l-1.6-4.4L5 9l4.4-1.6L11 3z"/><path d="M18 13l.9 2.4L21 16.5l-2.1.8L18 20l-.9-2.7L15 16.5l2.1-1.1L18 13z"/></svg></span>
+      <div>
+        <p class="guide-eyebrow">Guide 03 · Brix AI</p>
+        <h2>Work smarter with Brix AI</h2>
+        <p class="guide-intro">Not sure what to write, recommend, or change? Brix AI helps you do it faster — right where you’re already working.</p>
+      </div>
+    </div>
+
+    <div class="guide-grid">
+      <ol class="guide-steps reveal">
+        <li class="guide-step"><span class="guide-step-num">1</span><div><h3>Open the AI panel</h3><p>On any page inside the app, click the <b>Brix button</b> in the bottom-right corner to open the AI chat.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">2</span><div><h3>Ask anything</h3><p>Ask about your settings, learn how features work, get upsell product suggestions, or get step-by-step help making changes.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">3</span><div><h3>Let it write for you</h3><p>Brix AI can write coupon banner copy, bundle descriptions, and Frequently Bought Together section headings.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">4</span><div><h3>Generate inside the builder</h3><p>In the Bundle Builder, click the <b>sparkle icon</b> next to any supported field to instantly generate titles, descriptions, and step names.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">5</span><div><h3>Review &amp; continue</h3><p>Check the suggestion, tweak anything you like, and keep building.</p></div></li>
+      </ol>
+
+      <div class="guide-visual reveal" style="--d:.1s">
+        <div class="ui-mock">
+          <div class="ui-bar"><i></i><i></i><i></i><span>Brix AI</span></div>
+          <div class="ui-body">
+            <div class="ui-chat">
+              <span class="ui-bub ui-bub-u">Write a heading for my FBT section</span>
+              <span class="ui-bub ui-bub-a">“Complete your routine — customers add these next.”</span>
+              <span class="ui-bub ui-bub-u">Make it shorter</span>
+              <span class="ui-bub ui-bub-a">“Complete the set”</span>
+              <span class="ui-generate"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 3l1.6 4.4L17 9l-4.4 1.6L11 15l-1.6-4.4L5 9l4.4-1.6L11 3z"/><path d="M18 13l.9 2.4L21 16.5l-2.1.8L18 20l-.9-2.7L15 16.5l2.1-1.1L18 13z"/></svg>Generate with Brix AI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="guide-done reveal"><span class="guide-done-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Done — with Brix AI you spend less time guessing and more time optimizing your store.</p>
+  </div>
+</section>
+
+<!-- Guide 04 — Cart Editor -->
+<section class="section" id="cart">
+  <div class="container">
+    <div class="guide-head reveal">
+      <span class="guide-badge gic-4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></span>
+      <div>
+        <p class="guide-eyebrow">Guide 04 · Cart</p>
+        <h2>Customize your cart with the Cart Editor</h2>
+        <p class="guide-intro">Want to design how your Shopify cart drawer looks and works? The Cart Editor gives you a live preview as you go — settings on the left, your cart on the right.</p>
+      </div>
+    </div>
+
+    <div class="guide-grid">
+      <ol class="guide-steps reveal">
+        <li class="guide-step"><span class="guide-step-num">1</span><div><h3>Open the Cart Editor</h3><p>From the dashboard, go to <b>Cart Editor</b>. Settings sit on the left; a live preview on the right.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">2</span><div><h3>Set the basics</h3><p>Switch between <b>Items</b> and <b>Empty Cart</b> preview, and toggle the drawer <b>Active</b> or <b>Inactive</b> from the top bar.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">3</span><div><h3>Design</h3><p>Customize cart width, border radius, shadow, and animation.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">4</span><div><h3>General &amp; header</h3><p>Choose when the cart opens and which side it slides from, then style the cart title, close button, colors, and border.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">5</span><div><h3>Turn on body features</h3><p>Enable announcements, progress bar, coupon slider, upsell products, and empty-cart recommendations.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">6</span><div><h3>Footer &amp; save</h3><p>Customize the checkout button, footer text, colors, and advanced options like custom CSS. When the preview looks right, click <b>Save</b>. <em>Some advanced features are plan-specific.</em></p></div></li>
+      </ol>
+
+      <div class="guide-visual reveal" style="--d:.1s">
+        <div class="ui-mock">
+          <div class="ui-bar"><i></i><i></i><i></i><span>Cart Editor</span></div>
+          <div class="ui-body">
+            <div class="ui-settings">
+              <div class="ui-set active">Design</div>
+              <div class="ui-set">Header style</div>
+              <div class="ui-set">Progress bar<span class="ui-toggle"><i></i></span></div>
+              <div class="ui-set">Coupon slider<span class="ui-toggle"><i></i></span></div>
+              <div class="ui-set">Upsell products<span class="ui-toggle"><i></i></span></div>
+              <div class="ui-set">Footer &amp; checkout</div>
+            </div>
+            <div class="ui-cta">Save changes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="guide-done reveal"><span class="guide-done-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Done — your Brix cart drawer is customized and ready to create a better shopping experience.</p>
+  </div>
+</section>
+
+<!-- Guide 05 — Coupon Banner -->
+<section class="section section-soft" id="coupon">
+  <div class="container">
+    <div class="guide-head reveal">
+      <span class="guide-badge gic-5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>
+      <div>
+        <p class="guide-eyebrow">Guide 05 · Promotions</p>
+        <h2>Set up a Coupon Banner</h2>
+        <p class="guide-intro">Want to show promos right on your product pages? Brix Coupon Banner displays discount codes near the Add to Cart button to encourage customers to buy faster.</p>
+      </div>
+    </div>
+
+    <div class="guide-grid">
+      <ol class="guide-steps reveal">
+        <li class="guide-step"><span class="guide-step-num">1</span><div><h3>Open Coupon Banner</h3><p>From the dashboard, go to <b>Coupon Banner</b> and turn the top-right toggle to <b>Active</b>. If the theme app embed isn’t enabled, Brix links you straight to the Theme Editor.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">2</span><div><h3>Pick a template</h3><p>Choose <b>Classic Banner</b>, <b>Minimal Card</b>, or <b>Bold &amp; Vibrant</b>.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">3</span><div><h3>Select coupons</h3><p>Open <b>Coupon Selection</b> and choose the active Shopify discount codes you want to show.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">4</span><div><h3>Set where it shows</h3><p>In <b>Display Condition</b>, target all product pages, specific products, collections, or product tags.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">5</span><div><h3>Customize &amp; lay out</h3><p>Edit heading, subtext, colors, button style, and per-coupon rules. In <b>Layout</b>, choose list, carousel, or grid, then optionally enable a <b>Countdown Timer</b> for urgency.</p></div></li>
+        <li class="guide-step"><span class="guide-step-num">6</span><div><h3>Place &amp; save</h3><p>Choose whether the banner sits above or below the Add to Cart button, check the preview, and click <b>Save</b>.</p></div></li>
+      </ol>
+
+      <div class="guide-visual reveal" style="--d:.1s">
+        <div class="ui-mock">
+          <div class="ui-bar"><i></i><i></i><i></i><span>Product page</span></div>
+          <div class="ui-body">
+            <div class="ui-imgph"></div>
+            <div class="ui-coupon">
+              <span class="mini-coupon mc-active">SAVE10</span>
+              <span class="mini-coupon">FREESHIP</span>
+              <span class="mini-coupon">BUNDLE15</span>
+            </div>
+            <div class="ui-cta">Add to cart</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="guide-done reveal"><span class="guide-done-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Done — your Coupon Banner is live on your product pages and ready to nudge faster checkouts.</p>
+  </div>
+</section>
+
+<section class="cta-final" id="install">
+  <div class="cta-gradient" aria-hidden="true"></div>
+  <div class="container cta-in">
+    <h2 class="reveal">Ready to try it yourself?</h2>
+    <p class="reveal" style="--d:.08s">Install Brix free and follow any guide — you’ll have your first offer live in minutes.</p>
+    <a class="btn btn-white btn-lg reveal" style="--d:.16s" href="#" id="ctaInstall">Install on Shopify — free</a>
+    <p class="cta-note reveal" style="--d:.24s">Free plan available · No credit card</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="logo logo-light" href="/">
+        <img class="logo-img" src="assets/brix-logo-light.png" alt="Brix">
+      </a>
+      <p>Bigger orders for Shopify stores, on autopilot.</p>
+      <a class="footer-shopify" href="#" aria-label="View Brix on the Shopify App Store">
+        <img class="footer-shopify-badge" src="assets/badge-shopify-app-store-dark.svg" alt="Available on the Shopify App Store" width="196" height="52">
+      </a>
+      <div class="footer-social">
+        <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82L5 21.75H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.12z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <p class="footer-h">Product</p>
+      <a href="features.html">Features</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="case-studies.html">Case studies</a>
+      <a href="blog.html">Blog</a>
+      <a href="how-to.html">Guides</a>
+      <a href="features.html#ai-chat">Brix AI</a>
+    </div>
+    <div class="footer-col">
+      <p class="footer-h">How-to guides</p>
+      <a href="how-to.html#fbt">Frequently Bought Together</a>
+      <a href="how-to.html#combo">Build a Combo page</a>
+      <a href="how-to.html#ai">Work with Brix AI</a>
+      <a href="how-to.html#cart">Customize your cart</a>
+      <a href="how-to.html#coupon">Set up a Coupon Banner</a>
+    </div>
+    <div class="footer-news">
+      <p class="footer-h">The AOV memo</p>
+      <p class="footer-news-sub">One tactic a week for bigger orders. No fluff.</p>
+      <form class="news-form" id="newsForm">
+        <input type="email" placeholder="you@store.com" aria-label="Email address" required>
+        <button class="btn btn-primary btn-sm" type="submit">Subscribe</button>
+      </form>
+      <p class="news-fine">No spam — just one AOV tactic a week. Unsubscribe anytime.</p>
+      <p class="news-ok" id="newsOk">You’re in. First memo lands Monday. ✓</p>
+    </div>
+  </div>
+  <div class="container footer-base">
+    <span>© 2026 Brix. Built for Shopify.</span>
+    <span class="footer-legal"><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms &amp; Conditions</a></span>
+  </div>
+</footer>
+
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="js/main.js?v=7"></script>
+</body>
+</html>
