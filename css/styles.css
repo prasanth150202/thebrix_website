@@ -1802,7 +1802,7 @@ h1 em {
 
 .footer-brand p { margin-top: 14px; font-size: .9rem; max-width: 24ch; color: rgba(255,255,255,.55); }
 
-.footer-social { display: flex; gap: 14px; margin-top: 20px; }
+.footer-social { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 20px; }
 .footer-social a {
   width: 38px;
   height: 38px;
