@@ -1920,13 +1920,15 @@ h1 em {
 /* ---------- case study hero: 3/4 copy + 1/4 app card ---------- */
 
 .cs-hero { text-align: left; padding-bottom: 54px; }
-.cs-hero-grid {
+
+/* vertical split: copy fills the top 3/4, app band the bottom 1/4 */
+.cs-hero-stack {
   display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 52px;
-  align-items: start;
+  grid-template-rows: 3fr 1fr;
+  gap: 34px;
+  min-height: min(76vh, 660px);
 }
-.cs-hero-main { position: relative; min-width: 0; }
+.cs-hero-main { position: relative; min-width: 0; align-self: center; }
 .cs-hero h1 { font-size: clamp(2rem, 3.8vw, 2.9rem); }
 .cs-hero .hero-sub { margin: 18px 0 0; max-width: 60ch; }
 
@@ -1949,41 +1951,44 @@ h1 em {
 }
 .cs-hero-links a:hover { color: var(--brand); border-color: var(--brand); }
 
-.cs-hero-aside { position: relative; min-width: 0; }
+.cs-hero-aside { position: relative; min-width: 0; align-self: stretch; display: flex; }
 
 .cs-app-card {
-  background: linear-gradient(160deg, var(--navy), var(--navy-3));
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px 30px;
+  background: linear-gradient(120deg, var(--navy), var(--navy-3));
   border-radius: var(--radius-lg);
-  padding: 26px 22px 24px;
-  text-align: center;
+  padding: 22px 28px;
+  text-align: left;
   box-shadow: var(--shadow-2);
-  position: sticky;
-  top: calc(var(--nav-h) + 20px);
 }
-.cs-app-logo { display: block; width: 100%; max-width: 122px; height: auto; margin: 0 auto; }
+.cs-app-logo { display: block; width: 100%; max-width: 116px; height: auto; }
+.cs-app-copy { min-width: 0; }
 .cs-app-tag {
-  color: rgba(255, 255, 255, .72);
-  font-size: .85rem;
-  line-height: 1.55;
-  margin-top: 16px;
+  color: rgba(255, 255, 255, .78);
+  font-size: .93rem;
+  line-height: 1.5;
 }
 .cs-app-rating {
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 2px 7px;
-  margin-top: 14px;
+  margin-top: 8px;
   font-size: .78rem;
   line-height: 1.5;
   color: rgba(255, 255, 255, .6);
 }
 .cs-app-rating b { color: #fff; font-family: var(--font-display); }
 .cs-app-stars { color: var(--gold); letter-spacing: 1px; }
-.cs-app-cta { width: 100%; margin-top: 18px; }
-.cs-app-badge { display: block; margin-top: 16px; }
-.cs-app-badge img { width: 100%; max-width: 168px; height: auto; margin: 0 auto; }
-.cs-app-note { font-size: .71rem; color: rgba(255, 255, 255, .5); margin-top: 12px; }
+
+.cs-app-actions { display: flex; align-items: center; gap: 16px; }
+.cs-app-cta { flex-shrink: 0; }
+.cs-app-badge { display: block; flex-shrink: 0; }
+.cs-app-badge img { display: block; width: 150px; height: auto; }
 
 /* inline mid-article CTA band */
 .cs-inline-cta {
@@ -2003,24 +2008,20 @@ h1 em {
 .cs-inline-cta .btn { flex-shrink: 0; }
 
 @media (max-width: 1020px) {
-  .cs-hero-grid { grid-template-columns: 1fr; gap: 34px; }
-  .cs-app-card { position: static; display: grid; grid-template-columns: auto 1fr; gap: 8px 26px; text-align: left; align-content: start; }
-  .cs-app-logo { margin: 0; grid-row: 1 / span 4; align-self: center; }
-  .cs-app-tag { margin-top: 0; }
-  .cs-app-rating { justify-content: flex-start; }
-  .cs-app-cta { width: auto; justify-self: start; padding-left: 34px; padding-right: 34px; margin-top: 6px; }
-  .cs-app-badge { margin-top: 2px; }
-  .cs-app-badge img { margin: 0; }
-  .cs-app-note { grid-column: 2; text-align: left; margin-top: 6px; }
+  .cs-hero-stack { grid-template-rows: auto auto; min-height: 0; }
+  .cs-app-card { grid-template-columns: auto 1fr; }
+  .cs-app-actions { grid-column: 1 / -1; }
+}
+
+@media (max-width: 640px) {
+  .cs-app-card { grid-template-columns: 1fr; gap: 14px; padding: 22px; }
+  .cs-app-logo { max-width: 104px; }
+  .cs-app-actions { flex-direction: column; align-items: stretch; gap: 12px; }
+  .cs-app-cta { width: 100%; }
+  .cs-app-badge img { width: 150px; }
 }
 
 @media (max-width: 560px) {
-  .cs-app-card { grid-template-columns: 1fr; text-align: center; }
-  .cs-app-logo { grid-row: auto; margin: 0 auto; }
-  .cs-app-tag { margin-top: 14px; }
-  .cs-app-rating { justify-content: center; grid-column: auto; }
-  .cs-app-badge img { margin: 0 auto; }
-  .cs-app-note { text-align: center; }
   .cs-inline-cta { flex-direction: column; align-items: flex-start; }
   .cs-inline-cta .btn { width: 100%; }
 }
