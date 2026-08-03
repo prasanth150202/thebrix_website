@@ -7,10 +7,10 @@ Starter and above to publish live (previewable on Free).
 Shows relevant product recommendations directly inside the cart drawer, in one of two
 modes:
 
-- **AI Recommendations** — BRIX analyzes what's currently in the shopper's cart and
+- **AI Recommendations**: BRIX analyzes what's currently in the shopper's cart and
   automatically suggests complementary products in real time. You control how many
   suggestions appear (1–5).
-- **Manual Selection** — you build your own rules: "if this product is in the cart,
+- **Manual Selection**: you build your own rules, such as "if this product is in the cart,
   recommend these products." Rules are matched top-to-bottom, so you can stack several
   trigger → recommendation pairs.
 
@@ -22,8 +22,8 @@ and color, and button text.
 ## Frequently Bought Together (FBT)
 
 A product-page widget that bundles a product with items customers commonly buy alongside
-it, with a single "Add all to cart" action. Choose from three visual templates — Classic
-Grid, Modern Cards, or Vertical List — and two interaction styles: Classic (customers can
+it, with a single "Add all to cart" action. Choose from three visual templates (Classic
+Grid, Modern Cards, or Vertical List) and two interaction styles: Classic (customers can
 add or remove individual items from the set) or Quick Add. Like Cart Upsell, FBT supports
 both AI-suggested pairings and manually defined rules (trigger products/collections →
 recommended products), and you can choose whether the widget shows prices, an "add all"
@@ -48,12 +48,12 @@ independently.
 ## Best Practices
 
 - Keep upsell rules relevant: manual rules that pair genuinely complementary products
-  convert better than broad, unrelated suggestions — use AI mode if you're not sure what
+  convert better than broad, unrelated suggestions. Use AI mode if you're not sure what
   pairs well yet.
-- Test both the "Classic" and "Quick Add" interaction styles on FBT — Quick Add tends to
+- Test both the "Classic" and "Quick Add" interaction styles on FBT; Quick Add tends to
   convert better for lower-consideration items.
 
 ## Example Use Case
 
-**Apparel — complete-the-look upsell:** Manual Cart Upsell rules pair products with
+**Apparel (complete-the-look upsell):** Manual Cart Upsell rules pair products with
 matching accessories, shown in the cart drawer as the shopper adds items.

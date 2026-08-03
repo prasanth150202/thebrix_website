@@ -6,7 +6,7 @@ Full detail on Starter+; AI insights on Pro.
 
 A real-time dashboard covering revenue, order count, average order value, conversion rate,
 checkout rate, cart-drawer and upsell-driven revenue, bundle revenue and order count,
-coupon applications, and click-through on checkout/coupon/upsell elements — with
+coupon applications, and click-through on checkout/coupon/upsell elements, with
 day-over-day comparison and trend charts. On the Free plan, headline numbers are visible
 but detailed values and charts are blurred/locked until you upgrade.
 

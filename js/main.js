@@ -1,5 +1,5 @@
 /* ============================================================
-   BRIX — site behavior
+   BRIX site behavior
    ============================================================ */
 
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -721,18 +721,18 @@ document.getElementById('newsForm')?.addEventListener('submit', e => {
     { q: 'Will Brix slow down my store?',
       a: 'No. Brix loads asynchronously after your page renders and weighs less than a single product image (~28&nbsp;KB), so it has no effect on your Core Web Vitals.' },
     { q: 'Does it work with my theme?',
-      a: 'Yes — Brix works with every Online Store 2.0 theme out of the box and matches your fonts and colours automatically. For heavily customised themes our team does free setup.' },
+      a: 'Yes. Brix works with every Online Store 2.0 theme out of the box and matches your fonts and colours automatically. For heavily customised themes, our team does free setup.' },
     { q: 'What does Brix AI change in my store?',
       a: 'Only what you allow it to: reward-tier amounts, which offers are active, and which products appear in upsells and bundles. Every change is logged and reversible in one click.' },
     { q: 'Does it work with subscription or currency apps?',
       a: 'Yes. Brix supports Shopify Markets, multi-currency and major subscription apps. Reward tiers convert to each shopper’s local currency automatically.' },
     { q: 'Can I try the paid features first?',
-      a: 'Starter and Pro both start with a 14-day free trial, billed monthly through Shopify afterwards — cancel anytime. Free is free forever, no trial needed.' },
+      a: 'Starter and Pro both start with a 14-day free trial, billed monthly through Shopify afterwards. Cancel anytime. Free is free forever, no trial needed.' },
     { q: 'What happens if I uninstall?',
       a: 'Brix removes itself cleanly with no leftover code in your theme. Export your discounts and analytics first, and your store is exactly as it was.' }
   ];
 
-  const GREETING = 'Hi! I’m Brix AI 👋 Ask me anything about growing your Shopify AOV — or tap a common question below.';
+  const GREETING = 'Hi! I’m Brix AI 👋 Ask me anything about growing your Shopify AOV, or tap a common question below.';
   const FALLBACK = 'Sorry, Brix AI is temporarily unavailable. Please try again in a moment, or email <b>support@thebrix.io</b> and a human will help.';
 
   const escapeHtml = str => str.replace(/[&<>"']/g, ch => ({
@@ -878,7 +878,7 @@ document.getElementById('newsForm')?.addEventListener('submit', e => {
         html = escapeHtml(data.reply).replace(/\n/g, '<br>');
       }
     } catch (err) {
-      // network/API failure — fall through to FALLBACK
+      // network/API failure, fall through to FALLBACK
     } finally {
       input.disabled = false;
       sendBtn.disabled = false;

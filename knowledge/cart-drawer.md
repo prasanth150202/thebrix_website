@@ -3,26 +3,26 @@
 Included on every plan.
 
 The Cart Drawer replaces your theme's default cart with a panel that slides in from the
-side of the screen whenever a shopper adds an item — so they never leave the page they're
+side of the screen whenever a shopper adds an item, so they never leave the page they're
 browsing. You control:
 
-- **Design** — drawer width (slim / normal / thick), corner rounding, drop shadow on/off,
+- **Design**: drawer width (slim / normal / thick), corner rounding, drop shadow on/off,
   and the opening animation (slide, fade, bounce, zoom, push, or none).
-- **General behavior** — whether the drawer opens automatically when an item is added,
+- **General behavior**: whether the drawer opens automatically when an item is added,
   whether clicking the cart icon opens it, and whether it slides in from the left or right.
-- **Header** — the cart title text, close-button style (icon or text), header
+- **Header**: the cart title text, close-button style (icon or text), header
   background/text color, and an optional bottom border.
-- **Announcement bar** — an optional promotional strip at the top of the drawer (e.g. "Free
+- **Announcement bar**: an optional promotional strip at the top of the drawer (e.g. "Free
   shipping on orders over ₹999") with its own text, colors, and font size.
-- **Empty-cart state** — a custom message, an optional "Continue shopping" button, and
+- **Empty-cart state**: a custom message, an optional "Continue shopping" button, and
   optional recommended products when the cart has nothing in it.
-- **Checkout button** — button text, footer disclaimer text (e.g. "Shipping and taxes
+- **Checkout button**: button text, footer disclaimer text (e.g. "Shipping and taxes
   calculated at checkout"), button color, and corner rounding. On mobile, you can switch it
   from a standard tap button to a swipe-to-checkout slider.
-- **Custom CSS** — an advanced field for merchants comfortable with CSS to fine-tune the
+- **Custom CSS**: an advanced field for merchants comfortable with CSS to fine-tune the
   drawer's appearance beyond the built-in style options.
 
-All of this is edited in a live, side-by-side preview — you see exactly what shoppers will
+All of this is edited in a live, side-by-side preview, so you see exactly what shoppers will
 see, on both desktop and mobile, before you save.
 
 **Note:** There is only one Cart Drawer configuration and it applies storefront-wide. Combo

@@ -4,13 +4,13 @@ Starter and above to publish live (previewable on Free).
 
 Rather than making shoppers hunt for a discount code, BRIX surfaces your active Shopify
 discount codes directly in the shopping experience. **The Coupon Slider does not create
-discount codes for you** — it displays codes you've already created in Shopify. Brix AI can
+discount codes for you.** It displays codes you've already created in Shopify. Brix AI can
 create a discount code for you if you ask it to.
 
 ## Coupon Slider (inside the Cart Drawer)
 
 Pick which of your store's active discount codes to feature, then customize each one
-individually — label text, description, icon, colors, corner rounding, and button
+individually: label text, description, icon, colors, corner rounding, and button
 text/color. Choose a shared visual style (Classic Banner, Minimal Card, or Bold & Vibrant),
 a grid or carousel layout, horizontal or vertical alignment, and where it sits in the
 drawer. Each coupon can also carry its own optional countdown timer to create urgency.
@@ -18,7 +18,7 @@ drawer. Each coupon can also carry its own optional countdown timer to create ur
 ## Coupon Banner (on product pages)
 
 A standalone promotional banner block for product pages, with three ready-made templates
-(Classic Banner, Minimal Card, Bold & Vibrant) — each with editable heading, subtext,
+(Classic Banner, Minimal Card, Bold & Vibrant), each with editable heading, subtext,
 colors, font size, and padding. You choose which discount codes appear and the display
 condition.
 
@@ -27,15 +27,15 @@ condition.
 An optional urgency timer that can be attached to any coupon in the Coupon Slider. Set the
 duration (hours/minutes), the label shown before expiry (e.g. "Offer expires in") and after
 ("Offer expired!"), and the timer's background, text, and accent colors. Works best when
-the expiry is genuinely short (hours, not weeks) — it loses urgency otherwise.
+the expiry is genuinely short (hours, not weeks); it loses urgency otherwise.
 
 ## Build a Coupon Slider
 
 1. Open Cart Drawer → Coupon Slider and toggle it on.
 2. Under Coupon Styles, choose a template and layout (grid or carousel).
-3. Switch to Manage Coupons — every active discount code from your store is listed. Click
+3. Switch to Manage Coupons. Every active discount code from your store is listed. Click
    "+ Add" on the ones you want to feature.
-4. Click each added coupon to customize its label, colors, icon, and button — and
+4. Click each added coupon to customize its label, colors, icon, and button, and
    optionally attach a countdown timer.
 5. Save your changes.
 
@@ -47,5 +47,5 @@ Shopify discounts, then add it under Manage Coupons.
 
 ## Notes on Coupon Stacking
 
-Coupon stacking follows your Shopify discount settings — BRIX displays and applies codes
+Coupon stacking follows your Shopify discount settings; BRIX displays and applies codes
 but doesn't change Shopify's discount-combination rules.

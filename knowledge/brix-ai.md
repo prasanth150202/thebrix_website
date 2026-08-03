@@ -14,7 +14,7 @@ bar). Merchants can ask it to:
 - Answer questions about their store's recent performance using real analytics data.
 
 Brix AI always shows the merchant what it's about to do and asks for confirmation before
-making a change — it never edits the store silently. It does not act without approval.
+making a change; it never edits the store silently. It does not act without approval.
 
 ## Create a Discount Using Brix AI
 
@@ -22,12 +22,12 @@ making a change — it never edits the store silently. It does not act without a
 2. Type the request in plain language, e.g. "Create a 15% off code called WELCOME15 for new
    customers, valid for 30 days."
 3. Review the summary Brix AI shows.
-4. Confirm — Brix AI creates the discount code directly in the Shopify store.
+4. Confirm: Brix AI creates the discount code directly in the Shopify store.
 
 ## AI Brix Credits
 
 Each plan includes a monthly allowance of Brix AI actions (writing copy, creating a rule,
 answering a question, etc.): 10 on Free, 30 on Starter, 90 on Pro. Extra usage beyond the
-allowance is billed automatically at the plan's per-credit overage rate — no action is
+allowance is billed automatically at the plan's per-credit overage rate. No action is
 needed unless the merchant wants to upgrade for a larger included allowance. Brix AI is
 never blocked, even over the monthly allowance.

@@ -4,7 +4,7 @@ BRIX is organized into five feature groups.
 
 | Group | What it does | Minimum plan |
 |---|---|---|
-| Cart Drawer | Slide-out cart replacing the default cart page — design, header, announcements, empty-cart state, checkout button. | Free |
+| Cart Drawer | Slide-out cart replacing the default cart page: design, header, announcements, empty-cart state, checkout button. | Free |
 | Rewards Progress Bar | Spend- or item-count milestones that unlock free gifts, shown inside the cart. | Starter |
 | Coupon Slider & Coupon Banner | Surfaces your active discount codes inside the cart drawer and on product pages. | Starter |
 | Cart Upsell & Frequently Bought Together | AI-picked or manually-ruled product recommendations in the cart and on product pages. | Starter |

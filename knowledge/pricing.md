@@ -3,10 +3,10 @@
 All plans include the Cart Drawer, Announcement Bar, Empty Cart customization, and Brix AI.
 Higher plans unlock more features live on your storefront, plus larger usage allowances.
 Upgrade or downgrade at any time from the Billing dashboard. There is no free trial needed
-for Free — it is free indefinitely, within its limitations. Starter and Pro both start with
-a 14-day free trial, billed monthly through Shopify afterwards — cancel anytime.
+for Free; it is free indefinitely, within its limitations. Starter and Pro both start with
+a 14-day free trial, billed monthly through Shopify afterwards. Cancel anytime.
 
-## Free — "Launch & learn" — $0/mo
+## Free: "Launch & learn" ($0/mo)
 
 - 50 orders/mo included, then $0.10 per additional order
 - 10 Brix AI credits/mo, then $0.01 per additional credit
@@ -14,7 +14,7 @@ a 14-day free trial, billed monthly through Shopify afterwards — cancel anytim
 - Watermark always shown
 - Most premium features: preview only, not published live
 
-## Starter — "Grow your AOV" (Most Popular) — $29/mo or $290/yr
+## Starter: "Grow your AOV" (Most Popular, $29/mo or $290/yr)
 
 - 500 orders/mo included, then $0.30 per additional order
 - 30 Brix AI credits/mo, then $0.03 per additional credit
@@ -24,9 +24,9 @@ a 14-day free trial, billed monthly through Shopify afterwards — cancel anytim
   Checkout, Custom CSS, Countdown Timer all live
 - Priority email support & 24/7 AI support
 
-## Pro — "High-volume brands" — $79/mo or $790/yr
+## Pro: "High-volume brands" ($79/mo or $790/yr)
 
-- Unlimited orders — no overage charges
+- Unlimited orders, no overage charges
 - 90 Brix AI credits/mo, then $0.09 per additional credit
 - Unlimited Combo Forge bundles
 - Everything in Starter, plus: AI Analytics & Advanced AI Analytics
@@ -36,13 +36,13 @@ a 14-day free trial, billed monthly through Shopify afterwards — cancel anytim
 
 Each plan includes a monthly allowance of store orders and of Brix AI credits. If a
 merchant goes over either allowance in a given month, the extra usage is billed
-automatically at the plan's per-unit overage rate through Shopify's standard billing —
-there's nothing to set up manually, and the app is never blocked from being used.
+automatically at the plan's per-unit overage rate through Shopify's standard billing.
+There's nothing to set up manually, and the app is never blocked from being used.
 
 ## Limitations
 
 - **Preview vs. live.** Several features can be fully configured and saved on the Free plan
-  but will not render for shoppers on the storefront until upgrading — this is intentional
+  but will not render for shoppers on the storefront until upgrading; this is intentional
   so merchants can evaluate every feature before paying.
 - **Order allowance.** 50/mo on Free, 500/mo on Starter, unlimited on Pro. Going over
   triggers automatic overage billing rather than blocking the app.
@@ -52,5 +52,5 @@ there's nothing to set up manually, and the app is never blocked from being used
   on Starter, and unlimited on Pro.
 - **Theme compatibility.** BRIX requires an Online Store 2.0 theme with app embeds enabled;
   legacy (pre-2.0) themes are not supported.
-- **Coupon Slider shows existing codes only.** It does not generate discount logic itself —
+- **Coupon Slider shows existing codes only.** It does not generate discount logic itself;
   codes must exist in Shopify (or be created via Brix AI) before they can be featured.

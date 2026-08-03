@@ -3,7 +3,7 @@
 ## Nothing appears on my storefront after saving changes
 
 Confirm the BRIX app embed is turned on in your theme editor (Online Store → Themes →
-Customize → App embeds). This is the single most common cause — settings can be saved
+Customize → App embeds). This is the single most common cause; settings can be saved
 correctly in BRIX and still not appear until the embed is enabled.
 
 ## A feature works in the preview but not on the live store
@@ -25,7 +25,7 @@ that specific tier (each tier has its own product picker).
 ## Brix AI says I'm out of credits
 
 You've used your plan's monthly AI credit allowance. Continued use is billed automatically
-at your plan's per-credit overage rate — no action is needed unless you want to upgrade for
+at your plan's per-credit overage rate. No action is needed unless you want to upgrade for
 a larger included allowance.
 
 ## My analytics numbers look locked or blurred

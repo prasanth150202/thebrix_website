@@ -1,6 +1,6 @@
 // Pre-model guardrails: catch obvious prompt-injection attempts and clearly
 // off-topic questions before spending an API call on them. These are a
-// second, deterministic layer — the system prompt in chat.js also instructs
+// second, deterministic layer; the system prompt in chat.js also instructs
 // the model to refuse the same categories, in case a paraphrase slips past
 // the regexes below.
 

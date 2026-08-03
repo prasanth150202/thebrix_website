@@ -3,7 +3,7 @@
 Starter and above to publish live (previewable on Free).
 
 The progress bar shows shoppers how close they are to unlocking a reward, motivating them
-to add one more item instead of checking out early. You define one or more tiers — each
+to add one more item instead of checking out early. You define one or more tiers, each
 with a minimum spend (or item count), a title, a description, an icon (gift, shipping,
 star, trophy, or diamond), and the specific products that get added as a free gift once
 that tier is reached.
@@ -18,7 +18,7 @@ every tier is unlocked.
 and a full-size gift. The bar updates live as the shopper adds items, with the reward
 products automatically added to their cart once a threshold is crossed.
 
-Reward products do not cost anything extra to enable — BRIX doesn't charge per reward
+Reward products do not cost anything extra to enable; BRIX doesn't charge per reward
 given; you control which products are offered and at what threshold.
 
 ## Set Up a Rewards Progress Bar
@@ -28,7 +28,7 @@ given; you control which products are offered and at what threshold.
    position.
 3. Add a tier: set the minimum spend/count, a title and description, pick an icon, then
    click "Select Products" to choose the reward item(s).
-4. Repeat for additional tiers using "Add tier" — shoppers progress through them in order.
+4. Repeat for additional tiers using "Add tier". Shoppers progress through them in order.
 5. Set your completion message and, optionally, enable the confetti celebration.
 6. Save, then check the live preview before publishing.
 
@@ -37,7 +37,7 @@ given; you control which products are offered and at what threshold.
 - Set realistic tiers: base your first tier on your current average order value so it's
   achievable, and your final tier slightly above it to lift AOV without feeling out of
   reach.
-- Use the confetti celebration sparingly — it's most effective on the final, highest-value
+- Use the confetti celebration sparingly; it's most effective on the final, highest-value
   tier rather than every tier.
 
 ## Troubleshooting

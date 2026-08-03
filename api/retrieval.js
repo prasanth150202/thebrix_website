@@ -3,7 +3,7 @@
 // Each markdown file is split into sections on "## " headings (the "# " title
 // is kept as context for every section in that file). At request time the
 // question is scored against every section by keyword overlap and only the
-// top matches are returned — the full knowledge base is never sent in one
+// top matches are returned; the full knowledge base is never sent in one
 // shot. Sections are parsed once per cold start and cached in module scope.
 
 const fs = require('fs');
@@ -126,7 +126,7 @@ function retrieveRelevant(query, topK = 5) {
   return sections.filter(s => s.file === 'overview.md' || s.file === 'features.md');
 }
 
-/** Highest score across all sections — used by the scope guard. */
+/** Highest score across all sections, used by the scope guard. */
 function bestScore(query) {
   const scored = scoreSections(query);
   return scored.reduce((max, s) => Math.max(max, s.score), 0);
@@ -134,7 +134,7 @@ function bestScore(query) {
 
 function formatContext(sections) {
   return sections
-    .map(s => `### ${s.title}${s.heading !== s.title ? ' — ' + s.heading : ''}\n${s.text}`)
+    .map(s => `### ${s.title}${s.heading !== s.title ? ': ' + s.heading : ''}\n${s.text}`)
     .join('\n\n---\n\n');
 }
 

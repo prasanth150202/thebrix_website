@@ -1,4 +1,4 @@
-BRIX Tutorial — How to Set Up Frequently Bought Togetherx 
+BRIX Tutorial: How to Set Up Frequently Bought Together 
 
 Customers often buy just one product because related products are not shown at the right moment. 
 
@@ -24,7 +24,7 @@ And that's it.
 
 Your Frequently Bought Together recommendations are now ready to help customers discover relevant products and increase cart value with BRIX. 
 
-BRIX Tutorial — How to Create a Bundle Page 
+BRIX Tutorial: How to Create a Bundle Page 
 
 Customers may want to buy multiple products together, but finding the right combination can take too much time. 
 
@@ -54,7 +54,7 @@ And that's it.
 
 Your bundle page is now ready to help customers discover better product combinations and build higher-value orders with BRIX. 
 
-BRIX Tutorial — How to Write and Work Smarter with BRIX AI 
+BRIX Tutorial: How to Write and Work Smarter with BRIX AI 
 
 Not sure what to write, recommend, or change inside BRIX? 
 
@@ -76,7 +76,7 @@ And that's it.
 
 With BRIX AI, you spend less time guessing and more time optimizing your store. 
 
-BRIX Tutorial — How to Customize Your Cart with Cart Editor 
+BRIX Tutorial: How to Customize Your Cart with Cart Editor 
 
 Want to design how your Shopify cart drawer looks and works? 
 
@@ -104,7 +104,7 @@ And that’s it.
 
 Your BRIX cart drawer is now customized and ready to create a better shopping experience. 
 
-BRIX Tutorial — How to Set Up Coupon Banner 
+BRIX Tutorial: How to Set Up Coupon Banner 
 
 Want to show promo offers directly on your Shopify product pages? 
 
@@ -120,7 +120,7 @@ Next, choose a template: Classic Banner, Minimal Card, or Bold & Vibrant.
 
 Now, open Coupon Selection and choose the active Shopify discount codes you want to show. 
 
-In Display Condition, choose where the banner should appear — on all product pages, specific products, collections, or product tags. 
+In Display Condition, choose where the banner should appear: on all product pages, specific products, collections, or product tags. 
 
 Use Customize Coupon to edit the heading, subtext, colors, button style, and individual display rules for each coupon. 
 

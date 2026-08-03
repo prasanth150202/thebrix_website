@@ -1,5 +1,5 @@
 /* ============================================================
-   BRIX — marketing site
+   BRIX marketing site
    Brand: blue #0E9BE5 → green #22C55E (team gradient) · navy #07192B
    Type: Sora (display) · Inter (body)
    ============================================================ */
@@ -213,7 +213,7 @@ h1 em {
   height: var(--nav-h);
 }
 
-/* the scrolled background/blur lives on ::before, not .nav itself — a real
+/* the scrolled background/blur lives on ::before, not .nav itself. A real
    backdrop-filter on .nav would make it an ancestor-with-backdrop-filter of
    .nav-drawer, and WebKit fails to render a backdrop-filter nested inside
    another one (the drawer silently loses its own blur/tint once scrolled) */
@@ -3217,7 +3217,7 @@ body.gsap-on .hero-chip { animation: none; }
 }
 
 /* ============================================================
-   Why Brix? — CTA + before/after pictorial
+   Why Brix? CTA + before/after pictorial
    ============================================================ */
 
 .wb-cta { margin-top: 28px; }
@@ -3419,7 +3419,7 @@ body:not(.gsap-on) .bp-fill { animation: bpfill 1.4s cubic-bezier(.3,.9,.35,1) b
 }
 
 /* ============================================================
-   Countries we serve — SVG world map
+   Countries we serve: SVG world map
    ============================================================ */
 
 .worldmap { max-width: 720px; margin: 6px auto 20px; }
