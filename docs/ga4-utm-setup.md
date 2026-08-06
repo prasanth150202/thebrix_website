@@ -58,9 +58,26 @@ For each row in the table below:
 > The **Event parameter** field must match character-for-character. A typo means the
 > dimension silently stays empty forever with no error shown.
 
-### Tier 1 — register these now (12)
+### About the "may negatively impact your reports" warning
 
-These cover all core reporting needs.
+GA4 shows this advisory on the custom dimension creation screen. It refers to
+**cardinality** — how many distinct values a dimension can take.
+
+GA4 standard reports hold a limited number of rows per dimension per day (roughly
+500). Once a dimension exceeds that, GA4 stops listing individual values and dumps
+the overflow into a single bucket labelled **`(other)`**. That bucket cannot be
+split back apart, so the detail is lost permanently for the affected report.
+
+For every dimension in the Tier 1 table below, the warning is **safe to dismiss**.
+They are all low-cardinality: a handful of campaign names, five or six mediums, a
+dozen page paths. They will never approach the limit.
+
+The warning is **not** safe to ignore for click IDs, which is why they have been
+excluded from the register list — see *Do NOT register* below.
+
+### Tier 1 — register these now (11)
+
+These cover all core reporting needs, and all are low-cardinality.
 
 | Display name | Parameter name | What it tells you |
 |---|---|---|
@@ -70,40 +87,50 @@ These cover all core reporting needs.
 | Campaign ID | `utm_id` | Campaign identifier |
 | Has Campaign | `has_campaign` | `true` / `false` — whether the visit carried any campaign data at all |
 | Landing Page | `landing_page` | The page they first arrived on |
-| Google Click ID | `gclid` | Google Ads click identifier, needed for offline conversion import |
 | First Touch Source | `first_utm_source` | The campaign that *originally* discovered this visitor |
 | First Touch Medium | `first_utm_medium` | Medium of that original discovery |
 | First Touch Campaign | `first_utm_campaign` | Campaign name of that original discovery |
 | Click Placement | `click_placement` | Which on-page section the install click came from |
 | Click Page | `click_page` | Which page the install click happened on |
 
-### Tier 2 — optional, add if the team wants deeper reporting (5)
+### Tier 2 — optional, add if the team wants deeper reporting (3)
 
 | Display name | Parameter name | What it tells you |
 |---|---|---|
-| Campaign Term | `utm_term` | Paid search keyword |
 | Campaign Content | `utm_content` | Ad variant / creative |
 | Click Text | `click_text` | The button label that was clicked |
-| Facebook Click ID | `fbclid` | Meta click identifier |
-| Referrer | `referrer` | Referring URL (partly duplicates GA4's built-in Page referrer) |
+| Campaign Term | `utm_term` | Paid search keyword. Low-cardinality on exact-match keyword sets, but broad-match search terms can grow large — review before adding |
 
 ### Tier 3 — only on request
 
-The remaining first-touch parameters (`first_utm_term`, `first_utm_content`,
-`first_utm_id`, `first_gclid`, `first_fbclid`, `first_ttclid`, `first_msclkid`,
-`first_li_fat_id`) and other platform click IDs (`ttclid`, `msclkid`,
-`li_fat_id`) are all being collected and can be registered later if needed.
+The remaining first-touch UTM parameters (`first_utm_term`, `first_utm_content`,
+`first_utm_id`) are collected and can be registered later if needed. They are
+low-cardinality and safe.
 
 ### Do NOT register
 
-- **`click_destination`** — this is the full outgoing URL and routinely exceeds
+- **All click IDs** — `gclid`, `fbclid`, `ttclid`, `msclkid`, `li_fat_id`, and every
+  `first_` variant of them. These are **unique per click**, so cardinality grows
+  without limit and any report using them collapses into `(other)`. This is exactly
+  what GA4's warning is about.
+
+  Nothing is lost by skipping them. The values are still collected on the events and
+  visible in DebugView, they are still forwarded to the Shopify App Store on the
+  outgoing link, and GA4 handles Google Ads attribution natively once the Google Ads
+  account is linked to the property. If raw click IDs are ever needed at scale, the
+  correct route is the BigQuery export, not a custom dimension.
+
+- **`referrer`** — full referring URLs are high-cardinality for the same reason, and
+  GA4 already provides a built-in *Page referrer* dimension. Redundant and risky.
+
+- **`click_destination`** — this is the full outgoing URL. It routinely exceeds
   GA4's 100-character limit for parameter values, so it would be stored truncated
-  and misleading. It remains available in GTM and the browser `dataLayer` for
-  debugging. The same information is already captured accurately across the
-  separate `utm_*` dimensions.
+  and misleading, and it becomes high-cardinality once click IDs are appended. It
+  remains available in GTM and the browser `dataLayer` for debugging. The same
+  information is already captured accurately across the separate `utm_*` dimensions.
 
 **Budget note:** a standard GA4 property allows **50** event-scoped custom
-dimensions. Tier 1 + Tier 2 uses 17, leaving plenty of headroom.
+dimensions. Tier 1 + Tier 2 uses 14, leaving plenty of headroom.
 
 ---
 
@@ -126,7 +153,18 @@ bidding.
 
 **Immediate check (DebugView):**
 
-1. Open the BRIX site with a test campaign appended, for example:
+> **Open a brand-new incognito window first.** `brix_campaign_landing` fires
+> **once per browser session** by design, so that a visitor reading four pages is
+> counted as one arrival rather than four. If the site has already been opened in
+> the current session, the event will **not** fire again and the test will look
+> like a failure. This is the single most common false alarm when checking this
+> setup.
+>
+> To re-test in an already-used tab instead, run `sessionStorage.clear()` in the
+> browser console and reload.
+
+1. In a **fresh incognito window**, open the BRIX site with a test campaign
+   appended:
    `https://thebrix.io/?utm_source=test&utm_medium=paid&utm_campaign=setup_check`
 2. In GA4 go to **Admin → DebugView**
 3. Confirm `brix_campaign_landing` appears, and clicking it shows the parameters
@@ -135,6 +173,17 @@ bidding.
 
 > DebugView only shows traffic from a device in debug mode. Easiest method: install
 > the **Google Analytics Debugger** Chrome extension and switch it on.
+
+**Checking in the browser instead of GA4:** in DevTools → Network, filter on
+`g/collect`. A correct fresh-session load produces a request containing
+`en=brix_campaign_landing` along with `ep.utm_source`, `ep.utm_medium` and
+`ep.landing_page`. Clicking an Install button produces a second request with
+`en=brix_app_store_click`, `ep.click_page` and `ep.click_placement`.
+
+> Note that `window.dataLayer` only reflects the **current page load**. Navigating
+> to another page resets it, so a landing event that fired on the previous page will
+> not be visible there. Inspect the `g/collect` requests rather than the dataLayer
+> when in doubt.
 
 **Same-day check:** **Reports → Realtime** will show both event names within seconds.
 

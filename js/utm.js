@@ -8,6 +8,12 @@
 
   const STORE_URL = 'https://apps.shopify.com/thebrix-io';
 
+  /* This page loads GTM and gtag.js against the same measurement ID, so GTM
+     claims the ID first and the inline gtag('config') registers no destination.
+     Bare gtag('event') calls then have nowhere to route and are silently
+     dropped, so every event has to name its destination explicitly */
+  const MEASUREMENT_ID = 'G-23RTZ99F2K';
+
   /* Mirrors the params hardcoded into every CTA in the HTML. utm_id stays
      constant on every outgoing link so Shopify can always filter website
      installs; the other three are corrected once we know the real campaign */
@@ -103,12 +109,15 @@
   /* ---------- reporting: dataLayer for GTM, gtag for GA4 ---------- */
 
   const report = payload => {
+    /* snapshot first: GTM mutates the pushed object in place, and those
+       internals would otherwise leak into the gtag parameters */
+    const { event, ...params } = payload;
+
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(payload);
 
     if (typeof window.gtag === 'function') {
-      const { event, ...params } = payload;
-      window.gtag('event', event, params);
+      window.gtag('event', event, { ...params, send_to: MEASUREMENT_ID });
     }
   };
 
