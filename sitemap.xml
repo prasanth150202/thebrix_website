@@ -24,9 +24,15 @@
   <!-- Case studies -->
   <url>
     <loc>https://thebrix.io/case-studies.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thebrix.io/case-study-fmcg-aov-without-ad-spend.html</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://thebrix.io/case-study-aov-without-ad-spend.html</loc>
@@ -50,9 +56,15 @@
   <!-- Blog -->
   <url>
     <loc>https://thebrix.io/blog.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thebrix.io/blog-reasons-shopify-brands-struggle-aov.html</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://thebrix.io/blog-shopify-apps-increase-aov.html</loc>

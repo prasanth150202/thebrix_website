@@ -2328,7 +2328,7 @@ h1 em {
   align-items: flex-end;
   padding: 16px;
 }
-.cs-shot, .shot-1, .shot-2, .shot-3 { background: linear-gradient(135deg, var(--navy), var(--navy-3)); }
+.cs-shot, .shot-1, .shot-2, .shot-3, .shot-4 { background: linear-gradient(135deg, var(--navy), var(--navy-3)); }
 
 .cs-shot-name {
   font-family: var(--font-display);
@@ -2486,6 +2486,7 @@ h1 em {
 .bshot-1 { background: linear-gradient(135deg, #0E9BE5, #14B8A6); }
 .bshot-2 { background: linear-gradient(135deg, #07192B, #0B86CC); }
 .bshot-3 { background: linear-gradient(135deg, #14B8A6, #22C55E); }
+.bshot-4 { background: linear-gradient(135deg, #0B86CC, #22C55E); }
 
 .blog-glyph {
   position: absolute;
