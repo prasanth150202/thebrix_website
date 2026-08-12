@@ -2304,69 +2304,41 @@ h1 em {
 
 /* ---------- case studies page ---------- */
 
-.cs-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
+/* The cards run on the same system as the blog grid (.blog-card and friends,
+   grouped with the .cs-* names further down) so both index pages read as one
+   family. What follows is only the part a case study adds: the store's
+   headline lift, sitting on the gradient shot. */
 
-.cs-card {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  transition: transform .2s ease, box-shadow .2s ease;
-  display: flex;
-  flex-direction: column;
+.cs-lift {
+  position: absolute;
+  left: 18px;
+  bottom: 17px;
+  z-index: 1;
+  color: #fff;
 }
-.cs-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-2); }
-
-.cs-shot {
-  height: 170px;
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  padding: 16px;
-}
-.cs-shot, .shot-1, .shot-2, .shot-3, .shot-4 { background: linear-gradient(135deg, var(--navy), var(--navy-3)); }
-
-.cs-shot-name {
+.cs-lift b {
+  display: block;
   font-family: var(--font-display);
   font-weight: 800;
-  color: #fff;
-  font-size: 1.35rem;
-  letter-spacing: .02em;
-  text-shadow: 0 2px 12px rgba(0,0,0,.3);
+  font-size: 2.05rem;
+  line-height: 1;
+  letter-spacing: -.02em;
+  text-shadow: 0 10px 20px rgba(0, 0, 0, .2);
 }
-.cs-lift-tag {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  font-weight: 800;
-  font-size: .82rem;
-  color: #fff;
-  background: var(--grad-strong);
-  padding: 6px 13px;
-  border-radius: 100px;
-  box-shadow: 0 4px 14px rgba(0,0,0,.25);
+.cs-lift small {
+  display: block;
+  margin-top: 8px;
+  font-size: .67rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .84);
 }
 
-.cs-body { padding: 22px; flex: 1; display: flex; flex-direction: column; gap: 14px; }
-.cs-niche { font-size: .78rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); }
-.cs-body blockquote { font-size: .93rem; color: var(--ink-2); flex: 1; }
-
-.cs-nums {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background: var(--paper-soft);
-  border-radius: 12px;
-  padding: 12px 16px;
-}
-.cs-num small { display: block; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); }
-.cs-num b { font-family: var(--font-display); font-size: 1.2rem; }
-.cs-num-after b { color: var(--brand); }
-.cs-arrow { color: var(--ink-3); font-weight: 700; }
+/* before → after figures sit where a post puts its date */
+.cs-figs { display: inline-flex; align-items: baseline; gap: 7px; }
+.cs-figs b { font-weight: 700; color: var(--ink-2); }
+.cs-figs i { font-style: normal; }
 
 /* ---------- case study article page ---------- */
 
@@ -2436,15 +2408,20 @@ h1 em {
   margin-top: 12px;
 }
 
-/* ---------- blog ---------- */
+/* ---------- blog (and case study) cards ---------- */
 
-.blog-grid {
+/* One card system, two index pages: the .cs-* names are the case studies
+   page, which pairs the same gradient shot with a lift figure */
+
+.blog-grid,
+.cs-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
-.blog-card {
+.blog-card,
+.cs-card {
   background: #fff;
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
@@ -2453,9 +2430,11 @@ h1 em {
   display: flex;
   flex-direction: column;
 }
-.blog-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-2); border-color: rgba(11, 134, 204, .3); }
+.blog-card:hover,
+.cs-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-2); border-color: rgba(11, 134, 204, .3); }
 
-.blog-shot {
+.blog-shot,
+.cs-shot {
   height: 168px;
   position: relative;
   display: flex;
@@ -2463,7 +2442,8 @@ h1 em {
   padding: 18px;
   overflow: hidden;
 }
-.blog-shot::before {
+.blog-shot::before,
+.cs-shot::before {
   content: "";
   position: absolute;
   right: -26px;
@@ -2473,7 +2453,8 @@ h1 em {
   border-radius: 50%;
   background: rgba(255, 255, 255, .12);
 }
-.blog-shot::after {
+.blog-shot::after,
+.cs-shot::after {
   content: "";
   position: absolute;
   right: 30px;
@@ -2488,7 +2469,8 @@ h1 em {
 .bshot-3 { background: linear-gradient(135deg, #14B8A6, #22C55E); }
 .bshot-4 { background: linear-gradient(135deg, #0B86CC, #22C55E); }
 
-.blog-glyph {
+.blog-glyph,
+.cs-glyph {
   position: absolute;
   right: 22px;
   bottom: 18px;
@@ -2498,9 +2480,11 @@ h1 em {
   color: rgba(255, 255, 255, .92);
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, .22));
 }
-.blog-glyph svg { width: 100%; height: 100%; display: block; }
+.blog-glyph svg,
+.cs-glyph svg { width: 100%; height: 100%; display: block; }
 
-.blog-cat {
+.blog-cat,
+.cs-cat {
   position: relative;
   z-index: 1;
   font-size: .71rem;
@@ -2516,8 +2500,10 @@ h1 em {
   backdrop-filter: blur(4px);
 }
 
-.blog-body { padding: 22px; flex: 1; display: flex; flex-direction: column; gap: 12px; }
-.blog-title {
+.blog-body,
+.cs-body { padding: 22px; flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.blog-title,
+.cs-name {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.16rem;
@@ -2526,20 +2512,26 @@ h1 em {
   color: var(--ink);
   transition: color .18s ease;
 }
-.blog-card:hover .blog-title { color: var(--brand); }
-.blog-excerpt { font-size: .93rem; color: var(--ink-2); flex: 1; line-height: 1.6; }
+.blog-card:hover .blog-title,
+.cs-card:hover .cs-name { color: var(--brand); }
+.blog-excerpt,
+.cs-sum { font-size: .93rem; color: var(--ink-2); flex: 1; line-height: 1.6; }
 
-.blog-meta {
+.blog-meta,
+.cs-meta {
   display: flex;
   align-items: center;
-  gap: 9px;
+  flex-wrap: wrap;
+  gap: 5px 9px;
   font-size: .78rem;
   font-weight: 600;
   color: var(--ink-3);
 }
-.blog-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-3); flex: none; }
+.blog-dot,
+.cs-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-3); flex: none; }
 
-.blog-more { font-size: .86rem; font-weight: 700; color: var(--brand); margin-top: 2px; }
+.blog-more,
+.cs-go { font-size: .86rem; font-weight: 700; color: var(--brand); margin-top: 2px; }
 
 .post-meta {
   display: flex;
@@ -2563,8 +2555,8 @@ h1 em {
 }
 .post-back:hover { gap: 10px; }
 
-@media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 620px) { .blog-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .blog-grid, .cs-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .blog-grid, .cs-grid { grid-template-columns: 1fr; } }
 
 /* ---------- how-to guides ---------- */
 
@@ -3164,7 +3156,6 @@ body.gsap-on .hero-chip { animation: none; }
   .dd-callout-3 { left: 6px; }
 
   .price-grid { grid-template-columns: repeat(2, 1fr); }
-  .cs-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
   .footer-news { grid-column: auto; max-width: none; }
 
@@ -3195,7 +3186,6 @@ body.gsap-on .hero-chip { animation: none; }
   .waov-row { flex-wrap: wrap; }
   .waov-row-tag { margin-left: 56px; }
   .price-grid { grid-template-columns: 1fr; }
-  .cs-grid { grid-template-columns: 1fr; }
   .section-head-row { flex-direction: column; align-items: flex-start; }
   .footer-grid { grid-template-columns: 1fr; gap: 36px; }
   .footer-news { grid-column: auto; max-width: none; }
