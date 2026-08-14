@@ -45,20 +45,44 @@ $errors  = [];
 $manual  = null;
 $success = false;
 
+/**
+ * The credentials can arrive in a .env in the project root instead of
+ * being typed in here. When they are present and actually connect, the
+ * installer stops asking for them and only creates the admin account.
+ */
+$envConfig = brix_config();
+$envReady  = false;
+if (brix_is_configured()) {
+    try {
+        db();
+        $envReady = true;
+    } catch (Throwable) {
+        $envReady = false;
+    }
+}
+
 if (!$done && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    $dbHost = trim($_POST['db_host'] ?? 'localhost');
-    $dbPort = (int) ($_POST['db_port'] ?? 3306);
-    $dbName = trim($_POST['db_name'] ?? '');
-    $dbUser = trim($_POST['db_user'] ?? '');
-    $dbPass = (string) ($_POST['db_pass'] ?? '');
+    if ($envReady) {
+        $dbHost = (string) ($envConfig['db_host'] ?? 'localhost');
+        $dbPort = (int) ($envConfig['db_port'] ?? 3306);
+        $dbName = (string) ($envConfig['db_name'] ?? '');
+        $dbUser = (string) ($envConfig['db_user'] ?? '');
+        $dbPass = (string) ($envConfig['db_pass'] ?? '');
+    } else {
+        $dbHost = trim($_POST['db_host'] ?? 'localhost');
+        $dbPort = (int) ($_POST['db_port'] ?? 3306);
+        $dbName = trim($_POST['db_name'] ?? '');
+        $dbUser = trim($_POST['db_user'] ?? '');
+        $dbPass = (string) ($_POST['db_pass'] ?? '');
+    }
 
     $adminUser  = trim($_POST['admin_user'] ?? '');
     $adminName  = trim($_POST['admin_name'] ?? 'Admin');
     $adminPass  = (string) ($_POST['admin_pass'] ?? '');
     $adminPass2 = (string) ($_POST['admin_pass2'] ?? '');
 
-    if ($dbName === '')  { $errors[] = 'Database name is required.'; }
-    if ($dbUser === '')  { $errors[] = 'Database user is required.'; }
+    if (!$envReady && $dbName === '')  { $errors[] = 'Database name is required.'; }
+    if (!$envReady && $dbUser === '')  { $errors[] = 'Database user is required.'; }
     if ($adminUser === '') { $errors[] = 'Admin username is required.'; }
     if (strlen($adminPass) < 10) {
         $errors[] = 'Admin password must be at least 10 characters.';
@@ -104,7 +128,15 @@ if (!$done && $_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if (!$errors) {
+    // With a working .env there is nothing to write: the credentials
+    // already have a home, and copying them into a second file would
+    // only create somewhere else to forget to rotate them.
+    if (!$errors && $envReady) {
+        @file_put_contents($lockFile, date('c') . "\n");
+        $success = true;
+    }
+
+    if (!$errors && !$envReady) {
         $contents = "<?php\n"
             . "// Written by admin/setup.php. Not in version control.\n"
             . "return " . var_export([
@@ -206,6 +238,17 @@ if (!$done && $_SERVER['REQUEST_METHOD'] === 'POST') {
   <?php endif; ?>
 
   <form method="post" autocomplete="off">
+<?php if ($envReady): ?>
+    <fieldset>
+      <legend>Database</legend>
+      <p class="hint">
+        Read from <code>.env</code> and connected:
+        <b><?= e((string) ($envConfig['db_user'] ?? '')) ?>@<?= e((string) ($envConfig['db_host'] ?? '')) ?></b>,
+        database <b><?= e((string) ($envConfig['db_name'] ?? '')) ?></b>.
+        Nothing to fill in here.
+      </p>
+    </fieldset>
+<?php else: ?>
     <fieldset>
       <legend>Database</legend>
       <div class="row">
@@ -227,6 +270,7 @@ if (!$done && $_SERVER['REQUEST_METHOD'] === 'POST') {
         <input name="db_pass" type="password" value="">
       </label>
     </fieldset>
+<?php endif; ?>
 
     <fieldset>
       <legend>Your admin account</legend>

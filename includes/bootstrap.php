@@ -25,6 +25,52 @@ define('SHOPIFY_APP_URL', 'https://apps.shopify.com/thebrix-io?utm_source=Brix-W
 require_once BRIX_INCLUDES . '/functions.php';
 
 /**
+ * A .env in the project root is treated as environment variables, for
+ * hosts where the credentials are uploaded as a file rather than set on
+ * the process. Anything already in the real environment wins, so this
+ * can never override what the host itself provides.
+ *
+ * Never web-readable: .htaccess denies .env by name.
+ */
+function brix_load_env(): void
+{
+    static $loaded = false;
+    if ($loaded) {
+        return;
+    }
+    $loaded = true;
+
+    $file = BRIX_ROOT . '/.env';
+    if (!is_readable($file)) {
+        return;
+    }
+
+    foreach (file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+        $line = trim($line);
+        if ($line === '' || $line[0] === '#' || !str_contains($line, '=')) {
+            continue;
+        }
+
+        [$key, $value] = explode('=', $line, 2);
+        $key   = trim($key);
+        $value = trim($value);
+
+        // strip one matching pair of surrounding quotes, if present
+        if (strlen($value) > 1 && ($value[0] === '"' || $value[0] === "'")
+            && $value[strlen($value) - 1] === $value[0]) {
+            $value = substr($value, 1, -1);
+        }
+
+        if ($key === '' || getenv($key) !== false) {
+            continue;
+        }
+
+        putenv($key . '=' . $value);
+        $_ENV[$key] = $value;
+    }
+}
+
+/**
  * Configuration is written by admin/setup.php and is deliberately not
  * in version control. Fall back to environment variables so the same
  * code can run in a container or on a host where the file cannot be
@@ -36,6 +82,8 @@ function brix_config(): array
     if ($config !== null) {
         return $config;
     }
+
+    brix_load_env();
 
     $file = BRIX_INCLUDES . '/config.php';
     if (is_readable($file)) {
