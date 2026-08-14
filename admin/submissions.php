@@ -24,8 +24,8 @@ if (($_GET['export'] ?? '') !== '') {
              FROM newsletter_subscribers ORDER BY created_at DESC'
           )->fetchAll()
         : db()->query(
-            'SELECT name, email, store_url, message, created_at
-             FROM contact_submissions ORDER BY created_at DESC'
+            'SELECT name, email, store_url, message, created_at, updated_at
+             FROM contact_submissions ORDER BY COALESCE(updated_at, created_at) DESC'
           )->fetchAll();
 
     header('Content-Type: text/csv; charset=utf-8');
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_check($_POST['csrf'] ?? null))
 }
 
 $contacts = db()->query(
-    'SELECT * FROM contact_submissions ORDER BY created_at DESC LIMIT 500'
+    'SELECT * FROM contact_submissions ORDER BY COALESCE(updated_at, created_at) DESC LIMIT 500'
 )->fetchAll();
 
 $subscribers = db()->query(
@@ -112,7 +112,13 @@ admin_head('Submissions', $user, 'submissions');
             <?php endif; ?>
           </div>
           <div class="ad-msg-meta">
-            <span><?= e(date('M j, Y g:ia', strtotime($c['created_at']))) ?></span>
+            <?php $latest = $c['updated_at'] ?? null; ?>
+            <span><?= e(date('M j, Y g:ia', strtotime((string) ($latest ?: $c['created_at'])))) ?></span>
+            <?php if ($latest !== null): ?>
+              <span title="They wrote in again; this replaced their earlier message">
+                wrote in again &middot; first <?= e(date('M j, Y', strtotime((string) $c['created_at']))) ?>
+              </span>
+            <?php endif; ?>
             <form method="post" class="ad-inline">
               <?= csrf_field() ?>
               <input type="hidden" name="id" value="<?= (int) $c['id'] ?>">

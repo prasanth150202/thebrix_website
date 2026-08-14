@@ -103,7 +103,13 @@ function brix_schema_statements(): array
                 user_agent VARCHAR(255) NOT NULL DEFAULT '',
                 read_at    DATETIME     NULL,
                 created_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                /* When they last wrote in. created_at stays as the first
+                   time, so the pair reads as known-since and last-heard */
+                updated_at DATETIME     NULL,
                 PRIMARY KEY (id),
+                /* One row per person: writing in again updates the row
+                   they already have rather than making a second one */
+                UNIQUE KEY uniq_email (email),
                 KEY idx_created (created_at)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
     ];
@@ -121,6 +127,30 @@ function brix_added_columns(): array
     return [
         ['posts', 'hero_image', "VARCHAR(255) NOT NULL DEFAULT '' AFTER hero_subtitle"],
         ['posts', 'hero_blur',  'TINYINT UNSIGNED NOT NULL DEFAULT 0 AFTER hero_image'],
+        ['contact_submissions', 'updated_at', 'DATETIME NULL AFTER created_at'],
+    ];
+}
+
+/**
+ * Indexes added after a table first shipped.
+ *
+ * A unique index cannot go on a column that already holds duplicates,
+ * so each entry carries the statement that collapses them first. The
+ * contact table predates one-row-per-person, so any database that has
+ * been taking enquiries already has repeats in it.
+ */
+function brix_added_indexes(): array
+{
+    return [
+        [
+            'contact_submissions',
+            'uniq_email',
+            'ALTER TABLE `contact_submissions` ADD UNIQUE KEY `uniq_email` (`email`)',
+            // keep the most recent row for each address, drop the rest
+            'DELETE older FROM `contact_submissions` older
+             JOIN `contact_submissions` newer
+               ON older.email = newer.email AND older.id < newer.id',
+        ],
     ];
 }
 
@@ -151,6 +181,26 @@ function brix_upgrade_schema(PDO $pdo): array
 
         $pdo->exec("ALTER TABLE `$table` ADD COLUMN `$column` $definition");
         $added[] = $table . '.' . $column;
+    }
+
+    $hasIndex = $pdo->prepare(
+        'SELECT COUNT(*) FROM information_schema.STATISTICS
+         WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = :t AND INDEX_NAME = :i'
+    );
+
+    foreach (brix_added_indexes() as [$table, $index, $create, $dedupe]) {
+        $hasIndex->execute([':t' => $table, ':i' => $index]);
+
+        if ((int) $hasIndex->fetchColumn() > 0) {
+            continue;
+        }
+
+        if ($dedupe !== '') {
+            $pdo->exec($dedupe);
+        }
+
+        $pdo->exec($create);
+        $added[] = $table . '.' . $index;
     }
 
     return $added;

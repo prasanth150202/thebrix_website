@@ -99,16 +99,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 $stmt = db()->prepare(
+                    /* One row per person. Writing in a second time
+                       replaces what they said rather than queueing a
+                       duplicate, and clears read_at so the updated
+                       enquiry comes back as unread. created_at is left
+                       alone: it is when they first got in touch. */
                     'INSERT INTO contact_submissions (name, email, store_url, message, ip, user_agent)
-                     VALUES (:n, :e, :u, :m, :ip, :ua)'
+                     VALUES (:n, :e, :u, :m, :ip, :ua)
+                     ON DUPLICATE KEY UPDATE
+                        name       = :n2,
+                        store_url  = :u2,
+                        message    = :m2,
+                        ip         = :ip2,
+                        user_agent = :ua2,
+                        updated_at = NOW(),
+                        read_at    = NULL'
                 );
+
+                $name      = mb_substr($values['name'], 0, 120);
+                $storeUrl  = mb_substr($url, 0, 255);
+                $message   = $values['message'];
+                $ip        = client_ip();
+                $userAgent = mb_substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 255);
+
                 $stmt->execute([
-                    ':n'  => mb_substr($values['name'], 0, 120),
-                    ':e'  => mb_substr($values['email'], 0, 190),
-                    ':u'  => mb_substr($url, 0, 255),
-                    ':m'  => $values['message'],
-                    ':ip' => client_ip(),
-                    ':ua' => mb_substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 255),
+                    ':n'   => $name,
+                    ':e'   => mb_substr($values['email'], 0, 190),
+                    ':u'   => $storeUrl,
+                    ':m'   => $message,
+                    ':ip'  => $ip,
+                    ':ua'  => $userAgent,
+                    ':n2'  => $name,
+                    ':u2'  => $storeUrl,
+                    ':m2'  => $message,
+                    ':ip2' => $ip,
+                    ':ua2' => $userAgent,
                 ]);
 
                 $sent   = true;
