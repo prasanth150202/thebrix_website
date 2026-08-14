@@ -1,0 +1,15 @@
+# The admin panel is publicly reachable, so make sure it never turns
+# up in a search index and never gets cached by a shared proxy.
+<IfModule mod_headers.c>
+  Header always set X-Robots-Tag "noindex, nofollow, noarchive"
+  Header always set X-Frame-Options "DENY"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "same-origin"
+  Header always set Cache-Control "no-store, no-cache, must-revalidate, private"
+</IfModule>
+
+# Once setup has run it writes a lock file next to the wizard. Serving
+# the lock itself would leak the time the site was provisioned.
+<FilesMatch "^(setup\.lock|.*\.log)$">
+  Require all denied
+</FilesMatch>

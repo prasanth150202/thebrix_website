@@ -1,0 +1,4 @@
+# Raw markdown sources for the migrated articles. The published
+# version of each one is served from the database, so there is no
+# reason for these to be publicly readable.
+Require all denied

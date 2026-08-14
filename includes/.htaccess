@@ -1,0 +1,4 @@
+# Nothing in this directory is ever requested directly by a browser.
+# It holds the database credentials, the session logic and the
+# templates, so block the lot.
+Require all denied

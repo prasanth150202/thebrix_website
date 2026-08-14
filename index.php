@@ -1,0 +1,576 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/includes/bootstrap.php';
+require_once BRIX_INCLUDES . '/posts.php';
+
+$page_title       = 'Brix | AI Cart Upsell & AOV Booster App for Shopify';
+$page_description = 'Increase Shopify AOV with Brix. Use AI cart upsells, Frequently Bought Together offers, rewards progress bars, coupon sliders and real-time AI analysis to grow cart revenue.';
+$page_canonical   = '';
+$page_nav         = NULL;
+$footer_col3      = 'case-studies';
+
+require BRIX_INCLUDES . '/header.php';
+?>
+
+<!-- ============ WHY BRIX ============ -->
+<section class="section" id="why-brix">
+  <div class="container f-grid">
+    <div class="f-copy">
+      <p class="eyebrow reveal">Why Brix?</p>
+      <h2 class="reveal">Built for Shopify brands that want smarter cart growth</h2>
+      <p class="reveal">Brix is not just a Shopify cart drawer app. It is an AI-powered AOV optimization platform: the Shopify AOV booster app built to help merchants understand what to offer, where to show it, and how to improve every cart interaction.</p>
+      <p class="reveal" style="--d:.06s">From cart rewards progress bars to AI upsell suggestions, Brix gives your store the tools to turn single-product purchases into higher-value orders, combining cart upsell, Shopify slide cart, coupon slider, rewards bar and AI analytics in one simple platform.</p>
+      <div class="wb-cta reveal" style="--d:.12s">
+        <a class="btn btn-primary btn-lg" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener">
+          <svg viewBox="0 0 512 512" width="20" height="20" aria-hidden="true"><path d="M116,172 C146,46 270,42 288,156" fill="none" stroke="#000" stroke-width="18" stroke-linecap="round"/><path d="M152,180 C176,84 256,82 276,168" fill="none" stroke="#000" stroke-width="15" stroke-linecap="round"/><path d="M74,170 L326,104 L326,488 L74,482 Z" fill="#000"/><path d="M340,104 L374,78 L452,130 L442,488 L340,488 Z" fill="#000"/><g transform="translate(66,74) scale(14.7)"><path fill="#fff" d="M11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.766-3.406 3.766-2.354 0-3.54-1.465-3.54-1.465l.646-2.086s1.245 1.066 2.28 1.066c.674 0 .95-.532.95-.92 0-1.612-2.66-1.684-2.66-4.35 0-2.24 1.612-4.41 4.862-4.41 1.257 0 1.875.36 1.875.36l-.95 2.83.024-.007z"/></g></svg>
+          Start growing your AOV
+        </a>
+        <p class="wb-cta-note">Try for free and increase AOV in 5 minutes</p>
+      </div>
+    </div>
+    <div class="wb-visual">
+      <div class="wb-glow" aria-hidden="true"></div>
+      <div class="ba-pict reveal" style="--d:.1s">
+        <figure class="bp is-before">
+          <figcaption class="bp-tag">Before Brix</figcaption>
+          <div class="bp-card">
+            <div class="bp-hd"><span class="bp-hd-title">Your cart</span><span class="bp-hd-count">1 item</span></div>
+            <div class="bp-line">
+              <span class="cm-thumb th-a" aria-hidden="true"></span>
+              <span class="bp-info"><b>Alpine hoodie</b><small>Moss · M</small></span>
+              <span class="bp-price">$48</span>
+            </div>
+            <p class="bp-empty">No upsells · no rewards · offers missed</p>
+            <div class="bp-foot"><span>Subtotal</span><b>$48.00</b></div>
+            <span class="bp-checkout">Checkout</span>
+          </div>
+        </figure>
+
+        <span class="ba-pict-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+
+        <figure class="bp is-after">
+          <figcaption class="bp-tag bp-tag-after">After Brix</figcaption>
+          <div class="bp-card bp-card-smart">
+            <div class="bp-hd"><span class="bp-hd-title">Your cart</span><span class="bp-hd-count bp-hd-count-on">3 items</span></div>
+            <div class="bp-reward">
+              <p class="bp-reward-msg"><b>Free gift unlocked!</b> Sherpa socks added</p>
+              <div class="bp-track"><span class="bp-fill"></span></div>
+            </div>
+            <div class="bp-line">
+              <span class="cm-thumb th-a" aria-hidden="true"></span>
+              <span class="bp-info"><b>Alpine hoodie</b><small>Moss · M</small></span>
+              <span class="bp-price">$48</span>
+            </div>
+            <div class="bp-line">
+              <span class="cm-thumb th-b" aria-hidden="true"></span>
+              <span class="bp-info"><b>Trail beanie</b><small>Charcoal</small></span>
+              <span class="bp-price">$34</span>
+            </div>
+            <div class="bp-upsell">
+              <span class="cm-thumb th-c" aria-hidden="true"></span>
+              <span class="bp-info"><b>Camp mug set</b><small>Closes the gap to your gift</small></span>
+              <span class="bp-add">+ Add</span>
+            </div>
+            <div class="bp-coupons"><span class="bp-coupon bp-coupon-on">SAVE10</span><span class="bp-coupon">FREESHIP</span></div>
+            <div class="bp-foot"><span>Subtotal</span><b class="bp-foot-up">$124.00</b></div>
+            <span class="bp-checkout bp-checkout-on">Checkout</span>
+          </div>
+        </figure>
+      </div>
+      <p class="ba-pict-cap">From passive cart to smart cart: <b>+32% AOV</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <a class="hero-badge reveal" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener" style="--d:.02s">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M15.34 3.03c-.09-.06-.19-.06-.31-.03l-.58.18c-.14-.4-.33-.83-.61-1.26C13.28.98 12.6.5 11.9.5h-.15c-.5-.62-1.13-.9-1.68-.88-1.05.03-2.09.79-2.94 2.13-.6.95-1.05 2.14-1.18 3.06l-2.1.65c-.62.2-.64.22-.72.8L1.5 19.44 14.29 22 21 20.55S15.42 3.09 15.34 3.03z"/></svg>
+        <span class="hero-badge-stars">★★★★★</span> <b>4.9</b> on the Shopify App Store
+      </a>
+      <h1 class="reveal" style="--d:.08s">Your Shopify cart isn’t the end of the journey. It’s <em>where revenue is being lost</em>.</h1>
+      <p class="hero-sub reveal" style="--d:.16s">Brix helps Shopify brands increase average order value with AI-powered cart upsells, Frequently Bought Together offers, rewards progress bars, coupon sliders and real-time AI analysis, all inside a high-converting cart drawer.</p>
+      <div class="hero-ctas reveal" style="--d:.24s">
+        <a class="btn btn-primary btn-lg" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener">
+          <svg viewBox="0 0 512 512" width="20" height="20" aria-hidden="true"><path d="M116,172 C146,46 270,42 288,156" fill="none" stroke="#000" stroke-width="18" stroke-linecap="round"/><path d="M152,180 C176,84 256,82 276,168" fill="none" stroke="#000" stroke-width="15" stroke-linecap="round"/><path d="M74,170 L326,104 L326,488 L74,482 Z" fill="#000"/><path d="M340,104 L374,78 L452,130 L442,488 L340,488 Z" fill="#000"/><g transform="translate(66,74) scale(14.7)"><path fill="#fff" d="M11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.766-3.406 3.766-2.354 0-3.54-1.465-3.54-1.465l.646-2.086s1.245 1.066 2.28 1.066c.674 0 .95-.532.95-.92 0-1.612-2.66-1.684-2.66-4.35 0-2.24 1.612-4.41 4.862-4.41 1.257 0 1.875.36 1.875.36l-.95 2.83.024-.007z"/></g></svg>
+          Start Growing Your AOV
+        </a>
+        <a class="btn btn-ghost btn-lg" href="features">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          Explore Features
+        </a>
+      </div>
+      <p class="hero-note reveal" style="--d:.32s">Stop treating your cart like the final step. Start using it as your smartest sales tool.</p>
+    </div>
+
+    <!-- Signature: live cart drawer demo -->
+    <div class="hero-visual reveal" style="--d:.2s">
+      <div class="cart-mock" id="heroCart">
+        <div class="cm-head">
+          <span class="cm-title">Your cart</span>
+          <span class="cm-badge" id="cmCount">1 item</span>
+        </div>
+        <div class="cm-goal">
+          <p class="cm-msg" id="cmMsg">You’re <b>$27.00</b> away from <b>free shipping</b></p>
+          <div class="cm-track">
+            <div class="cm-fill" id="cmFill" style="width:37%"></div>
+            <div class="cm-node" id="nodeShip" style="left:57.7%">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            </div>
+            <div class="cm-node" id="nodeGift" style="left:92.3%">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/></svg>
+            </div>
+          </div>
+          <div class="cm-tiers">
+            <span>Free shipping · $75</span>
+            <span>Free gift · $120</span>
+          </div>
+        </div>
+        <ul class="cm-items" id="cmItems">
+          <li class="cm-item is-in">
+            <span class="cm-thumb th-a" aria-hidden="true"></span>
+            <span class="cm-item-info"><b>Alpine hoodie</b><small>Moss · M</small></span>
+            <span class="cm-price">$48.00</span>
+          </li>
+          <li class="cm-item" id="item2">
+            <span class="cm-thumb th-b" aria-hidden="true"></span>
+            <span class="cm-item-info"><b>Trail beanie</b><small>Charcoal</small></span>
+            <span class="cm-price">$34.00</span>
+          </li>
+          <li class="cm-item" id="item3">
+            <span class="cm-thumb th-c" aria-hidden="true"></span>
+            <span class="cm-item-info"><b>Camp mug set</b><small>Set of 2</small></span>
+            <span class="cm-price">$42.00</span>
+          </li>
+          <li class="cm-item cm-item-gift" id="itemGift">
+            <span class="cm-thumb th-gift" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="#2E7D53"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/></svg></span>
+            <span class="cm-item-info"><b>Sherpa socks</b><small>Your free gift</small></span>
+            <span class="cm-price cm-price-free">FREE</span>
+          </li>
+        </ul>
+        <div class="cm-upsell" id="cmUpsell">
+          <span class="cm-thumb th-b" aria-hidden="true"></span>
+          <span class="cm-item-info"><b>Trail beanie</b><small>Pairs well with your hoodie</small></span>
+          <button class="cm-add" id="cmAdd" tabindex="-1">+ Add · $34</button>
+        </div>
+        <div class="cm-foot">
+          <span>Subtotal</span>
+          <b id="cmTotal">$48.00</b>
+        </div>
+        <button class="cm-checkout" tabindex="-1">Checkout</button>
+        <canvas class="confetti-canvas" id="cmConfetti" aria-hidden="true"></canvas>
+      </div>
+      <div class="hero-chip hero-chip-1" aria-hidden="true">+32% AOV this month</div>
+      <div class="hero-chip hero-chip-2" aria-hidden="true">Brix AI · 3 changes live</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY AOV MATTERS ============ -->
+<section class="section section-soft" id="why-aov">
+  <div class="container">
+    <div class="f-grid f-grid-flip waov-grid">
+      <div class="f-copy">
+        <p class="eyebrow reveal">Why AOV matters</p>
+        <h2 class="reveal">More traffic is expensive.<br>Higher AOV is smarter</h2>
+        <p class="reveal" style="--d:.04s">Most Shopify brands spend heavily on ads, influencers, emails, and retargeting just to bring shoppers to the store. But when customers reach the cart, many stores lose the opportunity to increase order value.</p>
+        <p class="reveal" style="--d:.08s"><b>That is where Brix helps.</b> Instead of depending only on new traffic, Brix helps you generate more revenue from shoppers who are already ready to buy, using a cart abandonment app Shopify brands trust to keep carts active, not one of the countless best Shopify apps to increase sales that only work by spending more on ads.</p>
+        <p class="reveal" style="--d:.12s">With the right cart upsell app for Shopify, every cart becomes an opportunity to increase average order value Shopify merchants usually leave on the table, adding more value, lifting revenue, and reducing missed sales.</p>
+      </div>
+      <div class="waov-visual">
+        <div class="waov-glow" aria-hidden="true"></div>
+        <div class="waov-card reveal" style="--d:.1s" id="waovCard">
+          <div class="waov-row waov-row-cost">
+            <span class="waov-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M18 11v2h4v-2h-4zm-2 6.61c.96.71 2.21 1.65 3.2 2.39.4-.53.8-1.07 1.2-1.6-.99-.74-2.24-1.68-3.2-2.4-.4.54-.8 1.08-1.2 1.61zM20.4 5.6c-.4-.53-.8-1.07-1.2-1.6-.99.74-2.24 1.68-3.2 2.4.4.53.8 1.07 1.2 1.6.96-.72 2.21-1.65 3.2-2.4zM4 9c-1.1 0-2 .9-2 2v2c0 1.1.9 2 2 2h1v4h2v-4h1l5 3V6L8 9H4zm11.5 3c0-1.33-.58-2.53-1.5-3.35v6.69c.92-.81 1.5-2.01 1.5-3.34z"/></svg>
+            </span>
+            <div class="waov-row-body">
+              <p class="waov-row-label">New traffic</p>
+              <p class="waov-row-sub">Ads, influencers, emails, retargeting</p>
+              <div class="waov-meter"><div class="waov-meter-fill" style="width:87%"></div></div>
+            </div>
+            <span class="waov-row-tag">Cost keeps rising</span>
+          </div>
+          <div class="waov-row waov-row-aov">
+            <span class="waov-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            </span>
+            <div class="waov-row-body">
+              <p class="waov-row-label">Existing carts</p>
+              <p class="waov-row-sub">One more item per order, no new ad spend</p>
+              <div class="waov-meter"><div class="waov-meter-fill" style="width:32%"></div></div>
+            </div>
+            <span class="waov-row-tag waov-row-tag-good">Mostly untapped</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="waov-chips" id="waovChips">
+      <span class="waov-chip"><span class="waov-chip-ic" aria-hidden="true">✓</span>Higher revenue without increasing ad spend</span>
+      <span class="waov-chip"><span class="waov-chip-ic" aria-hidden="true">✓</span>Better return on marketing campaigns</span>
+      <span class="waov-chip"><span class="waov-chip-ic" aria-hidden="true">✓</span>More profitable customer acquisition</span>
+      <span class="waov-chip"><span class="waov-chip-ic" aria-hidden="true">✓</span>Improved cart experience</span>
+      <span class="waov-chip"><span class="waov-chip-ic" aria-hidden="true">✓</span>More conversions from existing shoppers</span>
+    </div>
+    <p class="waov-note reveal" style="--d:.06s">Small cart improvements can create big revenue impact.</p>
+  </div>
+</section>
+
+<!-- ============ TRUSTED BY / COUNTRIES ============ -->
+<section class="section section-soft" id="trusted-by">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Trusted by growing Shopify brands</p>
+      <h2>Global revenue optimization platform for Shopify merchants</h2>
+      <p class="section-sub">Brix is built for modern DTC and ecommerce brands that want to improve cart revenue, reduce missed opportunities, and create a better buying experience. Whether you are running a fashion store, beauty brand, food brand, wellness store, electronics store, or lifestyle brand, Brix helps you increase average order value in Shopify with intelligent recommendations and high-converting cart features.</p>
+    </div>
+    <div class="countries reveal" style="--d:.06s">
+      <p class="countries-label">Countries we serve</p>
+      <div class="worldmap">
+        <svg class="wm-svg" viewBox="0 0 1000 440" role="img" aria-label="World map highlighting the regions Brix serves: North America, United States, Canada, Europe, India, Singapore and Australia">
+          <defs>
+            <radialGradient id="wmGlow" cx="50%" cy="46%" r="62%">
+              <stop offset="0%" stop-color="#0E9BE5" stop-opacity=".10"/>
+              <stop offset="100%" stop-color="#0E9BE5" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect x="0" y="0" width="1000" height="440" fill="url(#wmGlow)"/>
+          <g class="wm-grid" stroke="#0B86CC" stroke-opacity=".08" stroke-width="1">
+            <line x1="0" y1="70" x2="1000" y2="70"/>
+            <line x1="0" y1="140" x2="1000" y2="140"/>
+            <line x1="0" y1="210" x2="1000" y2="210"/>
+            <line x1="0" y1="280" x2="1000" y2="280"/>
+            <line x1="0" y1="350" x2="1000" y2="350"/>
+            <line x1="140" y1="0" x2="140" y2="440"/>
+            <line x1="300" y1="0" x2="300" y2="440"/>
+            <line x1="460" y1="0" x2="460" y2="440"/>
+            <line x1="620" y1="0" x2="620" y2="440"/>
+            <line x1="780" y1="0" x2="780" y2="440"/>
+            <line x1="920" y1="0" x2="920" y2="440"/>
+          </g>
+          <g class="wm-land" fill="#C4E3F7">
+            <path d="M56,69 L153,83 L264,78 L306,111 L306,139 L275,181 L231,178 L208,194 L189,175 L161,147 L156,117 L111,83 Z"/>
+            <path d="M292,222 L403,272 L389,314 L306,394 L300,361 L278,278 L283,236 Z"/>
+            <path d="M475,131 L578,139 L611,83 L528,89 L478,111 Z"/>
+            <path d="M453,158 L597,161 L642,219 L611,319 L556,344 L536,278 L472,236 L453,194 Z"/>
+            <path d="M578,78 L778,50 L889,78 L903,125 L839,167 L750,189 L717,228 L667,181 L625,139 L611,97 Z"/>
+            <path d="M817,311 L894,294 L917,333 L875,356 L828,347 Z"/>
+            <circle cx="792" cy="252" r="7"/>
+            <circle cx="812" cy="266" r="5"/>
+          </g>
+          <g class="wm-arcs" fill="none" stroke="#0B86CC" stroke-opacity=".38" stroke-width="1.6" stroke-dasharray="3 6" stroke-linecap="round">
+            <path d="M233,144 Q380,60 528,111"/>
+            <path d="M528,111 Q623,95 719,189"/>
+            <path d="M719,189 Q780,200 789,247"/>
+            <path d="M789,247 Q860,270 872,325"/>
+            <path d="M233,144 Q205,110 205,94"/>
+          </g>
+          <g class="wm-pins">
+            <g class="wm-pin"><circle class="wm-ring" cx="205" cy="94" r="9"/><circle class="wm-dot" cx="205" cy="94" r="4.2"/><text class="wm-label" x="205" y="80" text-anchor="middle">Canada</text></g>
+            <g class="wm-pin" style="--d:.1s"><circle class="wm-ring" cx="233" cy="144" r="9"/><circle class="wm-dot" cx="233" cy="144" r="4.2"/><text class="wm-label" x="233" y="166" text-anchor="middle">United States</text></g>
+            <g class="wm-pin" style="--d:.2s"><circle class="wm-ring" cx="528" cy="111" r="9"/><circle class="wm-dot" cx="528" cy="111" r="4.2"/><text class="wm-label" x="528" y="97" text-anchor="middle">Europe</text></g>
+            <g class="wm-pin" style="--d:.3s"><circle class="wm-ring" cx="719" cy="189" r="9"/><circle class="wm-dot" cx="719" cy="189" r="4.2"/><text class="wm-label" x="719" y="211" text-anchor="middle">India</text></g>
+            <g class="wm-pin" style="--d:.4s"><circle class="wm-ring" cx="789" cy="247" r="9"/><circle class="wm-dot" cx="789" cy="247" r="4.2"/><text class="wm-label" x="789" y="269" text-anchor="middle">Singapore</text></g>
+            <g class="wm-pin" style="--d:.5s"><circle class="wm-ring" cx="872" cy="325" r="9"/><circle class="wm-dot" cx="872" cy="325" r="4.2"/><text class="wm-label" x="872" y="347" text-anchor="middle">Australia</text></g>
+          </g>
+        </svg>
+      </div>
+      <div class="wm-legend">
+        <span class="country-chip">North America</span>
+        <span class="country-chip">United States</span>
+        <span class="country-chip">Canada</span>
+        <span class="country-chip">Europe</span>
+        <span class="country-chip">Australia</span>
+        <span class="country-chip">Singapore</span>
+        <span class="country-chip">India</span>
+      </div>
+      <p class="countries-note">Brix supports Shopify merchants across global markets with a cart optimization system designed for scalable ecommerce growth.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS BAND / BRIX IN NUMBERS ============ -->
+<section class="stats-band">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Brix in numbers</p>
+      <h2>Revenue growth at scale</h2>
+      <p class="section-sub">Brix is designed to help Shopify brands save time, improve cart performance, and unlock more revenue through Shopify AOV optimization built into every cart interaction.</p>
+    </div>
+    <div class="stats-row stats-row-4">
+      <div class="stat reveal">
+        <b><span data-count="1000" data-suffix="+">0</span></b>
+        <small>hours saved with AI-powered recommendations</small>
+      </div>
+      <div class="stat reveal" style="--d:.08s">
+        <b><span data-count="500000" data-suffix="+">0</span></b>
+        <small>upsell recommendations generated</small>
+      </div>
+      <div class="stat reveal" style="--d:.12s">
+        <b><span data-count="2" data-prefix="$" data-suffix="M+">0</span></b>
+        <small>in additional cart revenue optimized</small>
+      </div>
+      <div class="stat reveal" style="--d:.16s">
+        <b><span data-count="7" data-suffix="+">0</span></b>
+        <small>regions served across global markets</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURE GRID ============ -->
+<section class="section section-soft" id="features">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Core features</p>
+      <h2>Everything you need to increase Shopify AOV</h2>
+      <p class="section-sub">Brix brings together the most important cart optimization features in one powerful Shopify app.</p>
+    </div>
+    <div class="feature-grid">
+
+      <a class="feature-card reveal" href="features#cart-editor">
+        <div class="fc-visual">
+          <div class="mini-cart">
+            <div class="mini-track"><div class="mini-fill" style="width:82%"></div></div>
+            <p class="mini-msg">82% of the way to a free gift</p>
+          </div>
+        </div>
+        <h3>Rewards Progress Bar</h3>
+        <p>A live progress bar shows shoppers how close they are to unlocking free shipping, gifts or discounts, lifting every cart.</p>
+        <span class="fc-link">Learn more →</span>
+      </a>
+
+      <a class="feature-card reveal" style="--d:.06s" href="features#coupon-slider">
+        <div class="fc-visual">
+          <div class="mini-coupons">
+            <span class="mini-coupon mc-active">SAVE10</span>
+            <span class="mini-coupon">FREESHIP</span>
+            <span class="mini-coupon">GIFT25</span>
+          </div>
+        </div>
+        <h3>Coupon Sliders</h3>
+        <p>Live coupon cards inside the cart drawer. Shoppers apply offers in one tap, so no discount is ever missed at checkout.</p>
+        <span class="fc-link">Learn more →</span>
+      </a>
+
+      <a class="feature-card reveal" style="--d:.12s" href="features#fbt">
+        <div class="fc-visual">
+          <div class="mini-fbt">
+            <span class="mini-prod th-a"></span><i>+</i>
+            <span class="mini-prod th-b"></span><i>+</i>
+            <span class="mini-prod th-c"></span>
+          </div>
+        </div>
+        <h3>Frequently Bought Together</h3>
+        <p>Amazon-style suggestions pair products that sell as a set, and one tap adds the whole combo to the cart.</p>
+        <span class="fc-link">Learn more →</span>
+      </a>
+
+      <a class="feature-card reveal" style="--d:.06s" href="features#bundles">
+        <div class="fc-visual">
+          <div class="mini-bundle">
+            <span class="mini-rule">Buy 3 from <b>Winter</b></span>
+            <span class="mini-arrow">→</span>
+            <span class="mini-save">save $100</span>
+          </div>
+        </div>
+        <h3>Bundle Builder</h3>
+        <p>Build combo rules on any collection: buy 3 save $100, mix-and-match pages, tiered kits.</p>
+        <span class="fc-link">Learn more →</span>
+      </a>
+
+      <a class="feature-card reveal" style="--d:.12s" href="features#analytics">
+        <div class="fc-visual">
+          <div class="mini-chart">
+            <svg viewBox="0 0 200 82" aria-hidden="true">
+              <defs>
+                <linearGradient id="fcAov" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#0B86CC" stop-opacity=".22"/>
+                  <stop offset="100%" stop-color="#0B86CC" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <g stroke="rgba(11,134,204,.12)" stroke-width="1">
+                <line x1="6" y1="22" x2="194" y2="22"/>
+                <line x1="6" y1="44" x2="194" y2="44"/>
+                <line x1="6" y1="66" x2="194" y2="66"/>
+              </g>
+              <path d="M8 60 L26 63 L44 54 L62 57 L82 48 L100 44 L118 47 L136 36 L154 30 L172 33 L190 16 L190 74 L8 74 Z" fill="url(#fcAov)"/>
+              <path d="M8 60 L26 63 L44 54 L62 57 L82 48 L100 44 L118 47 L136 36 L154 30 L172 33 L190 16" fill="none" stroke="#0B86CC" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <g fill="#0B86CC" opacity=".5">
+                <circle cx="44" cy="54" r="1.6"/>
+                <circle cx="62" cy="57" r="1.6"/>
+                <circle cx="82" cy="48" r="1.6"/>
+                <circle cx="100" cy="44" r="1.6"/>
+                <circle cx="118" cy="47" r="1.6"/>
+                <circle cx="136" cy="36" r="1.6"/>
+                <circle cx="154" cy="30" r="1.6"/>
+                <circle cx="172" cy="33" r="1.6"/>
+              </g>
+              <circle cx="190" cy="16" r="5.5" fill="#fff"/>
+              <circle cx="190" cy="16" r="3.2" fill="#0B86CC"/>
+              <text class="mini-area-end" x="184" y="12" text-anchor="end">$86</text>
+            </svg>
+            <span class="mini-stat">AOV +32%</span>
+          </div>
+        </div>
+        <h3>Analytics &amp; AI Insights</h3>
+        <p>See exactly which nudge earned every extra dollar, and what Brix suggests you change next.</p>
+        <span class="fc-link">Learn more →</span>
+      </a>
+
+      <a class="feature-card reveal" href="features#ai-chat">
+        <div class="fc-visual">
+          <div class="mini-chat">
+            <div class="mc-head">
+              <span class="mc-ava"><img src="assets/brix-mark-light.png" alt=""></span>
+              <span class="mc-name">Brix AI</span>
+              <span class="mc-dot" aria-hidden="true"></span>
+            </div>
+            <span class="mini-bubble mb-user">Raise my AOV 15%</span>
+            <span class="mini-bubble mb-ai">On it. 3 changes live.</span>
+          </div>
+        </div>
+        <h3>Brix AI Chat</h3>
+        <p>Tell Brix the goal in plain English. It adjusts tiers, offers and bundles, then reports back.</p>
+        <span class="fc-link">Learn more →</span>
+      </a>
+
+    </div>
+    <p class="section-more reveal" style="--d:.1s"><a href="features">Explore All Features →</a></p>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Pricing</p>
+      <h2>Starts free. Scales when you do.</h2>
+      <p class="section-sub">Free is free forever. Starter and Pro are billed monthly. Cancel anytime.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card reveal">
+        <span class="price-flag price-flag-ghost">Free forever</span>
+        <h3>Free</h3>
+        <p class="price"><b>$0</b><span>/month</span></p>
+        <p class="price-note">Launch and learn: 50 orders/month</p>
+        <ul class="price-list">
+          <li>Cart Drawer, Announcement Bar &amp; Empty Cart Customization</li>
+          <li>AI BRIX: 10 credits/month, then $0.09/credit</li>
+          <li>Frequently Bought Together &amp; Progress Bar: preview only</li>
+          <li>Basic analytics (revenue, AOV, clicks)</li>
+        </ul>
+        <a class="btn btn-outline price-cta" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener">Install free ↗</a>
+      </div>
+      <div class="price-card price-card-hot reveal" style="--d:.06s">
+        <span class="price-flag">Most popular</span>
+        <h3>Starter</h3>
+        <p class="price"><b>$29</b><span>/month</span></p>
+        <p class="price-note">Grow your AOV: 500 orders/month</p>
+        <ul class="price-list">
+          <li>AI Cart Upsell &amp; Frequently Bought Together, fully unlocked</li>
+          <li>Build a Combo: up to 3 templates</li>
+          <li>Analytics: Overview &amp; Build a Combo only</li>
+          <li>AI BRIX: 30 credits/month, then $0.03/credit</li>
+          <li>Priority email &amp; 24/7 AI support</li>
+          <li>Removes the “Powered by BRIX” watermark</li>
+        </ul>
+        <a class="btn btn-primary price-cta" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener">Start free trial ↗</a>
+      </div>
+      <div class="price-card reveal" style="--d:.12s">
+        <span class="price-flag price-flag-ghost">Best value</span>
+        <h3>Pro</h3>
+        <p class="price"><b>$79</b><span>/month</span></p>
+        <p class="price-note">High-revenue brands: unlimited orders</p>
+        <ul class="price-list">
+          <li>Unlimited Build a Combo templates</li>
+          <li>AI Analytics, Advanced AI Analytics &amp; Unlimited AI Agents</li>
+          <li>AI BRIX: 90 credits/month, then $0.01/credit</li>
+          <li>Removes the “Powered by BRIX” watermark</li>
+        </ul>
+        <a class="btn btn-outline price-cta" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener">Start free trial ↗</a>
+      </div>
+    </div>
+    <p class="price-compare reveal"><a href="pricing">Compare every feature across plans →</a></p>
+  </div>
+</section>
+
+<!-- ============ CASE STUDY (HOME TEASER) ============ -->
+<section class="section section-soft" id="case-study-home">
+  <div class="container container-narrow">
+    <div class="section-head reveal">
+      <p class="eyebrow">Case study</p>
+      <h2>How Brix helps Shopify brands increase cart revenue</h2>
+    </div>
+    <div class="cs-teaser" id="csTeaser">
+      <p>A growing Shopify brand was getting traffic, product views, and add-to-carts, but most shoppers were checking out with only one product.</p>
+      <p>After using Brix, the brand added cart upsells, Frequently Bought Together offers, a coupon slider, and a rewards progress bar inside the cart drawer.</p>
+      <a class="btn btn-primary cs-teaser-cta" href="case-studies">View Case Studies →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="section" id="testimonials">
+  <div class="container">
+    <div class="section-head section-head-row reveal">
+      <div>
+        <p class="eyebrow">Merchants on Brix</p>
+        <h2>What merchants say about Brix</h2>
+      </div>
+      <div class="carousel-nav">
+        <button class="car-btn" id="carPrev" aria-label="Previous testimonials">←</button>
+        <button class="car-btn" id="carNext" aria-label="Next testimonials">→</button>
+      </div>
+    </div>
+    <div class="carousel" id="carousel">
+      <figure class="t-card reveal">
+        <span class="t-lift">+41% AOV</span>
+        <blockquote>“Brix helped us turn our cart into a real sales channel. The upsell and rewards bar features made it easier for customers to add more before checkout.”</blockquote>
+        <figcaption><span class="t-avatar av-1">SR</span><span><b>Sana Rahim</b></span></figcaption>
+      </figure>
+      <figure class="t-card reveal" style="--d:.06s">
+        <span class="t-lift">+28% AOV</span>
+        <blockquote>“Frequently Bought Together and the coupon slider solved two major problems for us. Customers could discover related products and apply discounts without leaving the cart.”</blockquote>
+        <figcaption><span class="t-avatar av-2">DK</span><span><b>Daniel Kim</b></span></figcaption>
+      </figure>
+      <figure class="t-card reveal" style="--d:.12s">
+        <span class="t-lift">+35% AOV</span>
+        <blockquote>“Brix AI Analysis gave us clarity on what was working. We stopped guessing and started optimizing our cart based on real opportunities.”</blockquote>
+        <figcaption><span class="t-avatar av-3">AO</span><span><b>Amara Obi</b></span></figcaption>
+      </figure>
+      <figure class="t-card">
+        <span class="t-lift">+52% AOV</span>
+        <blockquote>“Setup was simple, customization was clean, and the cart experience felt premium. Brix is a strong AOV booster for Shopify brands.”</blockquote>
+        <figcaption><span class="t-avatar av-4">MT</span><span><b>Marco Tan</b></span></figcaption>
+      </figure>
+      <figure class="t-card">
+        <span class="t-lift">+23% AOV</span>
+        <blockquote>“The insight cards are like having a CRO consultant on retainer, except it costs $29 a month.”</blockquote>
+        <figcaption><span class="t-avatar av-5">LP</span><span><b>Lena Petrov</b></span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="cta-final" id="install">
+  <div class="cta-gradient" aria-hidden="true"></div>
+  <div class="container cta-in">
+    <h2 class="reveal">Ready to turn your Shopify cart into a growth engine?</h2>
+    <p class="reveal" style="--d:.08s">Brix helps you increase AOV, improve the cart experience, reduce missed revenue, and make smarter growth decisions, all with AI-powered cart optimization.</p>
+    <a class="btn btn-white btn-lg reveal" style="--d:.16s" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener" id="ctaInstall">
+      <svg viewBox="0 0 512 512" width="20" height="20" aria-hidden="true"><path d="M116,172 C146,46 270,42 288,156" fill="none" stroke="#000" stroke-width="18" stroke-linecap="round"/><path d="M152,180 C176,84 256,82 276,168" fill="none" stroke="#000" stroke-width="15" stroke-linecap="round"/><path d="M74,170 L326,104 L326,488 L74,482 Z" fill="#000"/><path d="M340,104 L374,78 L452,130 L442,488 L340,488 Z" fill="#000"/><g transform="translate(66,74) scale(14.7)"><path fill="#fff" d="M11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.766-3.406 3.766-2.354 0-3.54-1.465-3.54-1.465l.646-2.086s1.245 1.066 2.28 1.066c.674 0 .95-.532.95-.92 0-1.612-2.66-1.684-2.66-4.35 0-2.24 1.612-4.41 4.862-4.41 1.257 0 1.875.36 1.875.36l-.95 2.83.024-.007z"/></g></svg>
+      Start Growing With Brix
+    </a>
+    <p class="cta-note reveal" style="--d:.24s">Free plan available · No credit card · Book a demo anytime</p>
+    <canvas class="confetti-canvas" id="ctaConfetti" aria-hidden="true"></canvas>
+  </div>
+</section>
+<?php require BRIX_INCLUDES . '/footer.php'; ?>

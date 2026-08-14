@@ -1,0 +1,402 @@
+<?php
+/**
+ * Small helpers shared by the public site and the admin panel.
+ */
+
+declare(strict_types=1);
+
+/** Escape for HTML text and attribute contexts. */
+function e(?string $value): string
+{
+    return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+/**
+ * Turn a title into a URL-safe slug body.
+ *
+ * The type prefix (blog- / case-study-) is added separately, because
+ * the existing live URLs already carry it and the slug column stores
+ * the complete filename stem.
+ */
+function slugify(string $text): string
+{
+    $text = trim($text);
+
+    // Transliterate accented characters where the extension is available.
+    if (function_exists('iconv')) {
+        $converted = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $text);
+        if ($converted !== false) {
+            $text = $converted;
+        }
+    }
+
+    $text = strtolower($text);
+    $text = preg_replace('/[^a-z0-9]+/', '-', $text) ?? '';
+
+    return trim($text, '-');
+}
+
+/**
+ * Build the public filename stem for a post, preserving the naming
+ * convention the site already uses.
+ */
+function post_slug_prefix(string $type): string
+{
+    return $type === 'case_study' ? 'case-study-' : 'blog-';
+}
+
+/**
+ * Public URL for a post, e.g. blog-cart-upsell-examples
+ *
+ * URLs are extensionless. The slug column still stores the original
+ * filename stem, so the address a post had as a static .html file is
+ * the same one it has now, minus the extension, and .htaccess
+ * permanently redirects the old form to this one.
+ */
+function post_url(array $post): string
+{
+    return $post['slug'];
+}
+
+/** Listing page a post belongs to. */
+function post_index_url(string $type): string
+{
+    return $type === 'case_study' ? 'case-studies' : 'blog';
+}
+
+/**
+ * Estimate reading time the way the existing articles present it:
+ * whole minutes, never zero.
+ */
+function estimate_read_minutes(string $markdown): int
+{
+    $words = str_word_count(strip_tags($markdown));
+
+    return max(1, (int) round($words / 220));
+}
+
+/**
+ * First real paragraph of a markdown document, flattened to plain
+ * text. Used to pre-fill the excerpt field so the editor is not
+ * starting from a blank box.
+ */
+function markdown_first_paragraph(string $markdown): string
+{
+    $lines = preg_split('/\R/', $markdown) ?: [];
+    $buffer = [];
+
+    foreach ($lines as $line) {
+        $trimmed = trim($line);
+
+        if ($trimmed === '') {
+            if ($buffer !== []) {
+                break;
+            }
+            continue;
+        }
+
+        // Skip headings, quotes, lists, images and fences while hunting
+        // for the first body paragraph.
+        if (preg_match('/^(#{1,6}\s|>|[-*+]\s|\d+\.\s|!\[|```|\||---)/', $trimmed)) {
+            if ($buffer !== []) {
+                break;
+            }
+            continue;
+        }
+
+        $buffer[] = $trimmed;
+    }
+
+    $text = implode(' ', $buffer);
+    $text = preg_replace('/\*\*(.+?)\*\*/s', '$1', $text) ?? $text;
+    $text = preg_replace('/\*(.+?)\*/s', '$1', $text) ?? $text;
+    $text = preg_replace('/\[(.+?)\]\([^)]*\)/s', '$1', $text) ?? $text;
+    $text = preg_replace('/`(.+?)`/s', '$1', $text) ?? $text;
+    $text = str_replace('\\', '', $text);
+
+    return trim($text);
+}
+
+/** First H1 in a markdown document, if there is one. */
+function markdown_first_heading(string $markdown): ?string
+{
+    if (preg_match('/^\s*#\s+(.+)$/m', $markdown, $m)) {
+        $title = trim($m[1]);
+        $title = preg_replace('/\*\*(.+?)\*\*/', '$1', $title) ?? $title;
+        $title = str_replace('\\', '', $title);
+
+        return trim($title);
+    }
+
+    return null;
+}
+
+/**
+ * Shorten to a whole word without cutting mid-word.
+ */
+function truncate_words(string $text, int $maxChars): string
+{
+    if (mb_strlen($text) <= $maxChars) {
+        return $text;
+    }
+
+    $cut = mb_substr($text, 0, $maxChars);
+    $lastSpace = mb_strrpos($cut, ' ');
+    if ($lastSpace !== false) {
+        $cut = mb_substr($cut, 0, $lastSpace);
+    }
+
+    return rtrim($cut, " \t\n\r\0\x0B.,;:") . '...';
+}
+
+/**
+ * Normalise a pasted or uploaded markdown file.
+ *
+ * Files written on Windows arrive with CRLF and files exported from
+ * some editors carry a BOM; both leak into the rendered output as
+ * stray characters if they are not stripped here.
+ */
+function normalise_newlines(string $text): string
+{
+    $text = str_replace("\xEF\xBB\xBF", '', $text);
+    $text = str_replace(["\r\n", "\r"], "\n", $text);
+
+    return $text;
+}
+
+/**
+ * Split a leading YAML front matter block off a markdown document.
+ *
+ * Returns [metadata, body]. Only the flat "key: value" subset is
+ * supported, which is all post-download.php ever writes, so a post
+ * can be downloaded, edited offline and uploaded again without the
+ * metadata block ending up in the article text.
+ *
+ * A file with no front matter comes back unchanged with an empty
+ * metadata array.
+ */
+function parse_front_matter(string $text): array
+{
+    $text = normalise_newlines($text);
+
+    if (!preg_match('/\A---\n(.*?)\n---\n?/s', $text, $m)) {
+        return [[], ltrim($text, "\n")];
+    }
+
+    $meta = [];
+    foreach (explode("\n", $m[1]) as $line) {
+        if (trim($line) === '' || str_starts_with(ltrim($line), '#')) {
+            continue;
+        }
+        if (!preg_match('/^([A-Za-z0-9_-]+)\s*:\s*(.*)$/', $line, $kv)) {
+            continue;
+        }
+
+        $value = trim($kv[2]);
+
+        if (strlen($value) >= 2
+            && ($value[0] === '"' || $value[0] === "'")
+            && $value[strlen($value) - 1] === $value[0]) {
+            $quote = $value[0];
+            $value = substr($value, 1, -1);
+            if ($quote === '"') {
+                $value = str_replace(['\\"', '\\\\'], ['"', '\\'], $value);
+            }
+        }
+
+        $meta[$kv[1]] = $value;
+    }
+
+    return [$meta, ltrim(substr($text, strlen($m[0])), "\n")];
+}
+
+/** Format a Y-m-d date the way the cards and post meta already do. */
+function format_post_date(?string $date): string
+{
+    if (!$date) {
+        return '';
+    }
+
+    $ts = strtotime($date);
+
+    return $ts === false ? '' : date('M j, Y', $ts);
+}
+
+/**
+ * CSRF token for the current session.
+ *
+ * A session cookie can only be sent before output begins. Since this
+ * is normally called from inside a form, deep in the page body, the
+ * page must have started the session already. If it has not, the
+ * cookie is lost, the token is written to a session the browser never
+ * receives, and every submission of that form fails validation.
+ *
+ * That is a silent, total breakage of a form, so complain loudly in
+ * the error log rather than let it pass unnoticed.
+ */
+function csrf_token(): string
+{
+    if (session_status() !== PHP_SESSION_ACTIVE && headers_sent($file, $line)) {
+        error_log(sprintf(
+            'Brix: csrf_token() reached after output started at %s:%d. '
+            . 'Call brix_session_start() at the top of this page, before any HTML.',
+            $file,
+            $line
+        ));
+    }
+
+    brix_session_start();
+
+    if (empty($_SESSION['csrf'])) {
+        $_SESSION['csrf'] = bin2hex(random_bytes(32));
+    }
+
+    return $_SESSION['csrf'];
+}
+
+function csrf_field(): string
+{
+    return '<input type="hidden" name="csrf" value="' . e(csrf_token()) . '">';
+}
+
+function csrf_check(?string $token): bool
+{
+    brix_session_start();
+
+    return !empty($_SESSION['csrf'])
+        && is_string($token)
+        && hash_equals($_SESSION['csrf'], $token);
+}
+
+/** Client IP, taking one level of proxy into account. */
+function client_ip(): string
+{
+    $forwarded = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '';
+    if ($forwarded !== '') {
+        $first = trim(explode(',', $forwarded)[0]);
+        if (filter_var($first, FILTER_VALIDATE_IP)) {
+            return $first;
+        }
+    }
+
+    return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+}
+
+function redirect(string $to): never
+{
+    header('Location: ' . $to);
+    exit;
+}
+
+function json_response(array $payload, int $status = 200): never
+{
+    http_response_code($status);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($payload);
+    exit;
+}
+
+/**
+ * Reduce a stored image path to one this site is willing to serve.
+ *
+ * The only thing that ever legitimately lands in a field like
+ * hero_image is a path returned by admin/upload-image.php, so the rule
+ * is simply: inside assets/, ends in an image extension, no traversal.
+ * An absolute URL is refused as well, because a hero that depends on a
+ * host we do not control is a broken hero waiting to happen.
+ *
+ * Returns '' for anything that does not qualify, which the templates
+ * already treat as "no image".
+ */
+function safe_asset_path(?string $path): string
+{
+    $path = ltrim(trim((string) $path), '/');
+
+    if ($path === '' || str_contains($path, '..')) {
+        return '';
+    }
+
+    return preg_match('#^assets/[A-Za-z0-9._/-]+\.(jpe?g|png|gif|webp|svg)$#i', $path) === 1
+        ? $path
+        : '';
+}
+
+/** Blur is stored in pixels. Anything outside the slider's range is clamped. */
+function clamp_hero_blur(mixed $value): int
+{
+    return max(0, min(24, (int) $value));
+}
+
+/**
+ * The card gradients the site already ships. Keyed so the editor can
+ * offer them as a choice rather than asking for a raw class name.
+ */
+function card_gradients(): array
+{
+    return [
+        'bshot-1' => 'Blue to teal',
+        'bshot-2' => 'Navy to blue',
+        'bshot-3' => 'Teal to green',
+        'bshot-4' => 'Blue to green',
+    ];
+}
+
+/**
+ * Curated icon set for cards.
+ *
+ * Deliberately a fixed library rather than a free-text SVG field:
+ * arbitrary markup on a card would be an easy way to inject script
+ * into every listing page. These are the glyphs already in use across
+ * the blog and case study grids, plus a few close cousins.
+ */
+function card_icons(): array
+{
+    return [
+        'cart' => [
+            'label' => 'Shopping cart',
+            'svg'   => '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>',
+        ],
+        'grid' => [
+            'label' => 'App grid',
+            'svg'   => '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>',
+        ],
+        'trend' => [
+            'label' => 'Trend line',
+            'svg'   => '<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>',
+        ],
+        'search' => [
+            'label' => 'Diagnostics',
+            'svg'   => '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4.35-4.35"/><path d="M11 8v3"/><path d="M11 14h.01"/>',
+        ],
+        'box' => [
+            'label' => 'Bundle box',
+            'svg'   => '<path d="M12 2.5 3.5 7v10L12 21.5 20.5 17V7z"/><path d="M3.5 7 12 11.6 20.5 7"/><path d="M12 11.6v9.9"/>',
+        ],
+        'gift' => [
+            'label' => 'Gift / reward',
+            'svg'   => '<rect x="3" y="8" width="18" height="4.5" rx="1"/><path d="M5 12.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7.5"/><path d="M12 8v13"/><path d="M12 8H7.8a2.4 2.4 0 1 1 0-4.8C11 3.2 12 8 12 8z"/><path d="M12 8h4.2a2.4 2.4 0 1 0 0-4.8C13 3.2 12 8 12 8z"/>',
+        ],
+        'shirt' => [
+            'label' => 'Apparel',
+            'svg'   => '<path d="M15.5 3 20 5.4v4.4h-2.9V21H6.9V9.8H4V5.4L8.5 3"/><path d="M8.5 3a3.5 3.5 0 0 0 7 0"/>',
+        ],
+        'tag' => [
+            'label' => 'Price tag',
+            'svg'   => '<path d="M20.6 13.4 12 22l-9-9V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+        ],
+        'spark' => [
+            'label' => 'AI sparkle',
+            'svg'   => '<path d="M12 2.6 13.9 9 20.4 11l-6.5 2L12 19.4 10.1 13 3.6 11 10.1 9z"/><path d="M18.5 3.2 19.2 5.4 21.4 6l-2.2.7-.7 2.2-.7-2.2L15.6 6l2.2-.6z"/>',
+        ],
+    ];
+}
+
+/** Render one card glyph by key, falling back to the cart icon. */
+function card_icon_svg(?string $key): string
+{
+    $icons = card_icons();
+    $icon = $icons[$key] ?? $icons['cart'];
+
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
+        . 'stroke-linecap="round" stroke-linejoin="round">' . $icon['svg'] . '</svg>';
+}

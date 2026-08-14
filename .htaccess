@@ -1,0 +1,69 @@
+# ---------------------------------------------------------------
+# Brix website - routing
+#
+# URLs are extensionless: /pricing, /blog, /blog-cart-upsell-examples.
+#
+# Every address that was previously live as a .html file still works;
+# it issues a permanent redirect to the extensionless form. That is
+# what preserves the existing search rankings, so the redirects below
+# must not be removed.
+# ---------------------------------------------------------------
+
+Options -Indexes -MultiViews
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # /api/ is served by the Node deployment, not PHP. Leave it entirely
+  # alone so nothing here can change how it behaves.
+  RewriteRule ^api/ - [L]
+
+  # ----- 1. permanent redirects for the old addresses -----
+  # Matched against the literal request line, so these only fire for a
+  # real inbound request and never for the internal rewrites below.
+
+  # /index.html -> /
+  RewriteCond %{THE_REQUEST} "\s/index\.html[?\s]" [NC]
+  RewriteRule ^index\.html$ / [R=301,L]
+
+  # /anything.html -> /anything
+  RewriteCond %{THE_REQUEST} "\s/([^?\s]+)\.html[?\s]" [NC]
+  RewriteRule ^(.+)\.html$ /$1 [R=301,L]
+
+  # ----- 2. things that must be served as they are -----
+
+  # sitemap.xml is generated from the database.
+  RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+  # Real files and directories (css, js, images, /admin/) win.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # ----- 3. internal routing -----
+
+  # Articles come out of the posts table. The slug stored in the
+  # database is the old filename stem, so /blog-cart-upsell-examples
+  # resolves to the same article it always did.
+  RewriteRule ^(blog-[a-z0-9-]+)/?$ article.php?slug=$1 [L,QSA]
+  RewriteRule ^(case-study-[a-z0-9-]+)/?$ article.php?slug=$1 [L,QSA]
+
+  # Ordinary pages: /pricing -> pricing.php, but only when that file
+  # actually exists, so a genuinely missing page still 404s.
+  RewriteCond %{DOCUMENT_ROOT}/$1.php -f
+  RewriteRule ^([a-z0-9-]+)/?$ $1.php [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(?i:md)$">
+    Header set X-Robots-Tag "noindex"
+  </FilesMatch>
+</IfModule>
+
+# The credentials file is never served.
+<FilesMatch "^(config\.php|\.env)$">
+  Require all denied
+</FilesMatch>
+
+ErrorDocument 404 /404.php

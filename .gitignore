@@ -5,3 +5,13 @@ node_modules
 .env
 .env.local
 .claude/settings.local.json
+
+# Written by admin/setup.php on the server. Contains the live database
+# password, so it must never reach the repository.
+includes/config.php
+admin/setup.lock
+
+# Images uploaded through the admin panel live on the server only.
+assets/blog/*
+!assets/blog/.gitkeep
+!assets/blog/.htaccess

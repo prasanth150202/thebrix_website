@@ -2,7 +2,11 @@ User-agent: *
 Allow: /
 
 Disallow: /assets/
+Allow: /assets/blog/
 Disallow: /css/
 Disallow: /js/
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /content/
 
 Sitemap: https://thebrix.io/sitemap.xml

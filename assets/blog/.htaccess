@@ -1,0 +1,13 @@
+# Uploaded images live here. The uploader validates type and
+# extension before writing, but belt and braces: never let anything
+# in this directory be executed as a script.
+php_flag engine off
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule \.(php|phtml|php[0-9]|phar|cgi|pl|py|sh|htaccess)$ - [F,L,NC]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+</IfModule>

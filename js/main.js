@@ -704,12 +704,67 @@ if (HAS_GSAP) {
 
 /* ---------- newsletter ---------- */
 
-document.getElementById('newsForm')?.addEventListener('submit', e => {
+document.getElementById('newsForm')?.addEventListener('submit', async e => {
   e.preventDefault();
+
   const form = e.target;
-  form.querySelector('input').disabled = true;
-  form.querySelector('button').disabled = true;
-  document.getElementById('newsOk')?.classList.add('show');
+  const input = form.querySelector('input[type="email"]');
+  const button = form.querySelector('button');
+  const ok = document.getElementById('newsOk');
+
+  const email = (input?.value || '').trim();
+  if (!email) return;
+
+  input.disabled = true;
+  button.disabled = true;
+
+  /* Credit the campaign that brought them here. utm.js stores the last
+     touch under brix_attr_last, falling back to first touch, so a
+     signup on a later visit still reports the original source */
+  const attribution = (() => {
+    for (const key of ['brix_attr_last', 'brix_attr_first']) {
+      const m = document.cookie.match('(?:^|; )' + key + '=([^;]*)');
+      if (!m) continue;
+      try { return JSON.parse(decodeURIComponent(m[1])) || {}; } catch (err) { /* malformed */ }
+    }
+    return {};
+  })();
+
+  const body = new URLSearchParams({
+    email,
+    page: location.pathname,
+    utm_source: attribution.utm_source || '',
+    utm_medium: attribution.utm_medium || '',
+    utm_campaign: attribution.utm_campaign || ''
+  });
+
+  try {
+    const res = await fetch('newsletter-subscribe.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body
+    });
+    const data = await res.json();
+
+    if (!data.ok) throw new Error(data.error || 'Signup failed');
+
+    ok?.classList.add('show');
+
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'newsletter_signup', { send_to: 'G-23RTZ99F2K' });
+    }
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'newsletter_signup' });
+  } catch (err) {
+    /* Re-enable so the address is not silently swallowed, which is what
+       this form used to do on every single submission */
+    input.disabled = false;
+    button.disabled = false;
+    if (ok) {
+      ok.textContent = 'That did not go through. Please try again.';
+      ok.classList.add('show');
+    }
+  }
 });
 
 /* ---------- floating Brix AI chat widget (site-wide) ---------- */
