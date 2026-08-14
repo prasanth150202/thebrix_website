@@ -1,12 +1,40 @@
+# Cloudflare prepends a managed block to this file, so what a crawler
+# receives starts with its own "User-agent: *" group and then reaches
+# this one. Google merges groups that name the same agent, but not every
+# crawler does, and one that takes only the first match would never see
+# the rules below. Googlebot and Bingbot are therefore named explicitly
+# as well. To make this file the only word on the subject, turn off the
+# managed robots.txt in Cloudflare.
+
 User-agent: *
 Allow: /
 
+# Stylesheets and scripts must stay crawlable: Google renders the page
+# before judging it, and a page whose CSS and JS it cannot fetch is
+# judged on the wreckage.
 Disallow: /assets/
 Allow: /assets/blog/
-Disallow: /css/
-Disallow: /js/
 Disallow: /admin/
 Disallow: /includes/
 Disallow: /content/
+Disallow: /docs/
+
+User-agent: Googlebot
+Allow: /
+Disallow: /assets/
+Allow: /assets/blog/
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /content/
+Disallow: /docs/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /assets/
+Allow: /assets/blog/
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /content/
+Disallow: /docs/
 
 Sitemap: https://thebrix.io/sitemap.xml

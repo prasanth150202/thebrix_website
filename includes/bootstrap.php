@@ -16,8 +16,18 @@ define('BRIX_INCLUDES', __DIR__);
 // already using, so converting a page to PHP does not silently change
 // which cached copy a returning visitor gets.
 define('ASSET_CSS_VER', '29');
-define('ASSET_JS_VER', '8');
+define('ASSET_JS_VER', '9');
 define('ASSET_UTM_VER', '2');
+
+/**
+ * The floating "Ask Brix AI" launcher.
+ *
+ * It talks to /api/chat, which .htaccess leaves for the Node deployment
+ * to answer. Where that is not running the endpoint falls through to the
+ * 404 page, so the widget invites a question and then fails on it. Off
+ * until the backend answers; flip to true once it does.
+ */
+define('BRIX_CHAT_ENABLED', false);
 
 define('SITE_URL', 'https://thebrix.io');
 define('SHOPIFY_APP_URL', 'https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&utm_medium=Organic&utm_campaign=Website_Tracking&utm_id=Website');

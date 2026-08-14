@@ -774,6 +774,12 @@ document.getElementById('newsForm')?.addEventListener('submit', async e => {
 /* ---------- floating Brix AI chat widget (site-wide) ---------- */
 
 (function brixChat() {
+  /* Only mount where /api/chat is actually answering. The launcher is an
+     invitation to ask a question, and a launcher that opens onto an error
+     is worse than no launcher at all, so this stays closed unless the page
+     says otherwise: BRIX_CHAT_ENABLED in includes/bootstrap.php. */
+  if (!window.BRIX_CHAT) return;
+
   if (document.querySelector('.bx-launcher')) return;
 
   const QA = [

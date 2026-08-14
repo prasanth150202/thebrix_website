@@ -56,6 +56,11 @@ require BRIX_INCLUDES . '/header.php';
         <div class="blog-body">
           <h2 class="blog-title"><?= e($p['title']) ?></h2>
           <p class="blog-excerpt"><?= e((string) $p['excerpt']) ?></p>
+          <div class="blog-meta">
+            <span><?= e(date('M j, Y', strtotime((string) $p['date_published']))) ?></span>
+            <span class="blog-dot"></span>
+            <span><?= (int) $p['read_minutes'] ?> min read</span>
+          </div>
           <span class="blog-more">Read article &rarr;</span>
         </div>
       </a>

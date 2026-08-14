@@ -2570,9 +2570,8 @@ body.has-preview-bar .cs-article h3[id] {
 .blog-excerpt,
 .cs-sum { font-size: .93rem; color: var(--ink-2); flex: 1; line-height: 1.6; }
 
-/* The date and read-time line on a post card. Kept for the article pages
-   and for blog.php, which has the date and read time in the database but
-   does not currently print them; case study cards never had one. */
+/* The date and read-time line on a post card. Case study cards have no
+   equivalent: they never carried a date. */
 .blog-meta {
   display: flex;
   align-items: center;
