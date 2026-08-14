@@ -98,23 +98,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $url = 'https://' . $url;
                 }
 
-                $stmt = db()->prepare(
-                    /* One row per person. Writing in a second time
-                       replaces what they said rather than queueing a
-                       duplicate, and clears read_at so the updated
-                       enquiry comes back as unread. created_at is left
-                       alone: it is when they first got in touch. */
-                    'INSERT INTO contact_submissions (name, email, store_url, message, ip, user_agent)
-                     VALUES (:n, :e, :u, :m, :ip, :ua)
-                     ON DUPLICATE KEY UPDATE
-                        name       = :n2,
-                        store_url  = :u2,
-                        message    = :m2,
-                        ip         = :ip2,
-                        user_agent = :ua2,
-                        updated_at = NOW(),
-                        read_at    = NULL'
-                );
+                /* One row per person. Writing in a second time replaces
+                   what they said rather than queueing a duplicate, and
+                   clears read_at so the updated enquiry comes back as
+                   unread. created_at is left alone: it is when they
+                   first got in touch. */
+                $sql = 'INSERT INTO contact_submissions (name, email, store_url, message, ip, user_agent)
+                        VALUES (:n, :e, :u, :m, :ip, :ua)
+                        ON DUPLICATE KEY UPDATE
+                           name       = :n2,
+                           store_url  = :u2,
+                           message    = :m2,
+                           ip         = :ip2,
+                           user_agent = :ua2,
+                           updated_at = NOW(),
+                           read_at    = NULL';
 
                 $name      = mb_substr($values['name'], 0, 120);
                 $storeUrl  = mb_substr($url, 0, 255);
@@ -122,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $ip        = client_ip();
                 $userAgent = mb_substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 255);
 
-                $stmt->execute([
+                $params = [
                     ':n'   => $name,
                     ':e'   => mb_substr($values['email'], 0, 190),
                     ':u'   => $storeUrl,
@@ -134,7 +132,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':m2'  => $message,
                     ':ip2' => $ip,
                     ':ua2' => $userAgent,
-                ]);
+                ];
+
+                try {
+                    db()->prepare($sql)->execute($params);
+                } catch (PDOException) {
+                    /* The columns this needs are added by the upgrade
+                       that runs when an admin next signs in. Between a
+                       deploy and that moment the enquiry would simply be
+                       lost, which is the one thing a lead form must not
+                       do, so bring the schema forward and try once more.
+                       The prepare has to be inside the retry: emulated
+                       prepares are off, so an unknown column fails there
+                       rather than at execute. */
+                    require_once BRIX_INCLUDES . '/schema.php';
+                    brix_upgrade_schema(db());
+                    db()->prepare($sql)->execute($params);
+                }
 
                 $sent   = true;
                 $values = ['name' => '', 'email' => '', 'store_url' => '', 'message' => ''];

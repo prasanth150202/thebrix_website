@@ -122,6 +122,19 @@ function brix_schema_statements(): array
  * exists, so a column added to the definition above has to be listed
  * here as well or an established database never gets it.
  */
+/**
+ * Bump this whenever brix_added_columns() or brix_added_indexes() gains
+ * an entry.
+ *
+ * The admin panel remembers that it has checked the schema so it does
+ * not re-check on every page view, and it used to remember that in a
+ * way a deploy could not clear: an admin whose session predated the
+ * deploy skipped the upgrade entirely and then hit pages querying
+ * columns the database did not have. The session now records which
+ * version it checked, so a bump here invalidates it everywhere.
+ */
+define('BRIX_SCHEMA_VERSION', 2);
+
 function brix_added_columns(): array
 {
     return [
