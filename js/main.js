@@ -739,7 +739,11 @@ document.getElementById('newsForm')?.addEventListener('submit', async e => {
   });
 
   try {
-    const res = await fetch('newsletter-subscribe.php', {
+    /* Posted to /memo, not to anything with "newsletter" or "subscribe"
+       in the path: those match the annoyance filter lists, so Brave
+       Shields and uBlock cancel the request before it is sent and the
+       signup is lost. The name has to stay boring for that reason. */
+    const res = await fetch('/memo', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body

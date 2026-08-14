@@ -1,10 +1,18 @@
 <?php
 /**
- * Newsletter signup endpoint.
+ * Newsletter signup endpoint, deliberately named after the memo rather
+ * than after what it does.
  *
- * Until now the footer form only pretended to work: main.js disabled
- * the input and showed the confirmation without sending anything
- * anywhere, so every address entered was lost. This stores them.
+ * It used to be newsletter-subscribe.php, and paths containing
+ * "newsletter" or "subscribe" are on the annoyance filter lists that
+ * Brave Shields, uBlock and AdBlock ship with. The request was being
+ * cancelled in the browser before it was ever sent, so signups from
+ * anyone running a blocker were lost in silence. Keep this name boring.
+ *
+ * Until recently the footer form only pretended to work: main.js
+ * disabled the input and showed the confirmation without sending
+ * anything anywhere, so every address entered was lost. This stores
+ * them.
  *
  * Re-subscribing with an address already on the list is treated as
  * success rather than an error, both because it is what the person

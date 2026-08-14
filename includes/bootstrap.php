@@ -16,7 +16,7 @@ define('BRIX_INCLUDES', __DIR__);
 // already using, so converting a page to PHP does not silently change
 // which cached copy a returning visitor gets.
 define('ASSET_CSS_VER', '28');
-define('ASSET_JS_VER', '7');
+define('ASSET_JS_VER', '8');
 define('ASSET_UTM_VER', '2');
 
 define('SITE_URL', 'https://thebrix.io');

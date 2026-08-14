@@ -36,6 +36,12 @@ DirectoryIndex index.php
   # sitemap.xml is generated from the database.
   RewriteRule ^sitemap\.xml$ sitemap.php [L]
 
+  # The newsletter endpoint was renamed to /memo because ad blockers
+  # cancel requests to paths containing "newsletter". A browser holding
+  # a cached copy of the older main.js still posts to the old address,
+  # so keep it working rather than dropping those signups.
+  RewriteRule ^newsletter-subscribe\.php$ memo.php [L]
+
   # Real files and directories (css, js, images, /admin/) win.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
