@@ -15,7 +15,7 @@ define('BRIX_INCLUDES', __DIR__);
 // Asset cache-busting versions. These match what the static pages were
 // already using, so converting a page to PHP does not silently change
 // which cached copy a returning visitor gets.
-define('ASSET_CSS_VER', '28');
+define('ASSET_CSS_VER', '29');
 define('ASSET_JS_VER', '8');
 define('ASSET_UTM_VER', '2');
 

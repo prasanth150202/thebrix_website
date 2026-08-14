@@ -2387,41 +2387,11 @@ body.has-preview-bar .cs-article h3[id] {
 
 /* ---------- case studies page ---------- */
 
-/* The cards run on the same system as the blog grid (.blog-card and friends,
-   grouped with the .cs-* names further down) so both index pages read as one
-   family. What follows is only the part a case study adds: the store's
-   headline lift, sitting on the gradient shot. */
-
-.cs-lift {
-  position: absolute;
-  left: 18px;
-  bottom: 17px;
-  z-index: 1;
-  color: #fff;
-}
-.cs-lift b {
-  display: block;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 2.05rem;
-  line-height: 1;
-  letter-spacing: -.02em;
-  text-shadow: 0 10px 20px rgba(0, 0, 0, .2);
-}
-.cs-lift small {
-  display: block;
-  margin-top: 8px;
-  font-size: .67rem;
-  font-weight: 700;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, .84);
-}
-
-/* before → after figures sit where a post puts its date */
-.cs-figs { display: inline-flex; align-items: baseline; gap: 7px; }
-.cs-figs b { font-weight: 700; color: var(--ink-2); }
-.cs-figs i { font-style: normal; }
+/* The cards are the blog card system exactly (.blog-card and friends, grouped
+   with the .cs-* names further down), so this page has no styles of its own.
+   A case study card used to carry the store's lift figure on the gradient and
+   its before/after pair in the body, but a post in the database has no fields
+   to hold either, so both are gone rather than left as rules nothing sets. */
 
 /* ---------- case study article page ---------- */
 
@@ -2600,8 +2570,10 @@ body.has-preview-bar .cs-article h3[id] {
 .blog-excerpt,
 .cs-sum { font-size: .93rem; color: var(--ink-2); flex: 1; line-height: 1.6; }
 
-.blog-meta,
-.cs-meta {
+/* The date and read-time line on a post card. Kept for the article pages
+   and for blog.php, which has the date and read time in the database but
+   does not currently print them; case study cards never had one. */
+.blog-meta {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -2610,8 +2582,7 @@ body.has-preview-bar .cs-article h3[id] {
   font-weight: 600;
   color: var(--ink-3);
 }
-.blog-dot,
-.cs-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-3); flex: none; }
+.blog-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-3); flex: none; }
 
 .blog-more,
 .cs-go { font-size: .86rem; font-weight: 700; color: var(--brand); margin-top: 2px; }
