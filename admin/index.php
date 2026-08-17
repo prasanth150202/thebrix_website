@@ -68,7 +68,7 @@ admin_head('Posts', $user, 'posts');
         <tr>
           <td>
             <a class="ad-title" href="post-edit.php?id=<?= (int) $p['id'] ?>"><?= e($p['title']) ?></a>
-            <span class="ad-slug"><?= e($p['slug']) ?></span>
+            <span class="ad-slug"><?= e(slug_path($p["slug"])) ?></span>
           </td>
           <td><span class="ad-pill ad-pill-<?= $p['type'] === 'blog' ? 'blog' : 'case' ?>">
               <?= $p['type'] === 'blog' ? 'Blog' : 'Case study' ?></span></td>
@@ -108,7 +108,7 @@ admin_head('Posts', $user, 'posts');
         <tbody>
         <?php foreach ($binned as $p): ?>
           <tr>
-            <td><?= e($p['title']) ?><span class="ad-slug"><?= e($p['slug']) ?></span></td>
+            <td><?= e($p['title']) ?><span class="ad-slug"><?= e(slug_path($p["slug"])) ?></span></td>
             <td class="ad-nowrap"><?= e(format_post_date($p['deleted_at'])) ?></td>
             <td class="ad-r ad-actions">
               <form method="post" action="post-delete.php" class="ad-inline">

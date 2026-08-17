@@ -60,8 +60,19 @@ function post_slug_prefix(string $type): string
  */
 function post_url(array $post): string
 {
-    $slug = (string) $post['slug'];
+    return slug_path((string) $post['slug']);
+}
 
+/**
+ * The public address a stored slug resolves to.
+ *
+ * Separate from post_url() because the admin needs this before there is
+ * a post to pass: while a new one is being written, the slug exists only
+ * as a candidate string. Wherever the panel shows someone an address, it
+ * has to be the address they will actually get.
+ */
+function slug_path(string $slug): string
+{
     // Root-relative, because an article now sits a level down: a link
     // written relative to /blog/cart-upsell-examples would resolve
     // against /blog/ and point at a page that does not exist.

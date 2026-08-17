@@ -308,7 +308,7 @@ admin_head($post ? 'Edit post' : 'New post', $user, 'posts');
         <?php if ($post === null): ?>
           Not saved yet &middot; saves as a draft automatically
         <?php elseif ($post['status'] === 'published'): ?>
-          Live at <a href="<?= e(post_url($post)) ?>" target="_blank" rel="noopener"><?= e($post['slug']) ?></a>
+          Live at <a href="<?= e(post_url($post)) ?>" target="_blank" rel="noopener"><?= e(SITE_URL . post_url($post)) ?></a>
           &middot; <a href="post-download.php?id=<?= (int) $post['id'] ?>">download .md</a>
         <?php else: ?>
           Draft, not public
@@ -356,7 +356,7 @@ admin_head($post ? 'Edit post' : 'New post', $user, 'posts');
 
           <div class="ad-field">
             <span class="ad-label">Web address</span>
-            <p class="ad-permalink" id="fPermalink"><?= e(SITE_URL) ?>/<b><?= e($form['slug']) ?></b></p>
+            <p class="ad-permalink" id="fPermalink"><?= e(SITE_URL) ?><b><?= $form['slug'] !== '' ? e(slug_path($form['slug'])) : '/...' ?></b></p>
             <span class="ad-hint">
               <?php if ($post !== null): ?>
                 Fixed once a post is created, so links and search results pointing at it
@@ -404,7 +404,7 @@ admin_head($post ? 'Edit post' : 'New post', $user, 'posts');
 
           <!-- Shows the effective values, so an empty box is never a mystery. -->
           <div class="ad-serp">
-            <span class="ad-serp-url"><?= e(SITE_URL) ?>/<?= e($form['slug'] ?: '...') ?></span>
+            <span class="ad-serp-url"><?= e(SITE_URL) ?><?= $form['slug'] !== '' ? e(slug_path($form['slug'])) : '/...' ?></span>
             <span class="ad-serp-title" id="serpTitle"></span>
             <span class="ad-serp-desc" id="serpDesc"></span>
           </div>
@@ -598,9 +598,12 @@ admin_head($post ? 'Edit post' : 'New post', $user, 'posts');
   }
   function syncSlug() {
     if (slugLocked) return;
-    var prefix = typeSel.value === 'case_study' ? 'case-study-' : 'blog-';
+    /* The section is a path segment in the address even though it is a
+       prefix in the stored slug, so this previews /blog/x rather than
+       the blog-x that goes into the database. */
+    var section = typeSel.value === 'case_study' ? '/case-study/' : '/blog/';
     var base = slugifyJs(title.value || '');
-    permalink.innerHTML = SITE + '/<b>' + (base ? prefix + base : '...') + '</b>';
+    permalink.innerHTML = SITE + '<b>' + (base ? section + base : '/...') + '</b>';
     syncSerp();
   }
   typeSel.addEventListener('change', syncSlug);
