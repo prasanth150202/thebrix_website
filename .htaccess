@@ -15,9 +15,11 @@ DirectoryIndex index.php
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # /api/ is served by the Node deployment, not PHP. Leave it entirely
-  # alone so nothing here can change how it behaves.
-  RewriteRule ^api/ - [L]
+  # The chat backend. This path was reserved for a Node deployment that was
+  # never running here, which is why the launcher sat switched off; it is a
+  # PHP handler on this host now. Kept above the redirects below so an API
+  # request can never be caught by one of them.
+  RewriteRule ^api/chat/?$ api/chat.php [L]
 
   # ----- 1. permanent redirects for the old addresses -----
   # Matched against the literal request line, so these only fire for a

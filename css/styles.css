@@ -3694,6 +3694,10 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
 @keyframes bxblink { 0%, 60%, 100% { opacity: .25; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
 
 .bx-foot { border-top: 1px solid var(--line); padding: 10px 12px; background: #fff; }
+/* In "partial" mode the footer holds only the note, and the gap that
+   separates it from the input row would read as a stray indent. */
+.bx-foot > .bx-note:only-child { margin-top: 0; }
+
 .bx-inputrow { display: flex; align-items: center; gap: 8px; }
 .bx-input {
   flex: 1;
@@ -3724,6 +3728,10 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
 }
 .bx-send:hover { background: var(--brand-deep); transform: scale(1.05); }
 .bx-note { text-align: center; font-size: .66rem; color: var(--ink-3); margin-top: 7px; }
+/* Inherit the note's colour rather than the site link blue: this is fine
+   print, not a call to action competing with the send button. */
+.bx-note a { color: inherit; text-decoration: underline; }
+.bx-note a:hover { color: var(--ink-2); }
 
 @media (max-width: 480px) {
   .bx-launcher { right: 14px; bottom: 14px; padding: 13px; }

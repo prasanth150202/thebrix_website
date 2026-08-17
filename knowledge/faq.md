@@ -67,3 +67,27 @@ $ interchangeably for illustration.
 
 **Q: Can I export my analytics?**
 A: Analytics are viewable in-dashboard with date-range filtering and comparison views.
+
+**Q: Does BRIX work with WooCommerce?**
+A: No. BRIX is exclusively a Shopify app. It is not compatible with WooCommerce, BigCommerce,
+Wix, Squarespace, Magento, or any other ecommerce platform. BRIX works only with Shopify stores
+running an Online Store 2.0 theme. If you have a WooCommerce, BigCommerce, Wix, or Squarespace
+store, BRIX cannot be installed there.
+
+**Q: Is BRIX compatible with BigCommerce, Wix, Squarespace, or Magento?**
+A: No. BRIX only works with Shopify. It is not available for BigCommerce, Wix, Squarespace,
+Magento, or any non-Shopify platform.
+
+**Q: What platform does BRIX support?**
+A: BRIX supports Shopify only. Specifically, it requires a Shopify store running an
+Online Store 2.0 theme with the app embed system enabled. It does not support WooCommerce,
+BigCommerce, Wix, Squarespace, Magento, or headless/custom storefronts outside Shopify.
+
+**Q: Does BRIX work with headless Shopify stores?**
+A: BRIX uses Shopify's app embed system which is designed for standard Online Store 2.0 themes.
+Headless Shopify setups may not be compatible. Contact support@thebrix.io to discuss your
+specific setup.
+
+**Q: Can I install BRIX on a non-Shopify store?**
+A: No. BRIX is a Shopify-only app and cannot be installed on any platform other than Shopify.
+If you need help with a Shopify migration or have questions, email support@thebrix.io.

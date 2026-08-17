@@ -774,11 +774,23 @@ document.getElementById('newsForm')?.addEventListener('submit', async e => {
 /* ---------- floating Brix AI chat widget (site-wide) ---------- */
 
 (function brixChat() {
-  /* Only mount where /api/chat is actually answering. The launcher is an
-     invitation to ask a question, and a launcher that opens onto an error
-     is worse than no launcher at all, so this stays closed unless the page
-     says otherwise: BRIX_CHAT_ENABLED in includes/bootstrap.php. */
+  /* Set by BRIX_CHAT_ENABLED in includes/bootstrap.php, which see:
+
+       true        full assistant - a text box posting to /api/chat, with the
+                   common questions offered once as an opener
+       "partial"   no text box. The questions below are the whole interface,
+                   so they come back after every answer
+       false       no launcher
+
+     In "partial" every answer is written here and nothing is requested, so
+     the panel is unaffected by whatever the backend's quota is doing.
+
+     Adding a question means adding a { q, a } pair below. Keep answers
+     factual and in plain sentences; they are written into the panel as HTML,
+     so any markup in them renders. */
   if (!window.BRIX_CHAT) return;
+
+  const FAQ_ONLY = window.BRIX_CHAT === 'partial';
 
   if (document.querySelector('.bx-launcher')) return;
 
@@ -797,7 +809,9 @@ document.getElementById('newsForm')?.addEventListener('submit', async e => {
       a: 'Brix removes itself cleanly with no leftover code in your theme. Export your discounts and analytics first, and your store is exactly as it was.' }
   ];
 
-  const GREETING = 'Hi! I’m Brix AI 👋 Ask me anything about growing your Shopify AOV, or tap a common question below.';
+  const GREETING = FAQ_ONLY
+    ? 'Hi! I’m Brix AI 👋 Tap any question below and I’ll answer it straight away.'
+    : 'Hi! I’m Brix AI 👋 Ask me anything about growing your Shopify AOV, or tap a common question below.';
   const FALLBACK = 'Sorry, Brix AI is temporarily unavailable. Please try again in a moment, or email <b>support@thebrix.io</b> and a human will help.';
 
   const escapeHtml = str => str.replace(/[&<>"']/g, ch => ({
@@ -831,11 +845,15 @@ document.getElementById('newsForm')?.addEventListener('submit', async e => {
     '</div>' +
     '<div class="bx-body" id="bxBody"></div>' +
     '<div class="bx-foot">' +
-      '<div class="bx-inputrow">' +
-        '<input class="bx-input" id="bxInput" type="text" placeholder="Ask about AOV, upsells, pricing…" aria-label="Type your question">' +
-        '<button class="bx-send" id="bxSend" type="button" aria-label="Send message"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>' +
-      '</div>' +
-      '<p class="bx-note">Answers are generated from BRIX documentation</p>' +
+      (FAQ_ONLY ? '' :
+        '<div class="bx-inputrow">' +
+          '<input class="bx-input" id="bxInput" type="text" placeholder="Ask about AOV, upsells, pricing…" aria-label="Type your question">' +
+          '<button class="bx-send" id="bxSend" type="button" aria-label="Send message"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>' +
+        '</div>') +
+      '<p class="bx-note">' + (FAQ_ONLY
+        ? 'Can’t see your question? Email <a href="mailto:support@thebrix.io">support@thebrix.io</a> and a human will help.'
+        : 'Brix AI can make mistakes. For anything important, email <a href="mailto:support@thebrix.io">support@thebrix.io</a>.') +
+      '</p>' +
     '</div>';
 
   document.body.appendChild(launcher);
@@ -878,7 +896,12 @@ document.getElementById('newsForm')?.addEventListener('submit', async e => {
   };
 
   const aiReply = html => {
-    const done = () => { addMsg(html, 'ai'); renderSuggests(); };
+    /* Only loop the chips where they are the only way to ask anything;
+       without them that panel would dead-end after one question. With a text
+       box present they are an opener, and re-rendering them under every
+       answer pushes the answer up and re-asks someone who has moved past
+       them. */
+    const done = () => { addMsg(html, 'ai'); if (FAQ_ONLY) renderSuggests(); };
     if (REDUCED) { done(); return; }
     const t = document.createElement('div');
     t.className = 'bx-typing';
@@ -906,7 +929,7 @@ document.getElementById('newsForm')?.addEventListener('submit', async e => {
     document.body.classList.add('bx-open');
     launcher.querySelector('.bx-launcher-dot')?.remove();
     seed();
-    setTimeout(() => input.focus(), 260);
+    if (input) setTimeout(() => input.focus(), 260);
   };
   const close = () => document.body.classList.remove('bx-open');
 
@@ -915,6 +938,9 @@ document.getElementById('newsForm')?.addEventListener('submit', async e => {
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && document.body.classList.contains('bx-open')) close();
   });
+
+  /* Everything below drives the text box, which only exists in full mode. */
+  if (FAQ_ONLY) return;
 
   const askRemote = async question => {
     removeSuggests();
@@ -949,7 +975,6 @@ document.getElementById('newsForm')?.addEventListener('submit', async e => {
       sendBtn.disabled = false;
       if (t.parentNode) t.remove();
       addMsg(html, 'ai');
-      renderSuggests();
       input.focus();
     }
   };
@@ -958,14 +983,17 @@ document.getElementById('newsForm')?.addEventListener('submit', async e => {
     const val = input.value.trim();
     if (!val || input.disabled) return;
     input.value = '';
-    const v = val.toLowerCase();
-    const hit = QA.find(item =>
-      item.q.toLowerCase().replace(/[^a-z ]/g, '').split(' ')
-        .filter(w => w.length > 3).some(w => v.includes(w))
-    );
-    if (hit) { ask(val, hit.a); return; }
+    /* Everything typed goes to the backend. The shortcut that used to sit
+       here answered from the QA list above whenever the question shared a
+       single word of more than three characters with one of them, matched as
+       a substring — so "my app isnt working" found "work" inside "Does it
+       work with my theme?" and a merchant reporting a bug was answered with
+       theme compatibility. The backend covers all six of those questions and
+       reads the whole sentence rather than one word of it. The chips still
+       answer instantly, because there the question really is known. */
     askRemote(val);
   };
+
   sendBtn.addEventListener('click', send);
   input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
 })();

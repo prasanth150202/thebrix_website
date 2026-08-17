@@ -1,5 +1,25 @@
 # Troubleshooting
 
+## The app is not working, or a feature is broken - how to fix it
+
+Start here when something is wrong and it is not obvious which feature is at fault. Most
+reports of a bug, or of BRIX being broken, buggy, or not loading at all, come down to one
+of these four. They are worth checking in this order.
+
+1. **The app embed is off.** Online Store → Themes → Customize → App embeds → turn BRIX
+   on, then Save. This is by far the most common cause: settings save correctly inside
+   BRIX and still do nothing on the storefront until the embed is enabled.
+2. **The theme is not an Online Store 2.0 theme.** Legacy pre-2.0 themes are not
+   supported, so BRIX cannot appear on them.
+3. **The feature requires a paid plan.** On the Free plan most features can be fully
+   configured and previewed, but they do not publish to the live store.
+4. **The change was not saved, or you are looking at the preview.** Save in BRIX, then
+   check the live storefront rather than the theme editor preview.
+
+If none of those is the problem, the issue is more likely a genuine error than a setting.
+Email support@thebrix.io describing what you expected to happen and what happened
+instead — that is the fastest route to a fix.
+
 ## Nothing appears on my storefront after saving changes
 
 Confirm the BRIX app embed is turned on in your theme editor (Online Store → Themes →

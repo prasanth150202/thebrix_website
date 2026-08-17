@@ -1,0 +1,8 @@
+# Only chat.php is meant to be requested here, and PHP is executed rather
+# than served. Anything else in this directory would be handed to the browser
+# as plain text: the Node handlers that used to live here carried the whole
+# system prompt and topic list, and a stray .md or .json would do the same.
+# They are gone now, so this is defence in depth rather than a live fix.
+<FilesMatch "\.(?i:js|json|md)$">
+  Require all denied
+</FilesMatch>

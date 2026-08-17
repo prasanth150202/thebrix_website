@@ -101,7 +101,9 @@ if ($footer_col3 === 'blog' || $footer_col3 === 'case-studies') {
 
 <script src="/js/vendor/gsap.min.js"></script>
 <script src="/js/vendor/ScrollTrigger.min.js"></script>
-<script>window.BRIX_CHAT = <?= BRIX_CHAT_ENABLED ? 'true' : 'false' ?>;</script>
+<?php /* true, false or "partial" - json_encode rather than a ternary, which
+         would flatten the truthy "partial" into true. */ ?>
+<script>window.BRIX_CHAT = <?= json_encode(BRIX_CHAT_ENABLED) ?>;</script>
 <script src="/js/main.js?v=<?= ASSET_JS_VER ?>"></script>
 <?= $page_scripts ?>
 </body>

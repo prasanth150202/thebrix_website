@@ -15,19 +15,36 @@ define('BRIX_INCLUDES', __DIR__);
 // Asset cache-busting versions. These match what the static pages were
 // already using, so converting a page to PHP does not silently change
 // which cached copy a returning visitor gets.
-define('ASSET_CSS_VER', '29');
-define('ASSET_JS_VER', '9');
+define('ASSET_CSS_VER', '32');
+define('ASSET_JS_VER', '14');
 define('ASSET_UTM_VER', '2');
 
 /**
- * The floating "Ask Brix AI" launcher.
+ * The floating "Ask Brix AI" launcher. Three settings:
  *
- * It talks to /api/chat, which .htaccess leaves for the Node deployment
- * to answer. Where that is not running the endpoint falls through to the
- * 404 page, so the widget invites a question and then fails on it. Off
- * until the backend answers; flip to true once it does.
+ *   true        Full assistant. A text box posts to /api/chat, which is
+ *               api/chat.php: a classifier over the 58 curated answers in
+ *               api/answers.php, falling back to retrieval over knowledge/
+ *               for questions nobody pre-wrote. The common questions are
+ *               offered once as an opener and do not return, because there
+ *               a visitor who has started typing has moved past them.
+ *
+ *   'partial'   No text box. The common questions are the whole interface,
+ *               so they come back after every answer. Every answer is
+ *               written by hand in js/main.js and no request leaves the
+ *               visitor's page, so this mode costs nothing to run and
+ *               cannot answer wrongly.
+ *
+ *   false       No launcher at all.
+ *
+ * Currently 'partial'. The backend is finished and correct, but both of its
+ * stages run on OpenRouter's free tier, which allows 50 requests a day per
+ * account and 20 a minute; a live text box spent the day's allowance by
+ * mid-morning and then told every visitor it was unavailable. Buying 10
+ * credits once raises that to 1000 a day and is not consumed by these models,
+ * which is the one step between here and true. See docs/brix-ai.md.
  */
-define('BRIX_CHAT_ENABLED', false);
+define('BRIX_CHAT_ENABLED', 'partial');
 
 define('SITE_URL', 'https://thebrix.io');
 define('SHOPIFY_APP_URL', 'https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&utm_medium=Organic&utm_campaign=Website_Tracking&utm_id=Website');
