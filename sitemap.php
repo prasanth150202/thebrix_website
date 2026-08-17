@@ -69,14 +69,14 @@ foreach ($static as $p) {
 if ($cases) {
     echo "\n  <!-- Case studies -->\n";
     foreach ($cases as $p) {
-        $url($p['slug'], (string) $p['date_published'], 'monthly', '0.7');
+        $url(ltrim(post_url($p), '/'), (string) $p['date_published'], 'monthly', '0.7');
     }
 }
 
 if ($blog) {
     echo "\n  <!-- Blog -->\n";
     foreach ($blog as $p) {
-        $url($p['slug'], (string) $p['date_published'], 'monthly', '0.7');
+        $url(ltrim(post_url($p), '/'), (string) $p['date_published'], 'monthly', '0.7');
     }
 }
 

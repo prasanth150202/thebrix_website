@@ -23,6 +23,17 @@ DirectoryIndex index.php
   # Matched against the literal request line, so these only fire for a
   # real inbound request and never for the internal rewrites below.
 
+  # Articles are nested now: /blog/cart-upsell-examples rather than
+  # /blog-cart-upsell-examples. Both older forms of every article address
+  # are redirected here, and the .html form goes straight to the final
+  # address rather than through the flat one, so no visitor and no
+  # crawler is ever sent through two redirects to read one page.
+  RewriteCond %{THE_REQUEST} "\s/blog-[^?\s]+\.html[?\s]" [NC]
+  RewriteRule ^blog-([a-z0-9-]+)\.html$ /blog/$1 [R=301,L]
+
+  RewriteCond %{THE_REQUEST} "\s/case-study-[^?\s]+\.html[?\s]" [NC]
+  RewriteRule ^case-study-([a-z0-9-]+)\.html$ /case-study/$1 [R=301,L]
+
   # /index.html -> /
   RewriteCond %{THE_REQUEST} "\s/index\.html[?\s]" [NC]
   RewriteRule ^index\.html$ / [R=301,L]
@@ -30,6 +41,11 @@ DirectoryIndex index.php
   # /anything.html -> /anything
   RewriteCond %{THE_REQUEST} "\s/([^?\s]+)\.html[?\s]" [NC]
   RewriteRule ^(.+)\.html$ /$1 [R=301,L]
+
+  # The flat addresses these pages carried between the CMS migration and
+  # the move to nested URLs.
+  RewriteRule ^blog-([a-z0-9-]+)/?$ /blog/$1 [R=301,L]
+  RewriteRule ^case-study-([a-z0-9-]+)/?$ /case-study/$1 [R=301,L]
 
   # ----- 2. things that must be served as they are -----
 
@@ -49,11 +65,12 @@ DirectoryIndex index.php
 
   # ----- 3. internal routing -----
 
-  # Articles come out of the posts table. The slug stored in the
-  # database is the old filename stem, so /blog-cart-upsell-examples
-  # resolves to the same article it always did.
-  RewriteRule ^(blog-[a-z0-9-]+)/?$ article.php?slug=$1 [L,QSA]
-  RewriteRule ^(case-study-[a-z0-9-]+)/?$ article.php?slug=$1 [L,QSA]
+  # Articles come out of the posts table, keyed by the slug stored there,
+  # which is still the old filename stem. The address drops the prefix
+  # into a path segment, so /blog/cart-upsell-examples is put back
+  # together as the slug blog-cart-upsell-examples before the lookup.
+  RewriteRule ^blog/([a-z0-9-]+)/?$ article.php?slug=blog-$1 [L,QSA]
+  RewriteRule ^case-study/([a-z0-9-]+)/?$ article.php?slug=case-study-$1 [L,QSA]
 
   # Ordinary pages: /pricing -> pricing.php, but only when that file
   # actually exists, so a genuinely missing page still 404s.

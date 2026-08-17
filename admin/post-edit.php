@@ -308,7 +308,7 @@ admin_head($post ? 'Edit post' : 'New post', $user, 'posts');
         <?php if ($post === null): ?>
           Not saved yet &middot; saves as a draft automatically
         <?php elseif ($post['status'] === 'published'): ?>
-          Live at <a href="../<?= e($post['slug']) ?>" target="_blank" rel="noopener"><?= e($post['slug']) ?></a>
+          Live at <a href="<?= e(post_url($post)) ?>" target="_blank" rel="noopener"><?= e($post['slug']) ?></a>
           &middot; <a href="post-download.php?id=<?= (int) $post['id'] ?>">download .md</a>
         <?php else: ?>
           Draft, not public

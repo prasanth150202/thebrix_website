@@ -46,22 +46,42 @@ function post_slug_prefix(string $type): string
 }
 
 /**
- * Public URL for a post, e.g. blog-cart-upsell-examples
+ * Public URL for a post, e.g. blog/cart-upsell-examples
  *
- * URLs are extensionless. The slug column still stores the original
- * filename stem, so the address a post had as a static .html file is
- * the same one it has now, minus the extension, and .htaccess
- * permanently redirects the old form to this one.
+ * The slug column still stores the original filename stem
+ * (blog-cart-upsell-examples), because that stem is the post's identity
+ * everywhere else: it is what migrate.php matches on, what the admin
+ * shows, and what .htaccess hands back to article.php. Only the public
+ * address is nested, and only here, so nothing else has to know that the
+ * address and the slug have parted ways.
+ *
+ * Both older forms of the address, the flat one and the .html one it had
+ * as a static page, are permanently redirected to this by .htaccess.
  */
 function post_url(array $post): string
 {
-    return $post['slug'];
+    $slug = (string) $post['slug'];
+
+    // Root-relative, because an article now sits a level down: a link
+    // written relative to /blog/cart-upsell-examples would resolve
+    // against /blog/ and point at a page that does not exist.
+    foreach (['case-study-' => '/case-study/', 'blog-' => '/blog/'] as $prefix => $path) {
+        if (str_starts_with($slug, $prefix)) {
+            return $path . substr($slug, strlen($prefix));
+        }
+    }
+
+    // A slug that carries neither prefix should not exist, but if one is
+    // ever hand-written it is better linked flat than linked wrongly.
+    return '/' . $slug;
 }
 
 /** Listing page a post belongs to. */
 function post_index_url(string $type): string
 {
-    return $type === 'case_study' ? 'case-studies' : 'blog';
+    // Root-relative for the same reason post_url() is: the back link is
+    // rendered on an article, which sits a level down.
+    return $type === 'case_study' ? '/case-studies' : '/blog';
 }
 
 /**

@@ -46,7 +46,7 @@ require BRIX_INCLUDES . '/header.php';
     <div class="blog-grid">
 
 <?php foreach ($posts as $i => $p): ?>
-      <a class="blog-card reveal"<?= $i > 0 ? ' style="--d:.' . str_pad((string) ($i * 6), 2, '0', STR_PAD_LEFT) . 's"' : '' ?> href="<?= e($p['slug']) ?>">
+      <a class="blog-card reveal"<?= $i > 0 ? ' style="--d:.' . str_pad((string) ($i * 6), 2, '0', STR_PAD_LEFT) . 's"' : '' ?> href="<?= e(post_url($p)) ?>">
         <div class="blog-shot <?= e($p['card_gradient']) ?>">
 <?php if ($p['category'] !== ''): ?>
           <span class="blog-cat"><?= e($p['category']) ?></span>

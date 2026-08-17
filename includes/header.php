@@ -24,11 +24,11 @@ $page_robots      = $page_robots      ?? null;
 $page_body_class  = $page_body_class  ?? '';
 
 $nav_items = [
-    'features'     => ['href' => 'features',     'label' => 'Features'],
-    'pricing'      => ['href' => 'pricing',      'label' => 'Pricing'],
-    'case-studies' => ['href' => 'case-studies', 'label' => 'Case studies'],
-    'blog'         => ['href' => 'blog',         'label' => 'Blog'],
-    'how-to'       => ['href' => 'how-to',       'label' => 'Guides'],
+    'features'     => ['href' => '/features',     'label' => 'Features'],
+    'pricing'      => ['href' => '/pricing',      'label' => 'Pricing'],
+    'case-studies' => ['href' => '/case-studies', 'label' => 'Case studies'],
+    'blog'         => ['href' => '/blog',         'label' => 'Blog'],
+    'how-to'       => ['href' => '/how-to',       'label' => 'Guides'],
 ];
 ?>
 <!DOCTYPE html>
@@ -55,7 +55,7 @@ $nav_items = [
     gtag('js', new Date());
     gtag('config', 'G-23RTZ99F2K');
   </script>
-  <script src="js/utm.js?v=<?= ASSET_UTM_VER ?>"></script>
+  <script src="/js/utm.js?v=<?= ASSET_UTM_VER ?>"></script>
   <!-- Microsoft Clarity -->
   <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -76,8 +76,8 @@ $nav_items = [
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=<?= ASSET_CSS_VER ?>">
-  <link rel="icon" type="image/png" href="assets/favicon.png?v=2">
+  <link rel="stylesheet" href="/css/styles.css?v=<?= ASSET_CSS_VER ?>">
+  <link rel="icon" type="image/png" href="/assets/favicon.png?v=2">
 </head>
 <body<?= $page_body_class !== '' ? ' class="' . e($page_body_class) . '"' : '' ?>>
 <!-- Google Tag Manager (noscript) -->
@@ -88,7 +88,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="nav" id="nav">
   <div class="container nav-in">
     <a class="logo" href="/" aria-label="Brix home">
-      <img class="logo-img" src="assets/brix-logo-dark.png" alt="Brix">
+      <img class="logo-img" src="/assets/brix-logo-dark.png" alt="Brix">
     </a>
     <nav class="nav-links" aria-label="Main">
 <?php foreach ($nav_items as $key => $item): ?>

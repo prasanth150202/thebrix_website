@@ -37,11 +37,11 @@ if ($footer_col3 === 'blog' || $footer_col3 === 'case-studies') {
   <div class="container footer-grid">
     <div class="footer-brand">
       <a class="logo logo-light" href="/">
-        <img class="logo-img" src="assets/brix-logo-light.png" alt="Brix">
+        <img class="logo-img" src="/assets/brix-logo-light.png" alt="Brix">
       </a>
       <p>Bigger orders for Shopify stores, on autopilot.</p>
       <a class="footer-shopify" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener" aria-label="View Brix on the Shopify App Store">
-        <img class="footer-shopify-badge" src="assets/badge-shopify-app-store-dark.svg" alt="Available on the Shopify App Store" width="196" height="52">
+        <img class="footer-shopify-badge" src="/assets/badge-shopify-app-store-dark.svg" alt="Available on the Shopify App Store" width="196" height="52">
       </a>
       <div class="footer-social">
         <a href="https://x.com/app_thebrix" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82L5 21.75H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.12z"/></svg></a>
@@ -52,33 +52,33 @@ if ($footer_col3 === 'blog' || $footer_col3 === 'case-studies') {
     </div>
     <div class="footer-col">
       <p class="footer-h">Product</p>
-      <a href="features">Features</a>
-      <a href="pricing">Pricing</a>
-      <a href="case-studies">Case studies</a>
-      <a href="blog">Blog</a>
-      <a href="how-to">Guides</a>
-      <a href="features#ai-chat">Brix AI</a>
-      <a href="contact">Contact us</a>
+      <a href="/features">Features</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/case-studies">Case studies</a>
+      <a href="/blog">Blog</a>
+      <a href="/how-to">Guides</a>
+      <a href="/features#ai-chat">Brix AI</a>
+      <a href="/contact">Contact us</a>
     </div>
     <div class="footer-col">
 <?php if ($footer_col3 === 'howto'): ?>
       <p class="footer-h">How-to guides</p>
-      <a href="how-to#fbt">Frequently Bought Together</a>
-      <a href="how-to#combo">Build a Combo page</a>
-      <a href="how-to#ai">Work with Brix AI</a>
-      <a href="how-to#cart">Customize your cart</a>
-      <a href="how-to#coupon">Set up a Coupon Banner</a>
+      <a href="/how-to#fbt">Frequently Bought Together</a>
+      <a href="/how-to#combo">Build a Combo page</a>
+      <a href="/how-to#ai">Work with Brix AI</a>
+      <a href="/how-to#cart">Customize your cart</a>
+      <a href="/how-to#coupon">Set up a Coupon Banner</a>
 <?php elseif ($footer_col3 === 'blog'): ?>
       <p class="footer-h">From the blog</p>
-      <a href="blog">All articles</a>
+      <a href="/blog">All articles</a>
 <?php foreach ($footer_posts as $fp): ?>
-      <a href="<?= e($fp['slug']) ?>"><?= e(truncate_words($fp['title'], 34)) ?></a>
+      <a href="<?= e(post_url($fp)) ?>"><?= e(truncate_words($fp['title'], 34)) ?></a>
 <?php endforeach; ?>
 <?php else: ?>
       <p class="footer-h">Case studies</p>
-      <a href="case-studies">All case studies</a>
+      <a href="/case-studies">All case studies</a>
 <?php foreach ($footer_posts as $fp): ?>
-      <a href="<?= e($fp['slug']) ?>"><?= e(truncate_words($fp['title'], 34)) ?></a>
+      <a href="<?= e(post_url($fp)) ?>"><?= e(truncate_words($fp['title'], 34)) ?></a>
 <?php endforeach; ?>
 <?php endif; ?>
     </div>
@@ -95,14 +95,14 @@ if ($footer_col3 === 'blog' || $footer_col3 === 'case-studies') {
   </div>
   <div class="container footer-base">
     <span>&copy; <?= date('Y') ?> Brix. Built for Shopify.</span>
-    <span class="footer-legal"><a href="contact">Contact us</a> &middot; <a href="privacy">Privacy Policy</a> &middot; <a href="terms">Terms &amp; Conditions</a></span>
+    <span class="footer-legal"><a href="/contact">Contact us</a> &middot; <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms &amp; Conditions</a></span>
   </div>
 </footer>
 
-<script src="js/vendor/gsap.min.js"></script>
-<script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="/js/vendor/gsap.min.js"></script>
+<script src="/js/vendor/ScrollTrigger.min.js"></script>
 <script>window.BRIX_CHAT = <?= BRIX_CHAT_ENABLED ? 'true' : 'false' ?>;</script>
-<script src="js/main.js?v=<?= ASSET_JS_VER ?>"></script>
+<script src="/js/main.js?v=<?= ASSET_JS_VER ?>"></script>
 <?= $page_scripts ?>
 </body>
 </html>

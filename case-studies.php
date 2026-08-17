@@ -46,7 +46,7 @@ require BRIX_INCLUDES . '/header.php';
     <div class="cs-grid">
 
 <?php foreach ($posts as $i => $p): ?>
-      <a class="cs-card reveal"<?= $i > 0 ? ' style="--d:.' . str_pad((string) ($i * 6), 2, '0', STR_PAD_LEFT) . 's"' : '' ?> href="<?= e($p['slug']) ?>">
+      <a class="cs-card reveal"<?= $i > 0 ? ' style="--d:.' . str_pad((string) ($i * 6), 2, '0', STR_PAD_LEFT) . 's"' : '' ?> href="<?= e(post_url($p)) ?>">
         <div class="cs-shot <?= e($p['card_gradient']) ?>">
 <?php if ($p['category'] !== ''): ?>
           <span class="cs-cat"><?= e($p['category']) ?></span>

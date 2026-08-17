@@ -24,7 +24,7 @@ $page_title       = $post['meta_title'] !== ''
 $page_description = $post['meta_description'] !== ''
     ? $post['meta_description']
     : (string) $post['excerpt'];
-$page_canonical   = $post['slug'];
+$page_canonical   = post_url($post);
 $page_nav         = $isCase ? 'case-studies' : 'blog';
 $footer_col3      = $isCase ? 'case-studies' : 'blog';
 
@@ -131,7 +131,7 @@ $ctaSub = $post['cta_sub'] !== ''
             <div class="post-more">
               <p class="post-fact-k"><?= $isCase ? 'More case studies' : 'More articles' ?></p>
               <?php foreach ($related as $r): ?>
-                <a class="post-more-item" href="<?= e($r['slug']) ?>">
+                <a class="post-more-item" href="<?= e(post_url($r)) ?>">
                   <span class="post-more-title"><?= e($r['title']) ?></span>
                   <?php if ($r['category'] !== ''): ?>
                     <span class="post-more-meta"><?= e($r['category']) ?>

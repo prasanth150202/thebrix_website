@@ -86,7 +86,7 @@ admin_head('Posts', $user, 'posts');
           </td>
           <td class="ad-r ad-actions">
             <?php if ($p['status'] === 'published'): ?>
-              <a href="../<?= e($p['slug']) ?>" target="_blank" rel="noopener">View</a>
+              <a href="<?= e(post_url($p)) ?>" target="_blank" rel="noopener">View</a>
             <?php endif; ?>
             <a href="preview.php?id=<?= (int) $p['id'] ?>" target="_blank" rel="noopener">Preview</a>
             <a href="post-edit.php?id=<?= (int) $p['id'] ?>">Edit</a>
