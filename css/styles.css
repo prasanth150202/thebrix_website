@@ -4159,3 +4159,510 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
 
 /* Autosave state line in the admin editor. */
 .ad-sub-bad { color: #B93838 !important; }
+
+/* ==========================================================================
+   /tutorials — the video course
+   --------------------------------------------------------------------------
+   A player on the left with the syllabus on the right, the same way the
+   article pages put the body first and the standing details in a rail
+   beside it. Everything here is prefixed tut- and used on one page, so
+   none of it can reach the rest of the site.
+   ========================================================================== */
+
+/* ---------- hero facts ---------- */
+
+.tut-facts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 26px;
+  margin-top: 26px;
+  position: relative;
+  font-size: .92rem;
+  color: var(--ink-2);
+}
+.tut-facts li { display: inline-flex; align-items: center; gap: 8px; }
+.tut-facts b { color: var(--ink); font-weight: 700; }
+.tut-fact-ic {
+  display: inline-flex;
+  width: 17px;
+  height: 17px;
+  color: var(--brand);
+}
+.tut-fact-ic svg { width: 100%; height: 100%; }
+
+/* ---------- the two columns ---------- */
+
+.tut-section { padding-top: 54px; }
+
+.tut-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 366px;
+  gap: 40px;
+  align-items: start;
+}
+
+.tut-main { min-width: 0; }
+
+/* ---------- the player ---------- */
+
+.tut-stage { position: relative; }
+
+.tut-screen {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--navy);
+  box-shadow: var(--shadow-2);
+}
+
+/* The still frame that stands in until the visitor asks for the video. */
+.tut-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: pointer;
+}
+.tut-poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.tut-poster-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7, 25, 43, .18) 0%, rgba(7, 25, 43, .12) 45%, rgba(7, 25, 43, .68) 100%);
+  transition: background .25s ease;
+}
+.tut-poster:hover .tut-poster-veil {
+  background: linear-gradient(180deg, rgba(7, 25, 43, .3) 0%, rgba(7, 25, 43, .24) 45%, rgba(7, 25, 43, .74) 100%);
+}
+
+.tut-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--grad-strong);
+  color: #fff;
+  box-shadow: 0 12px 34px rgba(7, 25, 43, .45);
+  transition: transform .22s cubic-bezier(.32,.72,.28,1), box-shadow .22s ease;
+}
+.tut-play svg { width: 34px; height: 34px; margin-left: 3px; }
+.tut-poster:hover .tut-play {
+  transform: translate(-50%, -50%) scale(1.08);
+  box-shadow: 0 18px 44px rgba(11, 134, 204, .5);
+}
+
+/* Runtime, bottom left, the way a video thumbnail carries it. A tinted
+   pill rather than plain text: these stills are bright in places and a
+   drop shadow alone does not survive them. */
+.tut-poster-dur {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 99px;
+  background: rgba(7, 25, 43, .72);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: .82rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .01em;
+}
+.tut-poster-dur svg { width: 11px; height: 11px; }
+
+.tut-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ---------- what is playing ---------- */
+
+.tut-now { padding-top: 26px; }
+
+.tut-now-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.tut-now-eyebrow {
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 9px;
+}
+
+.tut-now-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.4vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.tut-skip { display: flex; gap: 8px; flex-shrink: 0; }
+.tut-skip-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  border: 1.5px solid var(--line);
+  background: var(--paper);
+  color: var(--ink-2);
+  display: grid;
+  place-items: center;
+  transition: border-color .16s ease, color .16s ease, background .16s ease;
+}
+.tut-skip-btn svg { width: 19px; height: 19px; }
+.tut-skip-btn:hover:not(:disabled) {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--brand-ghost);
+}
+.tut-skip-btn:disabled { opacity: .35; cursor: default; }
+
+.tut-now-blurb {
+  margin-top: 14px;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+.tut-now-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 22px;
+  margin-top: 22px;
+}
+.tut-now-link {
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--brand);
+  transition: color .15s ease;
+}
+.tut-now-link:hover { color: var(--brand-deep); }
+
+/* Already ticked off: the button stays available as "continue", but
+   stops competing with the video for attention. */
+.tut-now-actions .btn-primary.is-done {
+  background: rgba(34, 197, 94, .1);
+  color: var(--green-deep);
+  box-shadow: none;
+}
+.tut-now-actions .btn-primary.is-done:hover {
+  background: rgba(34, 197, 94, .18);
+  transform: translateY(-1px);
+  box-shadow: none;
+}
+.tut-now-actions .btn:disabled { opacity: .6; cursor: default; }
+.tut-now-actions .btn:disabled:hover { transform: none; }
+
+/* ---------- the syllabus rail ---------- */
+
+.tut-rail { position: sticky; top: calc(var(--nav-h) + 26px); }
+
+.tut-rail-in {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - var(--nav-h) - 52px);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+.tut-progress {
+  padding: 20px 20px 18px;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.tut-progress-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.tut-progress-h {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.tut-progress-n {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.tut-bar {
+  height: 7px;
+  border-radius: 99px;
+  background: #E7EFF4;
+  overflow: hidden;
+}
+.tut-bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 99px;
+  background: var(--reward-grad);
+  transition: width .5s cubic-bezier(.25,.7,.3,1);
+}
+
+.tut-progress-note {
+  margin-top: 11px;
+  font-size: .78rem;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+.is-complete .tut-progress-note { color: var(--green-deep); font-weight: 600; }
+
+/* The list scrolls inside the card rather than pushing it past the
+   bottom of a short screen. */
+.tut-modules {
+  overflow-y: auto;
+  padding: 6px 0 10px;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.tut-module + .tut-module { margin-top: 4px; }
+
+.tut-module-h {
+  padding: 13px 20px 7px;
+  font-size: .73rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.tut-module-n { color: var(--brand); margin-right: 7px; }
+
+.tut-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 20px;
+  transition: background .16s ease;
+}
+.tut-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--brand);
+  opacity: 0;
+  transition: opacity .16s ease;
+}
+.tut-row:hover { background: var(--paper-soft); }
+.tut-row.is-playing { background: var(--brand-ghost); }
+.tut-row.is-playing::before { opacity: 1; }
+
+/* The real checkbox stays in the page for keyboard and screen readers;
+   the square beside it is its label. */
+.tut-check {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.tut-check-box {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  border: 1.6px solid var(--line);
+  background: var(--paper);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: #fff;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.tut-check-box svg { width: 12px; height: 12px; opacity: 0; transition: opacity .16s ease; }
+.tut-check-box:hover { border-color: var(--brand); }
+.tut-check:focus-visible + .tut-check-box {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+}
+.tut-row.is-done .tut-check-box {
+  background: var(--green);
+  border-color: var(--green);
+}
+.tut-row.is-done .tut-check-box svg { opacity: 1; }
+
+.tut-open {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  text-align: left;
+}
+.tut-open-title {
+  font-size: .92rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ink);
+  transition: color .16s ease;
+}
+.tut-row.is-playing .tut-open-title { color: var(--brand-deep); }
+.tut-row.is-done .tut-open-title { color: var(--ink-2); font-weight: 500; }
+
+.tut-open-meta {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.tut-open-state { display: inline-flex; color: var(--ink-3); transition: color .16s ease; }
+.tut-open-state svg { width: 11px; height: 11px; }
+.tut-row.is-playing .tut-open-state { color: var(--brand); }
+
+.tut-rail-foot {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 20px;
+  border-top: 1px solid var(--line);
+  font-size: .82rem;
+  font-weight: 600;
+}
+.tut-reset { color: var(--ink-3); transition: color .15s ease; }
+.tut-reset:hover { color: var(--ink); }
+.tut-reset[hidden] { display: none; }
+.tut-rail-yt {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: auto;
+  color: var(--ink-2);
+  transition: color .15s ease;
+}
+.tut-rail-yt:hover { color: var(--brand); }
+
+/* ---------- the rest of the page ---------- */
+
+.tut-read {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px 44px;
+  flex-wrap: wrap;
+}
+.tut-read-copy { flex: 1 1 440px; max-width: 640px; }
+.tut-read-sub {
+  margin-top: 12px;
+  color: var(--ink-2);
+  font-size: 1.02rem;
+  max-width: 54ch;
+}
+.tut-read-actions { display: flex; flex-wrap: wrap; gap: 12px; flex-shrink: 0; }
+
+.tut-noscript {
+  margin-top: 28px;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-soft);
+  font-size: .95rem;
+}
+.tut-noscript ul { margin-top: 10px; display: grid; gap: 6px; }
+.tut-noscript a { color: var(--brand); font-weight: 600; }
+
+/* Announcements and checkbox names that only screen readers need. */
+.tut-live,
+.tut-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- narrower screens ---------- */
+
+@media (max-width: 1100px) {
+  .tut-layout { grid-template-columns: minmax(0, 1fr) 320px; gap: 30px; }
+}
+
+@media (max-width: 1000px) {
+  /* The player comes first and the syllabus follows it, so the thing
+     you came to watch is never below a list. */
+  .tut-layout { grid-template-columns: 1fr; gap: 34px; }
+  .tut-rail { position: static; }
+  .tut-rail-in { max-height: none; }
+  .tut-modules { overflow-y: visible; }
+}
+
+@media (max-width: 620px) {
+  .tut-section { padding-top: 38px; }
+  .tut-screen { border-radius: var(--radius); }
+  .tut-play { width: 60px; height: 60px; }
+  .tut-play svg { width: 26px; height: 26px; }
+  .tut-now-head { flex-direction: column; align-items: stretch; gap: 14px; }
+  /* Under the video rather than beside the title, with the two arrows at
+     opposite ends so the row reads as paging through the course. */
+  .tut-skip { order: -1; justify-content: space-between; }
+  .tut-now-actions .btn { width: 100%; }
+  .tut-now-link { width: 100%; }
+  /* Two nowrap buttons do not fit on a phone beside each other, and the
+     row must be allowed to shrink or it pushes the page sideways. */
+  .tut-read-actions { width: 100%; flex-shrink: 1; }
+  .tut-read-actions .btn { flex: 1 1 100%; }
+}
+
+/* ---------- room in the nav for a sixth link ---------- */
+
+/* Six links plus the logo and the install button run out of room before
+   the burger takes over at 680px, so the spacing tightens on the way
+   down rather than the row overflowing. */
+@media (max-width: 1000px) {
+  .nav-links { gap: 22px; }
+}
+@media (max-width: 820px) {
+  .nav-links { gap: 14px; font-size: .9rem; }
+}

@@ -6,7 +6,7 @@
  *   $page_title       <title> text
  *   $page_description meta description
  *   $page_canonical   path relative to the site root, e.g. "pricing.html"
- *   $page_nav         which nav item is active: features|pricing|case-studies|blog|how-to|null
+ *   $page_nav         which nav item is active: features|pricing|case-studies|blog|how-to|tutorials|null
  *   $page_robots      optional meta robots value
  *   $page_body_class  optional extra class on <body>
  *
@@ -29,6 +29,7 @@ $nav_items = [
     'case-studies' => ['href' => '/case-studies', 'label' => 'Case studies'],
     'blog'         => ['href' => '/blog',         'label' => 'Blog'],
     'how-to'       => ['href' => '/how-to',       'label' => 'Guides'],
+    'tutorials'    => ['href' => '/tutorials',    'label' => 'Tutorials'],
 ];
 ?>
 <!DOCTYPE html>

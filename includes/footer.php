@@ -7,6 +7,7 @@
  *   'case-studies' (default)  list of case studies
  *   'blog'                    list of articles
  *   'howto'                   the how-to anchors
+ *   'tutorials'               the video course
  *
  * The case study and blog lists are now read from the database, so
  * publishing a post updates the footer on every page with no edit.
@@ -29,6 +30,13 @@ if ($footer_col3 === 'blog' || $footer_col3 === 'case-studies') {
     } catch (Throwable) {
         $footer_posts = [];
     }
+}
+
+/** The tutorials column is a hard-coded list, so it needs no database. */
+$footer_lessons = [];
+if ($footer_col3 === 'tutorials') {
+    require_once BRIX_INCLUDES . '/tutorials.php';
+    $footer_lessons = brix_tutorials();
 }
 ?>
 </main>
@@ -57,6 +65,7 @@ if ($footer_col3 === 'blog' || $footer_col3 === 'case-studies') {
       <a href="/case-studies">Case studies</a>
       <a href="/blog">Blog</a>
       <a href="/how-to">Guides</a>
+      <a href="/tutorials">Tutorials</a>
       <a href="/features#ai-chat">Brix AI</a>
       <a href="/contact">Contact us</a>
     </div>
@@ -68,6 +77,13 @@ if ($footer_col3 === 'blog' || $footer_col3 === 'case-studies') {
       <a href="/how-to#ai">Work with Brix AI</a>
       <a href="/how-to#cart">Customize your cart</a>
       <a href="/how-to#coupon">Set up a Coupon Banner</a>
+<?php elseif ($footer_col3 === 'tutorials'): ?>
+      <p class="footer-h">Video tutorials</p>
+      <a href="/tutorials">The whole course</a>
+<?php foreach (array_slice($footer_lessons, 0, 4) as $li => $fl): ?>
+      <?php /* #lesson-N opens that lesson in the player; see js/tutorials.js */ ?>
+      <a href="/tutorials#lesson-<?= $li + 1 ?>"><?= e($fl['title']) ?></a>
+<?php endforeach; ?>
 <?php elseif ($footer_col3 === 'blog'): ?>
       <p class="footer-h">From the blog</p>
       <a href="/blog">All articles</a>
