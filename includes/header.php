@@ -9,6 +9,11 @@
  *   $page_nav         which nav item is active: features|pricing|case-studies|blog|how-to|tutorials|null
  *   $page_robots      optional meta robots value
  *   $page_body_class  optional extra class on <body>
+ *   $page_chrome      'full' (default) or 'minimal'. A campaign landing
+ *                     page sets 'minimal': the bar keeps the logo and the
+ *                     install button and drops the nav links, the burger
+ *                     and the drawer, so the only way off the page is the
+ *                     one the campaign is paying for.
  *
  * The markup below is the header that was already on every page, with
  * only the varying parts pulled out into those variables.
@@ -22,6 +27,17 @@ $page_canonical   = $page_canonical   ?? '';
 $page_nav         = $page_nav         ?? null;
 $page_robots      = $page_robots      ?? null;
 $page_body_class  = $page_body_class  ?? '';
+$page_chrome      = $page_chrome      ?? 'full';
+
+/**
+ * Mirror the robots directive as a header as well as a meta tag. The tag
+ * only works on a crawler that parses the HTML; the header is read
+ * before that, and it still applies if the page is fetched some other
+ * way. Guarded because the admin preview has already sent output.
+ */
+if ($page_robots !== null && !headers_sent()) {
+    header('X-Robots-Tag: ' . $page_robots);
+}
 
 $nav_items = [
     'features'     => ['href' => '/features',     'label' => 'Features'],
@@ -86,11 +102,18 @@ $nav_items = [
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<header class="nav" id="nav">
+<header class="nav<?= $page_chrome === 'minimal' ? ' nav-lite' : '' ?>" id="nav">
   <div class="container nav-in">
     <a class="logo" href="/" aria-label="Brix home">
       <img class="logo-img" src="/assets/brix-logo-dark.png" alt="Brix">
     </a>
+<?php if ($page_chrome === 'minimal'): ?>
+    <div class="nav-actions">
+      <a class="btn btn-primary btn-sm" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Install free</a>
+    </div>
+  </div>
+</header>
+<?php else: ?>
     <nav class="nav-links" aria-label="Main">
 <?php foreach ($nav_items as $key => $item): ?>
       <a href="<?= $item['href'] ?>"<?= $page_nav === $key ? ' class="active"' : '' ?>><?= $item['label'] ?></a>
@@ -110,5 +133,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a class="btn btn-primary" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Install free</a>
   </div>
 </header>
+<?php endif; ?>
 
 <main>

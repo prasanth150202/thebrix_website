@@ -15,16 +15,21 @@
  *
  * Set $footer_col3 before including. Set $page_scripts for any extra
  * script tags a page needs.
+ *
+ * $page_chrome = 'minimal' replaces the whole thing with a legal line.
+ * The closing scripts are shared by both, so a minimal page still gets
+ * the same tracking and behaviour as every other page.
  */
 
 declare(strict_types=1);
 
 $footer_col3   = $footer_col3   ?? 'case-studies';
 $page_scripts  = $page_scripts  ?? '';
+$page_chrome   = $page_chrome   ?? 'full';
 
 /** Fail soft: a database hiccup should not blank the whole footer. */
 $footer_posts = [];
-if ($footer_col3 === 'blog' || $footer_col3 === 'case-studies') {
+if ($page_chrome !== 'minimal' && ($footer_col3 === 'blog' || $footer_col3 === 'case-studies')) {
     try {
         $footer_posts = get_footer_links($footer_col3 === 'blog' ? 'blog' : 'case_study', 4);
     } catch (Throwable) {
@@ -34,13 +39,25 @@ if ($footer_col3 === 'blog' || $footer_col3 === 'case-studies') {
 
 /** The tutorials column is a hard-coded list, so it needs no database. */
 $footer_lessons = [];
-if ($footer_col3 === 'tutorials') {
+if ($page_chrome !== 'minimal' && $footer_col3 === 'tutorials') {
     require_once BRIX_INCLUDES . '/tutorials.php';
     $footer_lessons = brix_tutorials();
 }
 ?>
 </main>
 
+<?php if ($page_chrome === 'minimal'): ?>
+<footer class="footer-lite">
+  <div class="container footer-lite-in">
+    <span>&copy; <?= date('Y') ?> Brix. Built for Shopify.</span>
+    <span class="footer-lite-legal">
+      <a href="/privacy">Privacy</a> &middot;
+      <a href="/terms">Terms</a> &middot;
+      <a href="/contact">Contact</a>
+    </span>
+  </div>
+</footer>
+<?php else: ?>
 <footer class="footer">
   <div class="container footer-grid">
     <div class="footer-brand">
@@ -114,6 +131,7 @@ if ($footer_col3 === 'tutorials') {
     <span class="footer-legal"><a href="/contact">Contact us</a> &middot; <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms &amp; Conditions</a></span>
   </div>
 </footer>
+<?php endif; ?>
 
 <script src="/js/vendor/gsap.min.js"></script>
 <script src="/js/vendor/ScrollTrigger.min.js"></script>
