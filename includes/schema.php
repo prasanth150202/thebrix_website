@@ -133,7 +133,7 @@ function brix_schema_statements(): array
  * columns the database did not have. The session now records which
  * version it checked, so a bump here invalidates it everywhere.
  */
-define('BRIX_SCHEMA_VERSION', 2);
+define('BRIX_SCHEMA_VERSION', 3);
 
 function brix_added_columns(): array
 {
@@ -141,6 +141,11 @@ function brix_added_columns(): array
         ['posts', 'hero_image', "VARCHAR(255) NOT NULL DEFAULT '' AFTER hero_subtitle"],
         ['posts', 'hero_blur',  'TINYINT UNSIGNED NOT NULL DEFAULT 0 AFTER hero_image'],
         ['contact_submissions', 'updated_at', 'DATETIME NULL AFTER created_at'],
+        /* Which form the row came from: '' for the contact page, or the
+           slug of the landing page that captured it. Without it a
+           campaign lead and a support enquiry look identical in the
+           admin, and they need answering very differently. */
+        ['contact_submissions', 'source', "VARCHAR(40) NOT NULL DEFAULT '' AFTER message"],
     ];
 }
 

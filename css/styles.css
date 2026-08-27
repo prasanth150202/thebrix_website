@@ -4446,6 +4446,10 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
 /* The list scrolls inside the card rather than pushing it past the
    bottom of a short screen. */
 .tut-modules {
+  /* The base reset only covers ul, so an ol still draws browser markers.
+     They were invisible here only because this box scrolls; below 1000px
+     it does not, and "1." would have appeared beside every module. */
+  list-style: none;
   overflow-y: auto;
   padding: 6px 0 10px;
   flex: 1 1 auto;
@@ -4994,10 +4998,10 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
 /* Numbered because this genuinely is a sequence: you cannot switch the
    widgets on before the app is installed. */
 .lp-steps {
+  list-style: none;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 26px;
-  counter-reset: none;
 }
 .lp-step { position: relative; padding-top: 6px; }
 .lp-step-n {
@@ -5122,8 +5126,10 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
   .lp-cta-row { margin-top: 30px; }
   .footer-lite-in { justify-content: center; text-align: center; }
 
-  /* Room for the sticky bar so it never covers the last line of the page. */
-  body.lp { padding-bottom: 78px; }
+  /* Room for the sticky bar so it never covers the last line of the page.
+     Only /start carries lp-bar; the other two landing pages have no bar
+     and would otherwise end on 78px of empty space. */
+  body.lp-bar { padding-bottom: 78px; }
 
   .lp-sticky {
     display: block;
@@ -5166,4 +5172,569 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
    the offset has to be restated below that breakpoint to survive. */
 @media (max-width: 480px) {
   body.lp-bar-up .bx-launcher { bottom: 84px; }
+}
+
+/* ==========================================================================
+   /demo and /try — the other two campaign landing pages
+   --------------------------------------------------------------------------
+   /demo is the long one: video-led, with a scroll timeline in
+   js/landing-demo.js. /try is one screen and one form.
+
+   Both share the lead form styling (dm-field, dm-form-errs), because a
+   form that looks different on two pages of the same campaign reads as
+   two different companies.
+   ========================================================================== */
+
+.lp-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- /demo hero ---------- */
+
+.dm-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: 54px;
+  align-items: center;
+}
+.dm-hero-copy { min-width: 0; }
+.dm-hero-copy h1 { font-size: clamp(2.3rem, 4.4vw, 3.5rem); }
+.dm-hero-copy .hero-sub { margin-top: 20px; }
+.dm-hero-copy .hero-ctas { margin-top: 30px; }
+.dm-hero-video { min-width: 0; }
+
+/* ---------- the poster / player ---------- */
+
+.dm-play {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--navy);
+  box-shadow: var(--shadow-2);
+  cursor: pointer;
+}
+.dm-play-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dm-play-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7,25,43,.16) 0%, rgba(7,25,43,.1) 45%, rgba(7,25,43,.66) 100%);
+  transition: background .25s ease;
+}
+.dm-play:hover .dm-play-veil {
+  background: linear-gradient(180deg, rgba(7,25,43,.3) 0%, rgba(7,25,43,.24) 45%, rgba(7,25,43,.74) 100%);
+}
+.dm-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--grad-strong);
+  color: #fff;
+  box-shadow: 0 12px 34px rgba(7,25,43,.45);
+  transition: transform .22s cubic-bezier(.32,.72,.28,1), box-shadow .22s ease;
+}
+.dm-play-btn svg { width: 32px; height: 32px; margin-left: 3px; }
+.dm-play:hover .dm-play-btn {
+  transform: translate(-50%, -50%) scale(1.08);
+  box-shadow: 0 18px 44px rgba(11,134,204,.5);
+}
+
+.dm-play-meta {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 18px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  color: #fff;
+  text-align: left;
+}
+.dm-play-meta b { font-family: var(--font-display); font-size: 1.02rem; font-weight: 700; }
+.dm-play-meta span {
+  flex-shrink: 0;
+  font-size: .82rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  opacity: .85;
+}
+
+.dm-frame {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--navy);
+  box-shadow: var(--shadow-2);
+}
+
+/* ---------- the video wall ---------- */
+
+.dm-wall {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.dm-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.dm-card:hover {
+  border-color: rgba(11,134,204,.3);
+  box-shadow: var(--shadow-1);
+  transform: translateY(-3px);
+}
+.dm-play-sm { border-radius: 0; box-shadow: none; }
+.dm-play-sm .dm-play-btn { width: 52px; height: 52px; }
+.dm-play-sm .dm-play-btn svg { width: 22px; height: 22px; }
+.dm-card .dm-frame { border-radius: 0; box-shadow: none; }
+
+.dm-dur {
+  position: absolute;
+  right: 12px;
+  bottom: 11px;
+  padding: 4px 9px;
+  border-radius: 99px;
+  background: rgba(7,25,43,.74);
+  color: #fff;
+  font-size: .74rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.dm-card-body { padding: 20px 22px 22px; }
+.dm-card-body h3 { margin-bottom: 7px; }
+.dm-card-body p { color: var(--ink-2); font-size: .92rem; line-height: 1.6; }
+
+/* ---------- feature rows ---------- */
+
+.dm-rows { display: flex; flex-direction: column; gap: 68px; }
+
+.dm-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px;
+  align-items: center;
+}
+.dm-row-flip .dm-row-copy { order: 2; }
+
+.dm-row-tag {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 5px 13px;
+  border-radius: 99px;
+  background: var(--brand-ghost);
+  color: var(--brand-deep);
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+.dm-row-copy h3 {
+  font-size: clamp(1.4rem, 2.3vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.dm-row-copy > p { color: var(--ink-2); font-size: 1.02rem; line-height: 1.65; }
+
+.dm-row-list { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.dm-row-list li {
+  position: relative;
+  padding-left: 26px;
+  font-size: .94rem;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+.dm-row-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 15px;
+  height: 15px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230B86CC' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* ---------- the little product mocks beside each row ---------- */
+
+.dm-mock {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  padding: 20px;
+}
+.dm-mock-h {
+  font-size: .84rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.dm-mock-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+  font-size: .86rem;
+}
+.dm-mock-row span:nth-child(2) { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.dm-mock-row b { font-weight: 600; color: var(--ink); }
+.dm-mock-row small { font-size: .74rem; color: var(--ink-3); }
+.dm-mock-row em { font-style: normal; font-weight: 700; color: var(--ink); }
+.dm-mock-row .cm-thumb { width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0; }
+.dm-mock-row.is-add b { color: var(--green-deep); }
+
+.dm-mock-cta {
+  margin-top: 14px;
+  padding: 11px;
+  border-radius: 11px;
+  background: var(--grad-strong);
+  color: #fff;
+  text-align: center;
+  font-size: .88rem;
+  font-weight: 700;
+}
+.dm-mock-cta-soft {
+  background: var(--brand-ghost);
+  color: var(--brand-deep);
+}
+
+.dm-bar { height: 8px; border-radius: 99px; background: #E7EFF4; overflow: hidden; }
+.dm-bar i { display: block; height: 100%; border-radius: 99px; background: var(--reward-grad); }
+.dm-bar-tiers {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 0 6px;
+  font-size: .72rem;
+  color: var(--ink-3);
+}
+
+.dm-stat {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+  font-size: .88rem;
+  color: var(--ink-2);
+}
+.dm-stat b {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- steps ---------- */
+
+.dm-steps {
+  --dm-step-gap: 30px;
+  --dm-step-size: 42px;
+  list-style: none;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--dm-step-gap);
+}
+
+/* Runs behind the circles, from the centre of the first to the centre of
+   the last. The old 12%/88% span was guesswork: it began past circle one
+   and carried on into empty space to the right of circle three.
+
+   Each circle sits at the left of its column, so its centre is half a
+   circle in. With three equal columns and two gaps, column three starts
+   at 66.667% + 2/3 of a gap, which is where the right offset below comes
+   from. Purely decorative: the numbers say the same thing without it. */
+.dm-steps-line {
+  position: absolute;
+  top: calc(var(--dm-step-size) / 2 - 1px);
+  left: calc(var(--dm-step-size) / 2);
+  right: calc(33.3333% - (var(--dm-step-gap) * 2 / 3) - (var(--dm-step-size) / 2));
+  height: 2px;
+  background: var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.dm-steps-line i {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--grad-strong);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.dm-step { position: relative; z-index: 1; }
+.dm-step-n {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--dm-step-size);
+  height: var(--dm-step-size);
+  margin-bottom: 16px;
+  border-radius: 50%;
+  background: var(--grad-strong);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  /* Punches a clean gap in the connector either side of each circle. */
+  box-shadow: 0 0 0 7px var(--paper);
+}
+.dm-step h3 { margin-bottom: 7px; }
+.dm-step p { color: var(--ink-2); font-size: .95rem; line-height: 1.6; }
+
+/* ---------- the lead form, shared by /demo and /try ---------- */
+
+.dm-form-sec { padding-bottom: 90px; }
+
+.dm-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 460px);
+  gap: 56px;
+  align-items: start;
+}
+.dm-form-copy h2 { margin-bottom: 14px; }
+.dm-form-sub { color: var(--ink-2); font-size: 1.02rem; line-height: 1.65; max-width: 48ch; }
+.dm-form-points { margin-top: 22px; display: flex; flex-direction: column; gap: 11px; }
+.dm-form-points li {
+  position: relative;
+  padding-left: 26px;
+  font-size: .95rem;
+  color: var(--ink-2);
+}
+.dm-form-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(34,197,94,.14) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2315803D' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center / 9px 9px no-repeat;
+}
+
+.dm-form-panel {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+  padding: 30px 28px;
+}
+
+/* Never seen by a person, and never announced: display:none would be
+   skipped by some bots that check for it, so it is moved instead. */
+.dm-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.dm-field { margin-bottom: 16px; }
+.dm-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: .84rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.dm-field label span {
+  font-weight: 500;
+  color: var(--ink-3);
+  font-size: .78rem;
+}
+.dm-field input,
+.dm-field select,
+.dm-field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 11px;
+  background: var(--paper);
+  font-family: var(--font-body);
+  font-size: .95rem;
+  color: var(--ink);
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.dm-field textarea { resize: vertical; min-height: 84px; line-height: 1.55; }
+.dm-field select { appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2382929F' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+  background-size: 16px;
+  padding-right: 38px;
+}
+.dm-field input::placeholder,
+.dm-field textarea::placeholder { color: var(--ink-3); }
+.dm-field input:focus,
+.dm-field select:focus,
+.dm-field textarea:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px rgba(11,134,204,.14);
+}
+
+.dm-form-send, .ty-send { width: 100%; margin-top: 6px; }
+.dm-form-fine, .ty-fine {
+  margin-top: 12px;
+  text-align: center;
+  font-size: .78rem;
+  color: var(--ink-3);
+}
+
+.dm-form-errs {
+  margin-bottom: 18px;
+  padding: 13px 15px;
+  border-radius: 11px;
+  background: #FDECEC;
+  border: 1px solid #F5C7C7;
+}
+.dm-form-errs p { font-size: .88rem; color: #A02B2B; line-height: 1.5; }
+.dm-form-errs p + p { margin-top: 5px; }
+
+.dm-form-done, .ty-done { text-align: center; padding: 8px 0; }
+.dm-form-tick, .ty-tick {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: rgba(34,197,94,.14);
+  color: var(--green-deep);
+}
+.dm-form-tick svg, .ty-tick svg { width: 26px; height: 26px; }
+.dm-form-done h3, .ty-done h2 { margin-bottom: 10px; }
+.dm-form-done p, .ty-done p {
+  color: var(--ink-2);
+  font-size: .96rem;
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+/* ---------- /try: one screen, one form ---------- */
+
+/* Centres the pair in the viewport on a tall screen without letting a
+   short one clip the form, which min-height alone would do. */
+.ty-wrap {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper-soft);
+  padding: calc(var(--nav-h) + 56px) 0 72px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.ty-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 470px);
+  gap: 60px;
+  align-items: center;
+  width: 100%;
+}
+
+.ty-copy h1 {
+  font-size: clamp(2.1rem, 3.9vw, 3rem);
+  margin-top: 6px;
+}
+.ty-sub {
+  margin-top: 20px;
+  font-size: 1.08rem;
+  line-height: 1.65;
+  color: var(--ink-2);
+  max-width: 46ch;
+}
+.ty-points { margin-top: 26px; display: flex; flex-direction: column; gap: 12px; }
+.ty-points li {
+  position: relative;
+  padding-left: 28px;
+  font-size: .98rem;
+  color: var(--ink-2);
+}
+.ty-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: rgba(34,197,94,.14) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2315803D' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center / 10px 10px no-repeat;
+}
+
+.ty-panel {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+  padding: 32px 30px;
+}
+.ty-panel-h {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+/* The short page has no sticky bar to make room for. */
+body.lp-solo { padding-bottom: 0; }
+body.lp-solo .lp-sticky { display: none; }
+
+/* The whole page is one form, and the Ask Brix AI launcher is fixed to the
+   same corner as its fields: on a phone it sits on top of the email input.
+   A page with a single action should not ship a second one anyway. */
+body.lp-solo .bx-launcher { display: none; }
+
+/* ---------- narrower screens ---------- */
+
+@media (max-width: 1000px) {
+  .dm-hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .dm-wall { grid-template-columns: repeat(2, 1fr); }
+  .dm-row, .dm-row-flip { grid-template-columns: 1fr; gap: 30px; }
+  /* Artwork under its copy on every row, flipped or not, so the reading
+     order stops depending on which way the desktop layout ran. */
+  .dm-row-flip .dm-row-copy { order: 0; }
+  .dm-form-grid { grid-template-columns: 1fr; gap: 36px; }
+  .ty-grid { grid-template-columns: 1fr; gap: 38px; }
+  .ty-wrap { min-height: 0; display: block; padding-top: calc(var(--nav-h) + 40px); }
+}
+
+@media (max-width: 680px) {
+  .dm-wall { grid-template-columns: 1fr; }
+  .dm-steps { grid-template-columns: 1fr; gap: 26px; }
+  .dm-steps-line { display: none; }
+  .dm-hero-copy .hero-ctas .btn { width: 100%; }
+  .dm-play-btn { width: 58px; height: 58px; }
+  .dm-play-btn svg { width: 25px; height: 25px; }
+  .dm-play-meta b { font-size: .92rem; }
+  .dm-form-panel, .ty-panel { padding: 24px 20px; }
+  .dm-form-sec { padding-bottom: 64px; }
 }

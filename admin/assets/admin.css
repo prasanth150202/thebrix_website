@@ -655,3 +655,18 @@ textarea { resize: vertical; }
   accent-color: var(--brand);
 }
 .ad-blurrow b { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+/* Which form an enquiry arrived on. Blank for the contact page, so the
+   badge only appears on the campaign landing pages, where it is the
+   difference between a support question and a lead to answer. */
+.ad-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #E8F3FB;
+  color: #0973B1;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .01em;
+  vertical-align: 1px;
+}

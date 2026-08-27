@@ -35,7 +35,7 @@ $page_description = 'Your cart is the last screen before checkout and the cheape
 $page_canonical   = 'start';
 $page_robots      = 'noindex, nofollow, noarchive, nosnippet, noimageindex';
 $page_chrome      = 'minimal';
-$page_body_class  = 'lp';
+$page_body_class  = 'lp lp-bar';
 $page_scripts     = '<script src="/js/landing.js?v=' . ASSET_LANDING_VER . '"></script>';
 
 require BRIX_INCLUDES . '/header.php';

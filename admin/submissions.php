@@ -24,7 +24,7 @@ if (($_GET['export'] ?? '') !== '') {
              FROM newsletter_subscribers ORDER BY created_at DESC'
           )->fetchAll()
         : db()->query(
-            'SELECT name, email, store_url, message, created_at, updated_at
+            'SELECT name, email, store_url, message, source, created_at, updated_at
              FROM contact_submissions ORDER BY COALESCE(updated_at, created_at) DESC'
           )->fetchAll();
 
@@ -106,6 +106,12 @@ admin_head('Submissions', $user, 'submissions');
         <div class="ad-msg-head">
           <div>
             <strong><?= e($c['name']) ?></strong>
+            <?php /* Blank for the contact page; a landing page slug otherwise.
+                     Guarded with ?? because the column arrives by upgrade and
+                     this screen may render once before that has run. */ ?>
+            <?php if (($c['source'] ?? '') !== ''): ?>
+              <span class="ad-tag">via /<?= e($c['source']) ?></span>
+            <?php endif; ?>
             <a href="mailto:<?= e($c['email']) ?>"><?= e($c['email']) ?></a>
             <?php if ($c['store_url'] !== ''): ?>
               <a href="<?= e($c['store_url']) ?>" target="_blank" rel="noopener nofollow"><?= e($c['store_url']) ?></a>
