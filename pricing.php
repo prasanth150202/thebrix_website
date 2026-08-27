@@ -29,7 +29,7 @@ require BRIX_INCLUDES . '/header.php';
         <span class="price-flag price-flag-ghost">Free forever</span>
         <h3>Free</h3>
         <p class="price"><b>$0</b><span>/month</span></p>
-        <p class="price-note">Launch &amp; learn · 50 orders/month, then $0.10/order</p>
+        <p class="price-note">Launch &amp; learn · 50 orders/month</p>
         <ul class="price-list">
           <li>Cart Drawer, Announcement Bar &amp; Empty Cart Customization</li>
           <li>AI BRIX: 10 credits/month, then $0.09/credit</li>
@@ -88,7 +88,7 @@ require BRIX_INCLUDES . '/header.php';
           <tr class="pt-group"><td colspan="4">Usage</td></tr>
           <tr>
             <td>Orders per month</td>
-            <td><span class="pt-text">50, then $0.10/order</span></td>
+            <td><span class="pt-text">50</span></td>
             <td><span class="pt-text">500, then $0.30/order</span></td>
             <td><span class="pt-text">Unlimited</span></td>
           </tr>

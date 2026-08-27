@@ -56,11 +56,15 @@ $nav_items = [
     'pricing'   => ['href' => '/pricing',  'label' => 'Pricing'],
     'resources' => [
         'label'    => 'Resources',
+        /* Labels are the nav's own, not the pages'. /tutorials calls
+           itself Brix video tutorials on the page; here it leads as
+           "How to use", because that is the question somebody opening
+           this menu is actually asking. */
         'children' => [
+            'tutorials'    => ['href' => '/tutorials',    'label' => 'How to use'],
             'case-studies' => ['href' => '/case-studies', 'label' => 'Case studies'],
-            'blog'         => ['href' => '/blog',         'label' => 'Blog'],
+            'blog'         => ['href' => '/blog',         'label' => 'Blogs'],
             'how-to'       => ['href' => '/how-to',       'label' => 'Guides'],
-            'tutorials'    => ['href' => '/tutorials',    'label' => 'Tutorials'],
         ],
     ],
 ];

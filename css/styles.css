@@ -328,6 +328,10 @@ h1 em {
 }
 .nav-drawer a:hover { background: rgba(11, 134, 204, .1); color: var(--brand); }
 .nav-drawer .btn { margin-top: 8px; justify-content: center; }
+/* .nav-drawer a sets the link colour and outranks .btn-primary on
+   specificity, which left the drawer's install button reading black
+   on blue. Restated here, where it wins. */
+.nav-drawer .btn-primary { color: #fff; }
 
 /* ---------- nav: the Resources menu ---------- */
 
