@@ -22,7 +22,7 @@ define('ASSET_UTM_VER', '2');
 // bumping it does not throw away everyone's cached main.js.
 define('ASSET_TUTORIALS_VER', '1');
 // Same idea for the campaign landing page at /start.
-define('ASSET_LANDING_VER', '2');
+define('ASSET_LANDING_VER', '3');
 // The long landing page at /demo carries its own GSAP timeline.
 define('ASSET_DEMO_VER', '2');
 

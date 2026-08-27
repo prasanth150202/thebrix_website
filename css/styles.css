@@ -5180,9 +5180,9 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
    /demo is the long one: video-led, with a scroll timeline in
    js/landing-demo.js. /try is one screen and one form.
 
-   Both share the lead form styling (dm-field, dm-form-errs), because a
-   form that looks different on two pages of the same campaign reads as
-   two different companies.
+   The lead form styling below (dm-field, dm-form-errs) is shared by all
+   three pages, /start included, because a form that looks different on
+   three pages of the same campaign reads as three different companies.
    ========================================================================== */
 
 .lp-sr {
@@ -5508,7 +5508,7 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
 .dm-step h3 { margin-bottom: 7px; }
 .dm-step p { color: var(--ink-2); font-size: .95rem; line-height: 1.6; }
 
-/* ---------- the lead form, shared by /demo and /try ---------- */
+/* ---------- the lead form, shared by /demo, /try and /start ---------- */
 
 .dm-form-sec { padding-bottom: 90px; }
 
