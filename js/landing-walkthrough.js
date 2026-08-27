@@ -1,5 +1,5 @@
 /* ============================================================
-   /demo: video playback and the scroll timeline
+   /walkthrough: video playback and the scroll timeline
    ------------------------------------------------------------
    Two separate jobs, deliberately not tangled together.
 

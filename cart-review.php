@@ -1,10 +1,11 @@
 <?php
 /**
- * /try: the short campaign landing page.
+ * /cart-review: the short campaign landing page.
  *
- * One screen, one form, nothing to read. Where /demo teaches and /start
- * argues, this asks. It suits warm traffic that already knows what Brix
- * is: a retargeting audience, or the second email in a sequence.
+ * One screen, one form, nothing to read. Where /walkthrough teaches
+ * and /cart-that-sells argues, this asks. It suits warm traffic that
+ * already knows what Brix is: a retargeting audience, or the second
+ * email in a sequence.
  *
  * Deliberately thin. Every line on it earns its place or comes off,
  * because the only thing this page is measured on is whether the form
@@ -22,11 +23,11 @@ require_once BRIX_INCLUDES . '/lead-form.php';
 /* Before any output: the CSRF token is rendered inside the form. */
 brix_session_start();
 
-$lead = brix_lead_handle('try');
+$lead = brix_lead_handle('cart-review');
 
 $page_title       = 'Get a look at your Shopify cart, from the Brix team';
 $page_description = 'Tell us where your store is and we will come back within one business day with what we would turn on first to lift your average order value.';
-$page_canonical   = 'try';
+$page_canonical   = 'cart-review';
 $page_robots      = 'noindex, nofollow, noarchive, nosnippet, noimageindex';
 $page_chrome      = 'minimal';
 $page_body_class  = 'lp lp-solo';

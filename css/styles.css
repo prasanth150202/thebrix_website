@@ -4798,7 +4798,7 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
 }
 
 /* ==========================================================================
-   /start — the campaign landing page
+   /cart-that-sells — the campaign landing page
    --------------------------------------------------------------------------
    Same brand system as the rest of the site; a different job. Everything
    here is prefixed lp- and used on one page, plus the two chrome classes
@@ -5253,8 +5253,8 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
   .footer-lite-in { justify-content: center; text-align: center; }
 
   /* Room for the sticky bar so it never covers the last line of the page.
-     Only /start carries lp-bar; the other two landing pages have no bar
-     and would otherwise end on 78px of empty space. */
+     Only /cart-that-sells carries lp-bar; the other two landing pages
+     have no bar and would otherwise end on 78px of empty space. */
   body.lp-bar { padding-bottom: 78px; }
 
   .lp-sticky {
@@ -5301,14 +5301,15 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
 }
 
 /* ==========================================================================
-   /demo and /try — the other two campaign landing pages
+   /walkthrough and /cart-review — the other two campaign landing pages
    --------------------------------------------------------------------------
-   /demo is the long one: video-led, with a scroll timeline in
-   js/landing-demo.js. /try is one screen and one form.
+   /walkthrough is the long one: video-led, with a scroll timeline in
+   js/landing-walkthrough.js. /cart-review is one screen and one form.
 
    The lead form styling below (dm-field, dm-form-errs) is shared by all
-   three pages, /start included, because a form that looks different on
-   three pages of the same campaign reads as three different companies.
+   three pages, /cart-that-sells included, because a form that looks
+   different on three pages of the same campaign reads as three
+   different companies.
    ========================================================================== */
 
 .lp-sr {
@@ -5323,7 +5324,7 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
   border: 0;
 }
 
-/* ---------- /demo hero ---------- */
+/* ---------- /walkthrough hero ---------- */
 
 .dm-hero-grid {
   display: grid;
@@ -5634,7 +5635,7 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
 .dm-step h3 { margin-bottom: 7px; }
 .dm-step p { color: var(--ink-2); font-size: .95rem; line-height: 1.6; }
 
-/* ---------- the lead form, shared by /demo, /try and /start ---------- */
+/* ---------- the lead form, shared by all three pages ---------- */
 
 .dm-form-sec { padding-bottom: 90px; }
 
@@ -5764,7 +5765,7 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
   margin-bottom: 22px;
 }
 
-/* ---------- /try: one screen, one form ---------- */
+/* ---------- /cart-review: one screen, one form ---------- */
 
 /* Centres the pair in the viewport on a tall screen without letting a
    short one clip the form, which min-height alone would do. */

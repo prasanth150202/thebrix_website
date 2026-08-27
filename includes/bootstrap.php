@@ -21,10 +21,10 @@ define('ASSET_UTM_VER', '2');
 // Only /tutorials loads this one, so it carries its own version and
 // bumping it does not throw away everyone's cached main.js.
 define('ASSET_TUTORIALS_VER', '2');
-// Same idea for the campaign landing page at /start.
+// Same idea for the campaign landing page at /cart-that-sells.
 define('ASSET_LANDING_VER', '3');
-// The long landing page at /demo carries its own GSAP timeline.
-define('ASSET_DEMO_VER', '2');
+// The long landing page at /walkthrough carries its own GSAP timeline.
+define('ASSET_WALKTHROUGH_VER', '2');
 
 /**
  * The floating "Ask Brix AI" launcher. Three settings:

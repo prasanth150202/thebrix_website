@@ -49,6 +49,15 @@ DirectoryIndex index.php
   RewriteRule ^blog-([a-z0-9-]+)/?$ /blog/$1 [R=301,L]
   RewriteRule ^case-study-([a-z0-9-]+)/?$ /case-study/$1 [R=301,L]
 
+  # The three campaign landing pages were renamed to say what they are:
+  # /start -> /cart-that-sells, /demo -> /walkthrough, /try -> /cart-review.
+  # Live ads and sent emails still carry the old addresses, so those keep
+  # working. The query string rides along untouched, which is what keeps
+  # the UTM parameters on an ad click intact through the redirect.
+  RewriteRule ^start/?$ /cart-that-sells [R=301,L]
+  RewriteRule ^demo/?$  /walkthrough     [R=301,L]
+  RewriteRule ^try/?$   /cart-review     [R=301,L]
+
   # ----- 2. things that must be served as they are -----
 
   # sitemap.xml is generated from the database.

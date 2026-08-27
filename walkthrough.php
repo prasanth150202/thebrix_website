@@ -1,20 +1,20 @@
 <?php
 /**
- * /demo: the long campaign landing page.
+ * /walkthrough: the long campaign landing page.
  *
- * The talkative one. Where /start makes a single argument and sends you
- * to the App Store, this page teaches: it opens on the overview video,
- * walks through the features with the tutorials already on the channel,
- * and ends by asking for an email rather than an install. It suits
- * colder traffic and the mail list, where somebody needs to understand
- * the thing before they will install it.
+ * The talkative one. Where /cart-that-sells makes a single argument
+ * and sends you to the App Store, this page teaches: it opens on the
+ * overview video, walks through the features with the tutorials
+ * already on the channel, and ends by asking for an email rather than
+ * an install. It suits colder traffic and the mail list, where somebody
+ * needs to understand the thing before they will install it.
  *
  * Videos come from includes/tutorials.php, the same list /tutorials
  * runs on, so a video added to the tutorials appears here too.
  *
- * Unlisted, for the same reasons as /start: nothing links here, it is
- * absent from sitemap.php, and robots.txt is deliberately silent about
- * it rather than advertising the path.
+ * Unlisted, for the same reasons as /cart-that-sells: nothing links
+ * here, it is absent from sitemap.php, and robots.txt is deliberately
+ * silent about it rather than advertising the path.
  */
 
 declare(strict_types=1);
@@ -27,17 +27,17 @@ require_once BRIX_INCLUDES . '/lead-form.php';
    long past the point where a session cookie can still be sent. */
 brix_session_start();
 
-$lead = brix_lead_handle('demo', [
+$lead = brix_lead_handle('walkthrough', [
     'orders' => 'Monthly orders',
 ]);
 
 $page_title       = 'See Brix work: a guided tour of the Shopify cart that sells';
 $page_description = 'Watch Brix work in seven short videos, then ask us to walk through your own cart. AI upsells, Frequently Bought Together, reward tiers and coupon banners inside your Shopify cart drawer.';
-$page_canonical   = 'demo';
+$page_canonical   = 'walkthrough';
 $page_robots      = 'noindex, nofollow, noarchive, nosnippet, noimageindex';
 $page_chrome      = 'minimal';
 $page_body_class  = 'lp';
-$page_scripts     = '<script src="/js/landing-demo.js?v=' . ASSET_DEMO_VER . '"></script>';
+$page_scripts     = '<script src="/js/landing-walkthrough.js?v=' . ASSET_WALKTHROUGH_VER . '"></script>';
 
 $lessons = brix_tutorials();
 $feature = $lessons[0];                 // the overview, which opens the page

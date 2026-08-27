@@ -1,5 +1,5 @@
 /* ============================================================
-   /start: the sticky install bar
+   /cart-that-sells: the sticky install bar
    ------------------------------------------------------------
    On a phone the hero button scrolls away in a second and most ad
    traffic is on a phone, so the offer follows the visitor down the

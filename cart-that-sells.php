@@ -1,6 +1,6 @@
 <?php
 /**
- * /start: the campaign landing page.
+ * /cart-that-sells: the campaign landing page.
  *
  * Where Meta ads and the email list point. It is deliberately not the
  * homepage: one argument, and two ways to act on it. The nav links, the
@@ -8,11 +8,12 @@
  * off the page are the App Store listing the campaign is paying to reach
  * and the lead form directly under the hero.
  *
- * That form is the one /demo and /try already run, from
- * includes/lead-form.php, writing to contact_submissions tagged 'start'.
- * It is here because an ad click that is not ready to install today is
- * not the same as a lost one, and until now this page had nothing to
- * offer that visitor but the same button they had already declined.
+ * That form is the one /walkthrough and /cart-review already run, from
+ * includes/lead-form.php, writing to contact_submissions tagged
+ * 'cart-that-sells'. It is here because an ad click that is not ready to
+ * install today is not the same as a lost one, and until now this page
+ * had nothing to offer that visitor but the same button they had
+ * already declined.
  *
  * Unlisted. Nothing on the site links here, it is deliberately absent
  * from sitemap.php, and the robots directive below keeps it out of every
@@ -41,15 +42,15 @@ require_once BRIX_INCLUDES . '/lead-form.php';
    long past the point where a session cookie can still be sent. */
 brix_session_start();
 
-/* Same qualifying question /demo asks, so a lead from either page reads
-   the same way in the admin. */
-$lead = brix_lead_handle('start', [
+/* Same qualifying question /walkthrough asks, so a lead from either page
+   reads the same way in the admin. */
+$lead = brix_lead_handle('cart-that-sells', [
     'orders' => 'Monthly orders',
 ]);
 
 $page_title       = 'Brix: turn your Shopify cart into your best salesperson';
 $page_description = 'Your cart is the last screen before checkout and the cheapest place to grow revenue. Brix adds AI upsells, Frequently Bought Together, reward tiers and coupon banners inside the cart drawer. Free plan, no credit card.';
-$page_canonical   = 'start';
+$page_canonical   = 'cart-that-sells';
 $page_robots      = 'noindex, nofollow, noarchive, nosnippet, noimageindex';
 $page_chrome      = 'minimal';
 $page_body_class  = 'lp lp-bar';
@@ -152,8 +153,8 @@ require BRIX_INCLUDES . '/header.php';
      the numbers strip below are both paper-soft and a third soft band
      between them would read as one undivided stretch of page.
 
-     Same form, same table and same admin row as /demo and /try, tagged
-     'start'. -->
+     Same form, same table and same admin row as /walkthrough and
+     /cart-review, tagged 'cart-that-sells'. -->
 <section class="section dm-form-sec" id="cart-review">
   <div class="container">
     <div class="dm-form-grid">
