@@ -89,6 +89,98 @@ require BRIX_INCLUDES . '/header.php';
   </div>
 </section>
 
+<!-- ============ THE FORM ============ -->
+<!-- Second block, straight after the overview video the hero opens on.
+     Somebody who has watched that already knows enough to answer, and
+     the seven tutorials below are for whoever wants more first. The
+     hero's own "Book a walkthrough" button still lands here; it now
+     travels a short way, which is the point. -->
+<section class="section dm-form-sec" id="walkthrough">
+  <div class="container">
+    <div class="dm-form-grid">
+      <div class="dm-form-copy" data-a="head">
+        <p class="eyebrow">Book a walkthrough</p>
+        <h2>Or have us look at your cart</h2>
+        <p class="dm-form-sub">Tell us where your store is and what you are trying to fix. We will come back within one business day with what we would turn on first, whether or not you install anything.</p>
+        <ul class="dm-form-points">
+          <li>A real look at your cart, not a sales call</li>
+          <li>One business day, from a person</li>
+          <li>No obligation and nothing to cancel</li>
+        </ul>
+      </div>
+
+      <div class="dm-form-panel" data-a="form">
+<?php if ($lead['sent']): ?>
+        <div class="dm-form-done">
+          <span class="dm-form-tick" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+          <h3>Got it. Talk soon.</h3>
+          <p>We have your details and will come back within one business day. If you would rather not wait, Brix is free to install right now.</p>
+          <a class="btn btn-primary" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Install free on Shopify</a>
+        </div>
+<?php else: ?>
+        <form class="dm-form" method="post" action="#walkthrough" novalidate>
+          <?= csrf_field() ?>
+          <input type="hidden" name="t" value="<?= time() ?>">
+          <?php /* Honeypot: never shown, never filled by a person. */ ?>
+          <div class="dm-hp" aria-hidden="true">
+            <label for="website">Website</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+<?php if ($lead['errors']): ?>
+          <div class="dm-form-errs" role="alert">
+<?php foreach ($lead['errors'] as $err): ?>
+            <p><?= e($err) ?></p>
+<?php endforeach; ?>
+          </div>
+<?php endif; ?>
+
+          <div class="dm-field">
+            <label for="lf-name">Your name</label>
+            <input type="text" id="lf-name" name="name" required autocomplete="name"
+                   value="<?= e($lead['values']['name']) ?>">
+          </div>
+
+          <div class="dm-field">
+            <label for="lf-email">Email</label>
+            <input type="email" id="lf-email" name="email" required autocomplete="email"
+                   placeholder="you@store.com" value="<?= e($lead['values']['email']) ?>">
+          </div>
+
+          <div class="dm-field">
+            <label for="lf-store">Store URL <span>optional</span></label>
+            <input type="text" id="lf-store" name="store_url" autocomplete="url"
+                   placeholder="yourstore.com" value="<?= e($lead['values']['store_url']) ?>">
+          </div>
+
+          <div class="dm-field">
+            <label for="lf-orders">Orders a month <span>optional</span></label>
+            <select id="lf-orders" name="orders">
+              <option value="">Prefer not to say</option>
+              <option value="Under 50">Under 50</option>
+              <option value="50 to 500">50 to 500</option>
+              <option value="500 to 2,000">500 to 2,000</option>
+              <option value="Over 2,000">Over 2,000</option>
+            </select>
+          </div>
+
+          <div class="dm-field">
+            <label for="lf-msg">Anything you want us to look at? <span>optional</span></label>
+            <textarea id="lf-msg" name="message" rows="3"
+                      placeholder="Most carts leave with one item and I cannot work out why."><?= e($lead['values']['message']) ?></textarea>
+          </div>
+
+          <button class="btn btn-primary btn-lg dm-form-send" type="submit">Ask for a walkthrough</button>
+          <p class="dm-form-fine">We will only use this to reply. No list, no sequence.</p>
+        </form>
+<?php endif; ?>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ NUMBERS ============ -->
 <section class="lp-numbers">
   <div class="container">
@@ -263,93 +355,6 @@ require BRIX_INCLUDES . '/header.php';
       <figure class="t-card"><span class="t-lift">+28% AOV</span><blockquote>&ldquo;Frequently Bought Together and the coupon slider solved two major problems for us. Customers could discover related products and apply discounts without leaving the cart.&rdquo;</blockquote><figcaption><span class="t-avatar av-2">DK</span><span><b>Daniel Kim</b></span></figcaption></figure>
       <figure class="t-card"><span class="t-lift">+35% AOV</span><blockquote>&ldquo;Brix AI Analysis gave us clarity on what was working. We stopped guessing and started optimizing our cart based on real opportunities.&rdquo;</blockquote><figcaption><span class="t-avatar av-3">AO</span><span><b>Amara Obi</b></span></figcaption></figure>
       <figure class="t-card"><span class="t-lift">+23% AOV</span><blockquote>&ldquo;The insight cards are like having a CRO consultant on retainer, except it costs $29 a month.&rdquo;</blockquote><figcaption><span class="t-avatar av-5">LP</span><span><b>Lena Petrov</b></span></figcaption></figure>
-    </div>
-  </div>
-</section>
-
-<!-- ============ THE FORM ============ -->
-<section class="section dm-form-sec" id="walkthrough">
-  <div class="container">
-    <div class="dm-form-grid">
-      <div class="dm-form-copy" data-a="head">
-        <p class="eyebrow">Book a walkthrough</p>
-        <h2>Or have us look at your cart</h2>
-        <p class="dm-form-sub">Tell us where your store is and what you are trying to fix. We will come back within one business day with what we would turn on first, whether or not you install anything.</p>
-        <ul class="dm-form-points">
-          <li>A real look at your cart, not a sales call</li>
-          <li>One business day, from a person</li>
-          <li>No obligation and nothing to cancel</li>
-        </ul>
-      </div>
-
-      <div class="dm-form-panel" data-a="form">
-<?php if ($lead['sent']): ?>
-        <div class="dm-form-done">
-          <span class="dm-form-tick" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </span>
-          <h3>Got it. Talk soon.</h3>
-          <p>We have your details and will come back within one business day. If you would rather not wait, Brix is free to install right now.</p>
-          <a class="btn btn-primary" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Install free on Shopify</a>
-        </div>
-<?php else: ?>
-        <form class="dm-form" method="post" action="#walkthrough" novalidate>
-          <?= csrf_field() ?>
-          <input type="hidden" name="t" value="<?= time() ?>">
-          <?php /* Honeypot: never shown, never filled by a person. */ ?>
-          <div class="dm-hp" aria-hidden="true">
-            <label for="website">Website</label>
-            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-          </div>
-
-<?php if ($lead['errors']): ?>
-          <div class="dm-form-errs" role="alert">
-<?php foreach ($lead['errors'] as $err): ?>
-            <p><?= e($err) ?></p>
-<?php endforeach; ?>
-          </div>
-<?php endif; ?>
-
-          <div class="dm-field">
-            <label for="lf-name">Your name</label>
-            <input type="text" id="lf-name" name="name" required autocomplete="name"
-                   value="<?= e($lead['values']['name']) ?>">
-          </div>
-
-          <div class="dm-field">
-            <label for="lf-email">Email</label>
-            <input type="email" id="lf-email" name="email" required autocomplete="email"
-                   placeholder="you@store.com" value="<?= e($lead['values']['email']) ?>">
-          </div>
-
-          <div class="dm-field">
-            <label for="lf-store">Store URL <span>optional</span></label>
-            <input type="text" id="lf-store" name="store_url" autocomplete="url"
-                   placeholder="yourstore.com" value="<?= e($lead['values']['store_url']) ?>">
-          </div>
-
-          <div class="dm-field">
-            <label for="lf-orders">Orders a month <span>optional</span></label>
-            <select id="lf-orders" name="orders">
-              <option value="">Prefer not to say</option>
-              <option value="Under 50">Under 50</option>
-              <option value="50 to 500">50 to 500</option>
-              <option value="500 to 2,000">500 to 2,000</option>
-              <option value="Over 2,000">Over 2,000</option>
-            </select>
-          </div>
-
-          <div class="dm-field">
-            <label for="lf-msg">Anything you want us to look at? <span>optional</span></label>
-            <textarea id="lf-msg" name="message" rows="3"
-                      placeholder="Most carts leave with one item and I cannot work out why."><?= e($lead['values']['message']) ?></textarea>
-          </div>
-
-          <button class="btn btn-primary btn-lg dm-form-send" type="submit">Ask for a walkthrough</button>
-          <p class="dm-form-fine">We will only use this to reply. No list, no sequence.</p>
-        </form>
-<?php endif; ?>
-      </div>
     </div>
   </div>
 </section>

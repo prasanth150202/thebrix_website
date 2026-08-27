@@ -6,7 +6,7 @@
  * homepage: one argument, and two ways to act on it. The nav links, the
  * burger and the whole footer are gone ($page_chrome), so the only ways
  * off the page are the App Store listing the campaign is paying to reach
- * and the lead form below the objections.
+ * and the lead form directly under the hero.
  *
  * That form is the one /demo and /try already run, from
  * includes/lead-form.php, writing to contact_submissions tagged 'start'.
@@ -138,6 +138,101 @@ require BRIX_INCLUDES . '/header.php';
       </div>
       <div class="hero-chip hero-chip-1" aria-hidden="true">+32% AOV this month</div>
       <div class="hero-chip hero-chip-2" aria-hidden="true">Brix AI &middot; 3 changes live</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE FORM ============ -->
+<!-- The second way to act on the argument, and deliberately the second
+     block: the hero makes the case, and the ask follows it before the
+     page has spent any of the visitor's patience. Everything below is
+     for whoever wants more before they answer.
+
+     Plain .section rather than section-soft, because the hero above and
+     the numbers strip below are both paper-soft and a third soft band
+     between them would read as one undivided stretch of page.
+
+     Same form, same table and same admin row as /demo and /try, tagged
+     'start'. -->
+<section class="section dm-form-sec" id="cart-review">
+  <div class="container">
+    <div class="dm-form-grid">
+      <div class="dm-form-copy reveal">
+        <p class="eyebrow">Not installing today</p>
+        <h2>Then let us look at your cart first</h2>
+        <p class="dm-form-sub">Tell us where your store is and we will come back within one business day with what we would turn on first, and roughly what it is worth. Free, whether or not you ever install anything.</p>
+        <ul class="dm-form-points">
+          <li>A real look at your cart, not a sales call</li>
+          <li>Written by the team that built Brix</li>
+          <li>No obligation and nothing to cancel</li>
+        </ul>
+      </div>
+
+      <?php /* No .reveal on the panel. The rest of the page can afford to
+               fade in on scroll; the one thing that must never be sitting
+               at opacity 0 because a script did not arrive is the form. */ ?>
+      <div class="dm-form-panel">
+<?php if ($lead['sent']): ?>
+        <div class="dm-form-done">
+          <span class="dm-form-tick" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+          <h3>Got it. Talk soon.</h3>
+          <p>We have your details and will come back within one business day. If you would rather not wait, Brix is free to install right now.</p>
+          <a class="btn btn-primary" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Install free on Shopify</a>
+        </div>
+<?php else: ?>
+        <form class="dm-form" method="post" action="#cart-review" novalidate>
+          <?= csrf_field() ?>
+          <input type="hidden" name="t" value="<?= time() ?>">
+          <?php /* Honeypot: never shown, never filled by a person. */ ?>
+          <div class="dm-hp" aria-hidden="true">
+            <label for="website">Website</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+<?php if ($lead['errors']): ?>
+          <div class="dm-form-errs" role="alert">
+<?php foreach ($lead['errors'] as $err): ?>
+            <p><?= e($err) ?></p>
+<?php endforeach; ?>
+          </div>
+<?php endif; ?>
+
+          <div class="dm-field">
+            <label for="st-name">Your name</label>
+            <input type="text" id="st-name" name="name" required autocomplete="name"
+                   value="<?= e($lead['values']['name']) ?>">
+          </div>
+
+          <div class="dm-field">
+            <label for="st-email">Email</label>
+            <input type="email" id="st-email" name="email" required autocomplete="email"
+                   placeholder="you@store.com" value="<?= e($lead['values']['email']) ?>">
+          </div>
+
+          <div class="dm-field">
+            <label for="st-store">Store URL <span>optional</span></label>
+            <input type="text" id="st-store" name="store_url" autocomplete="url"
+                   placeholder="yourstore.com" value="<?= e($lead['values']['store_url']) ?>">
+          </div>
+
+          <div class="dm-field">
+            <label for="st-orders">Orders a month <span>optional</span></label>
+            <select id="st-orders" name="orders">
+              <option value="">Prefer not to say</option>
+              <option value="Under 50">Under 50</option>
+              <option value="50 to 500">50 to 500</option>
+              <option value="500 to 2,000">500 to 2,000</option>
+              <option value="Over 2,000">Over 2,000</option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary btn-lg dm-form-send" type="submit">Send me the notes</button>
+          <p class="dm-form-fine">We will only use this to reply. No list, no sequence.</p>
+        </form>
+<?php endif; ?>
+      </div>
     </div>
   </div>
 </section>
@@ -422,94 +517,6 @@ require BRIX_INCLUDES . '/header.php';
         <summary>How do I cancel?<span class="faq-ic"></span></summary>
         <p>From your Shopify admin, like any other app. Billing runs through Shopify Billing, so there is no separate account to close and no card of ours to remove.</p>
       </details>
-    </div>
-  </div>
-</section>
-
-<!-- ============ THE FORM ============ -->
-<!-- The second way to act on the argument, placed after the objections
-     because that is where somebody who is interested but not installing
-     today has run out of page. Same form, same table and same admin row
-     as /demo and /try, tagged 'start'. -->
-<section class="section section-soft dm-form-sec" id="cart-review">
-  <div class="container">
-    <div class="dm-form-grid">
-      <div class="dm-form-copy reveal">
-        <p class="eyebrow">Not installing today</p>
-        <h2>Then let us look at your cart first</h2>
-        <p class="dm-form-sub">Tell us where your store is and we will come back within one business day with what we would turn on first, and roughly what it is worth. Free, whether or not you ever install anything.</p>
-        <ul class="dm-form-points">
-          <li>A real look at your cart, not a sales call</li>
-          <li>Written by the team that built Brix</li>
-          <li>No obligation and nothing to cancel</li>
-        </ul>
-      </div>
-
-      <?php /* No .reveal on the panel. The rest of the page can afford to
-               fade in on scroll; the one thing that must never be sitting
-               at opacity 0 because a script did not arrive is the form. */ ?>
-      <div class="dm-form-panel">
-<?php if ($lead['sent']): ?>
-        <div class="dm-form-done">
-          <span class="dm-form-tick" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </span>
-          <h3>Got it. Talk soon.</h3>
-          <p>We have your details and will come back within one business day. If you would rather not wait, Brix is free to install right now.</p>
-          <a class="btn btn-primary" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Install free on Shopify</a>
-        </div>
-<?php else: ?>
-        <form class="dm-form" method="post" action="#cart-review" novalidate>
-          <?= csrf_field() ?>
-          <input type="hidden" name="t" value="<?= time() ?>">
-          <?php /* Honeypot: never shown, never filled by a person. */ ?>
-          <div class="dm-hp" aria-hidden="true">
-            <label for="website">Website</label>
-            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-          </div>
-
-<?php if ($lead['errors']): ?>
-          <div class="dm-form-errs" role="alert">
-<?php foreach ($lead['errors'] as $err): ?>
-            <p><?= e($err) ?></p>
-<?php endforeach; ?>
-          </div>
-<?php endif; ?>
-
-          <div class="dm-field">
-            <label for="st-name">Your name</label>
-            <input type="text" id="st-name" name="name" required autocomplete="name"
-                   value="<?= e($lead['values']['name']) ?>">
-          </div>
-
-          <div class="dm-field">
-            <label for="st-email">Email</label>
-            <input type="email" id="st-email" name="email" required autocomplete="email"
-                   placeholder="you@store.com" value="<?= e($lead['values']['email']) ?>">
-          </div>
-
-          <div class="dm-field">
-            <label for="st-store">Store URL <span>optional</span></label>
-            <input type="text" id="st-store" name="store_url" autocomplete="url"
-                   placeholder="yourstore.com" value="<?= e($lead['values']['store_url']) ?>">
-          </div>
-
-          <div class="dm-field">
-            <label for="st-orders">Orders a month <span>optional</span></label>
-            <select id="st-orders" name="orders">
-              <option value="">Prefer not to say</option>
-              <option value="Under 50">Under 50</option>
-              <option value="50 to 500">50 to 500</option>
-              <option value="500 to 2,000">500 to 2,000</option>
-              <option value="Over 2,000">Over 2,000</option>
-            </select>
-          </div>
-
-          <button class="btn btn-primary btn-lg dm-form-send" type="submit">Send me the notes</button>
-          <p class="dm-form-fine">We will only use this to reply. No list, no sequence.</p>
-        </form>
-<?php endif; ?>
-      </div>
     </div>
   </div>
 </section>
