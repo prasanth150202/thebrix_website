@@ -87,6 +87,55 @@ if (REDUCED) {
   revealEls.forEach(el => ro.observe(el));
 }
 
+/* ---------- nav: the Resources menu ---------- */
+
+/* One set of links, opened two ways. On the bar it is a floating panel;
+   inside the burger drawer it is a nested list that expands in place.
+   Both open on click: hover is not something a touch screen has, and a
+   menu that opens on the way past is a menu that opens by accident.
+
+   The drawer's own handlers already cover the rest. Its close-on-click
+   pass only binds anchors, so the toggle button below does not dismiss
+   the drawer it lives in, and its outside-click check ignores anything
+   within the drawer. */
+
+const navMenu = document.querySelector('[data-nav-menu]');
+if (navMenu) {
+  const trigger = navMenu.querySelector('.nav-menu-btn');
+  const closeMenu = () => {
+    navMenu.classList.remove('open');
+    trigger.setAttribute('aria-expanded', 'false');
+  };
+
+  trigger.addEventListener('click', e => {
+    // Otherwise the document listener below sees the opening click too.
+    e.stopPropagation();
+    const open = navMenu.classList.toggle('open');
+    trigger.setAttribute('aria-expanded', open);
+  });
+
+  document.addEventListener('click', e => {
+    if (navMenu.classList.contains('open') && !navMenu.contains(e.target)) closeMenu();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && navMenu.classList.contains('open')) {
+      closeMenu();
+      trigger.focus();
+    }
+  });
+}
+
+const navSubToggle = document.querySelector('.nav-drawer-toggle');
+if (navSubToggle) {
+  const sub = document.getElementById(navSubToggle.getAttribute('aria-controls'));
+  if (sub) {
+    navSubToggle.addEventListener('click', () => {
+      const open = sub.classList.toggle('open');
+      navSubToggle.setAttribute('aria-expanded', open);
+    });
+  }
+}
+
 /* ---------- parallax / ambient drift (GSAP only) ---------- */
 
 if (HAS_GSAP) {

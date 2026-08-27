@@ -1,5 +1,5 @@
 /* ============================================================
-   /tutorials: the course player
+   /tutorials: the tutorial player
    ------------------------------------------------------------
    Only this page loads this file, so main.js is untouched and no
    other page pays for it.
@@ -7,17 +7,17 @@
    Two things happen here. Picking a lesson swaps the video in place
    instead of loading a page, and ticking a lesson off records it and
    moves the player on to the next one you have not watched, which is
-   what makes the list feel like a course rather than a playlist.
+   what makes the list feel like a series rather than a playlist.
 
    Progress lives in localStorage, keyed by video id rather than by
-   position, so reordering the course later does not scramble what
+   position, so reordering the tutorials later does not scramble what
    somebody has already watched.
    ============================================================ */
 
 (function tutorials() {
-  const course = document.getElementById('tutCourse');
+  const series = document.getElementById('tutSeries');
   const dataEl = document.getElementById('tutData');
-  if (!course || !dataEl) return;
+  if (!series || !dataEl) return;
 
   let LESSONS;
   try {
@@ -49,7 +49,7 @@
   const resetBtn      = el('tutReset');
   const live          = el('tutLive');
 
-  const rows = [...course.querySelectorAll('.tut-row')];
+  const rows = [...series.querySelectorAll('.tut-row')];
 
   /* Once the visitor has asked for a video, every later lesson starts
      playing on its own. Before that first click nothing autoplays, so
@@ -61,7 +61,7 @@
   /* ---------- stored progress ---------- */
 
   /* Private browsing and blocked site data both throw on access, and a
-     course page is not worth an exception, so every read and write is
+     tutorials page is not worth an exception, so every read and write is
      wrapped and simply falls back to progress that lasts the visit. */
   const read = () => {
     try {
@@ -169,10 +169,10 @@
     const all = n === LESSONS.length;
     count.textContent = n + ' / ' + LESSONS.length;
     bar.style.width = Math.round((n / LESSONS.length) * 100) + '%';
-    course.classList.toggle('is-complete', all);
+    series.classList.toggle('is-complete', all);
 
     note.textContent = all
-      ? 'Course complete. That is every feature in Brix covered.'
+      ? 'All done. That is every feature in Brix covered.'
       : n === 0
         ? 'Tick a lesson off when you have watched it. Progress is remembered on this device.'
         : (LESSONS.length - n) + (LESSONS.length - n === 1 ? ' lesson left.' : ' lessons left.') +
@@ -190,7 +190,7 @@
 
   /* Keep the address bar on the lesson being watched so it can be shared,
      with replaceState rather than a hash assignment: stepping through a
-     seven-part course should not bury the Back button, and assigning the
+     seven-part series should not bury the Back button, and assigning the
      hash would re-enter this through hashchange. Held off until the first
      paint is done, so arriving at a bare /tutorials leaves it bare. */
   let ready = false;
@@ -222,7 +222,7 @@
     });
   }
 
-  course.querySelectorAll('[data-play]').forEach(btn => {
+  series.querySelectorAll('[data-play]').forEach(btn => {
     btn.addEventListener('click', () => {
       show(Number(btn.dataset.play), true);
       announce();
@@ -230,10 +230,10 @@
     });
   });
 
-  /* Ticking a lesson off is also how you move through the course: it
+  /* Ticking a lesson off is also how you move through them: it
      records the lesson and hands the player the next one you still
      have to watch. Unticking only takes the mark back. */
-  course.querySelectorAll('[data-check]').forEach(box => {
+  series.querySelectorAll('[data-check]').forEach(box => {
     box.addEventListener('change', () => {
       const i = Number(box.dataset.check);
       const id = LESSONS[i].id;

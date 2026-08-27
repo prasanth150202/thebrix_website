@@ -7,6 +7,8 @@
  *   $page_description meta description
  *   $page_canonical   path relative to the site root, e.g. "pricing.html"
  *   $page_nav         which nav item is active: features|pricing|case-studies|blog|how-to|tutorials|null
+ *                     The last four sit inside the Resources menu, which
+ *                     marks itself active whenever one of them is.
  *   $page_robots      optional meta robots value
  *   $page_body_class  optional extra class on <body>
  *   $page_chrome      'full' (default) or 'minimal'. A campaign landing
@@ -39,14 +41,39 @@ if ($page_robots !== null && !headers_sent()) {
     header('X-Robots-Tag: ' . $page_robots);
 }
 
+/**
+ * Six flat links across the bar put the two pages that sell, Features and
+ * Pricing, in a queue behind four that only inform. The four are all the
+ * same kind of thing to a visitor, so they collapse into one Resources
+ * menu and the bar goes back to reading as an offer.
+ *
+ * An item with 'children' is a menu; anything else is a plain link. The
+ * list is written once and rendered twice, as the bar menu and as the
+ * burger drawer, so the two can never drift apart.
+ */
 $nav_items = [
-    'features'     => ['href' => '/features',     'label' => 'Features'],
-    'pricing'      => ['href' => '/pricing',      'label' => 'Pricing'],
-    'case-studies' => ['href' => '/case-studies', 'label' => 'Case studies'],
-    'blog'         => ['href' => '/blog',         'label' => 'Blog'],
-    'how-to'       => ['href' => '/how-to',       'label' => 'Guides'],
-    'tutorials'    => ['href' => '/tutorials',    'label' => 'Tutorials'],
+    'features'  => ['href' => '/features', 'label' => 'Features'],
+    'pricing'   => ['href' => '/pricing',  'label' => 'Pricing'],
+    'resources' => [
+        'label'    => 'Resources',
+        'children' => [
+            'case-studies' => ['href' => '/case-studies', 'label' => 'Case studies'],
+            'blog'         => ['href' => '/blog',         'label' => 'Blog'],
+            'how-to'       => ['href' => '/how-to',       'label' => 'Guides'],
+            'tutorials'    => ['href' => '/tutorials',    'label' => 'Tutorials'],
+        ],
+    ],
 ];
+
+/** True when the page showing is one of the pages inside $item's menu. */
+$nav_in_menu = static function (array $item) use ($page_nav): bool {
+    return isset($item['children']) && array_key_exists((string) $page_nav, $item['children']);
+};
+
+/* One caret, drawn twice. */
+$nav_caret = '<svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+           . 'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+           . '<polyline points="6 9 12 15 18 9"/></svg>';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -116,7 +143,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <?php else: ?>
     <nav class="nav-links" aria-label="Main">
 <?php foreach ($nav_items as $key => $item): ?>
+<?php if (empty($item['children'])): ?>
       <a href="<?= $item['href'] ?>"<?= $page_nav === $key ? ' class="active"' : '' ?>><?= $item['label'] ?></a>
+<?php else: /* A button, not a link: it goes nowhere on its own, and a
+                menu that opens on hover cannot be opened by a touch. */ ?>
+      <div class="nav-menu" data-nav-menu>
+        <button class="nav-menu-btn<?= $nav_in_menu($item) ? ' active' : '' ?>" type="button"
+                aria-expanded="false" aria-controls="navMenu-<?= e($key) ?>"><?= $item['label'] ?><?= $nav_caret ?></button>
+        <div class="nav-menu-panel" id="navMenu-<?= e($key) ?>">
+<?php foreach ($item['children'] as $ck => $child): ?>
+          <a href="<?= $child['href'] ?>"<?= $page_nav === $ck ? ' class="active"' : '' ?>><?= $child['label'] ?></a>
+<?php endforeach; ?>
+        </div>
+      </div>
+<?php endif; ?>
 <?php endforeach; ?>
     </nav>
     <div class="nav-actions">
@@ -127,8 +167,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
   <div class="nav-drawer" id="navDrawer">
-<?php foreach ($nav_items as $item): ?>
+<?php foreach ($nav_items as $key => $item): ?>
+<?php if (empty($item['children'])): ?>
     <a href="<?= $item['href'] ?>"><?= $item['label'] ?></a>
+<?php else: /* Open already when the page showing is one of its own, so
+                nobody has to expand a menu to find where they are. */ ?>
+<?php $open = $nav_in_menu($item); ?>
+    <button class="nav-drawer-toggle" type="button"
+            aria-expanded="<?= $open ? 'true' : 'false' ?>" aria-controls="navDrawer-<?= e($key) ?>"><?= $item['label'] ?><?= $nav_caret ?></button>
+    <div class="nav-drawer-sub<?= $open ? ' open' : '' ?>" id="navDrawer-<?= e($key) ?>">
+      <div>
+<?php foreach ($item['children'] as $child): ?>
+        <a href="<?= $child['href'] ?>"><?= $child['label'] ?></a>
+<?php endforeach; ?>
+      </div>
+    </div>
+<?php endif; ?>
 <?php endforeach; ?>
     <a class="btn btn-primary" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Install free</a>
   </div>

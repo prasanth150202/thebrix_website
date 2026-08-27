@@ -10,7 +10,7 @@
  * the thing before they will install it.
  *
  * Videos come from includes/tutorials.php, the same list /tutorials
- * runs on, so a video added to the course appears here too.
+ * runs on, so a video added to the tutorials appears here too.
  *
  * Unlisted, for the same reasons as /start: nothing links here, it is
  * absent from sitemap.php, and robots.txt is deliberately silent about

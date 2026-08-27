@@ -7,7 +7,7 @@
  *   'case-studies' (default)  list of case studies
  *   'blog'                    list of articles
  *   'howto'                   the how-to anchors
- *   'tutorials'               the video course
+ *   'tutorials'               the video tutorials
  *
  * The case study and blog lists are now read from the database, so
  * publishing a post updates the footer on every page with no edit.
@@ -96,7 +96,7 @@ if ($page_chrome !== 'minimal' && $footer_col3 === 'tutorials') {
       <a href="/how-to#coupon">Set up a Coupon Banner</a>
 <?php elseif ($footer_col3 === 'tutorials'): ?>
       <p class="footer-h">Video tutorials</p>
-      <a href="/tutorials">The whole course</a>
+      <a href="/tutorials">All tutorials</a>
 <?php foreach (array_slice($footer_lessons, 0, 4) as $li => $fl): ?>
       <?php /* #lesson-N opens that lesson in the player; see js/tutorials.js */ ?>
       <a href="/tutorials#lesson-<?= $li + 1 ?>"><?= e($fl['title']) ?></a>

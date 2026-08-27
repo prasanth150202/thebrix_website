@@ -1,14 +1,14 @@
 <?php
 /**
- * The video tutorials course.
+ * The video tutorials.
  *
  * A player on the left and the syllabus on the right: picking a lesson
  * swaps the video without a page load, and ticking one off keeps the
- * player moving through the course.
+ * player moving through them.
  *
  * The lessons themselves live in includes/tutorials.php, which is also
  * what the footer column and the VideoObject markup below read, so the
- * course is described in exactly one place.
+ * series is described in exactly one place.
  *
  * Progress is per-browser (localStorage, written by js/tutorials.js).
  * Nothing here needs the database, so this page stays up even when a
@@ -21,7 +21,7 @@ require_once __DIR__ . '/includes/bootstrap.php';
 require_once BRIX_INCLUDES . '/tutorials.php';
 
 $page_title       = 'Brix tutorials: Learn the app in 11 minutes of video';
-$page_description = 'A free seven-lesson video course for Brix on Shopify: the cart editor, Frequently Bought Together, bundle pages, Brix AI, coupon banners and analytics. Watch in order, tick each lesson off as you go.';
+$page_description = 'Free step-by-step video tutorials for Brix on Shopify: the cart editor, Frequently Bought Together, bundle pages, Brix AI, coupon banners and analytics. Watch in order, tick each lesson off as you go.';
 $page_canonical   = 'tutorials';
 $page_nav         = 'tutorials';
 $footer_col3      = 'tutorials';
@@ -33,13 +33,13 @@ $total    = count($lessons);
 $minutes  = brix_tutorial_total_minutes();
 $first    = $lessons[0];
 
-/** Lessons grouped for the rail, each keeping its position in the course. */
+/** Lessons grouped for the rail, each keeping its position in the series. */
 $grouped = [];
 foreach ($lessons as $i => $lesson) {
     $grouped[$lesson['module']][] = ['i' => $i] + $lesson;
 }
 
-/** Newest upload, shown as the course's "last updated". */
+/** Newest upload, shown as the "last updated" date. */
 $updated = max(array_column($lessons, 'published'));
 
 /**
@@ -101,7 +101,7 @@ require BRIX_INCLUDES . '/header.php';
   <div class="container">
     <p class="eyebrow reveal">Brix video tutorials</p>
     <h1 class="reveal" style="--d:.06s">Learn Brix, <em>one short video at a time</em></h1>
-    <p class="hero-sub reveal" style="--d:.12s">A free course covering every part of the app, from the cart editor to attribution. Watch it in order, or jump straight to the feature you are setting up. Every lesson is under two&nbsp;minutes.</p>
+    <p class="hero-sub reveal" style="--d:.12s">Free video tutorials covering every part of the app, from the cart editor to attribution. Watch them in order, or jump straight to the feature you are setting up. Every lesson is under two&nbsp;minutes.</p>
     <ul class="tut-facts reveal" style="--d:.18s">
       <li>
         <span class="tut-fact-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="15" rx="3"/><path d="m10 9 5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg></span>
@@ -125,7 +125,7 @@ require BRIX_INCLUDES . '/header.php';
 
 <section class="section tut-section">
   <div class="container">
-    <div class="tut-layout" id="tutCourse">
+    <div class="tut-layout" id="tutSeries">
 
       <div class="tut-main">
 
@@ -196,7 +196,7 @@ require BRIX_INCLUDES . '/header.php';
 
           <div class="tut-progress">
             <div class="tut-progress-top">
-              <p class="tut-progress-h">Course content</p>
+              <p class="tut-progress-h">All tutorials</p>
               <span class="tut-progress-n" id="tutCount">0 / <?= $total ?></span>
             </div>
             <div class="tut-bar"><i id="tutBar" style="width:0%"></i></div>

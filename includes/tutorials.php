@@ -1,10 +1,10 @@
 <?php
 /**
- * The video course behind /tutorials.
+ * The video tutorials behind /tutorials.
  *
  * One ordered list of lessons plus the modules they group into. The
  * page, the JSON-LD and the footer column all read from here, so
- * adding a video to the course is one entry in brix_tutorials() and
+ * adding a video is one entry in brix_tutorials() and
  * nothing else.
  *
  * `seconds` and `published` are the real values from YouTube. They are
@@ -131,7 +131,7 @@ function brix_tutorial_iso_duration(int $seconds): string
     return sprintf('PT%dM%dS', intdiv($seconds, 60), $seconds % 60);
 }
 
-/** Total runtime of the course, rounded up to whole minutes. */
+/** Total runtime of every tutorial, rounded up to whole minutes. */
 function brix_tutorial_total_minutes(): int
 {
     $total = array_sum(array_column(brix_tutorials(), 'seconds'));

@@ -329,6 +329,128 @@ h1 em {
 .nav-drawer a:hover { background: rgba(11, 134, 204, .1); color: var(--brand); }
 .nav-drawer .btn { margin-top: 8px; justify-content: center; }
 
+/* ---------- nav: the Resources menu ---------- */
+
+/* Case studies, blog, guides and tutorials are one idea to a visitor, so
+   they sit behind one button instead of four links elbowing Features and
+   Pricing down the bar.
+
+   It opens on click, never on hover. A hover menu opens itself while a
+   trackpad is only passing through, and a touch screen has no hover to
+   give, so the phone would be left with a control that cannot be worked
+   at all. The same button expands a nested list inside the burger
+   drawer, so both widths behave the same way. */
+
+.nav-caret {
+  width: 12px;
+  height: 12px;
+  margin-left: 5px;
+  flex-shrink: 0;
+  transition: transform .22s ease;
+}
+
+.nav-menu { position: relative; }
+
+.nav-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: color .15s ease;
+}
+.nav-menu-btn:hover,
+.nav-menu-btn.active,
+.nav-menu.open .nav-menu-btn { color: var(--ink); }
+.nav-menu.open .nav-caret { transform: rotate(180deg); }
+
+/* The same glass as the burger drawer: one visitor may well meet both,
+   and two different popovers on one site read as two different sites. */
+.nav-menu-panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  width: 210px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  background: rgba(255, 255, 255, .5);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, .55);
+  border-radius: 16px;
+  box-shadow: 0 24px 50px -12px rgba(23, 20, 46, .3);
+  transform-origin: top center;
+  opacity: 0;
+  transform: translate(-50%, -8px) scale(.96);
+  pointer-events: none;
+  transition: opacity .18s ease, transform .24s cubic-bezier(.32,.72,.28,1);
+}
+.nav-menu.open .nav-menu-panel {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+  pointer-events: auto;
+}
+
+/* Overrides .nav-links a, which is sized for a row and not for a list. */
+.nav-links .nav-menu-panel a {
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--ink);
+  transition: background .15s ease, color .15s ease;
+}
+.nav-links .nav-menu-panel a:hover,
+.nav-links .nav-menu-panel a.active {
+  background: rgba(11, 134, 204, .1);
+  color: var(--brand);
+}
+
+/* ---------- the same menu inside the burger drawer ---------- */
+
+.nav-drawer-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+.nav-drawer-toggle:hover { background: rgba(11, 134, 204, .1); color: var(--brand); }
+.nav-drawer-toggle[aria-expanded="true"] .nav-caret { transform: rotate(180deg); }
+
+/* Collapsed by a grid row rather than a max-height guess, so the open
+   height is whatever the list actually measures and a fifth link later
+   cannot end up clipped. */
+.nav-drawer-sub {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .26s cubic-bezier(.32,.72,.28,1);
+}
+.nav-drawer-sub.open { grid-template-rows: 1fr; }
+.nav-drawer-sub > div {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.nav-drawer-sub a {
+  padding-left: 28px;
+  font-size: .95rem;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
 /* ---------- admin draft-preview bar ---------- */
 
 /* The nav is fixed at the top of the viewport, so a preview bar left in
@@ -4161,7 +4283,7 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
 .ad-sub-bad { color: #B93838 !important; }
 
 /* ==========================================================================
-   /tutorials — the video course
+   /tutorials — the video tutorials
    --------------------------------------------------------------------------
    A player on the left with the syllabus on the right, the same way the
    article pages put the body first and the standing details in a rail
@@ -4649,7 +4771,7 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
   .tut-play svg { width: 26px; height: 26px; }
   .tut-now-head { flex-direction: column; align-items: stretch; gap: 14px; }
   /* Under the video rather than beside the title, with the two arrows at
-     opposite ends so the row reads as paging through the course. */
+     opposite ends so the row reads as paging through the series. */
   .tut-skip { order: -1; justify-content: space-between; }
   .tut-now-actions .btn { width: 100%; }
   .tut-now-link { width: 100%; }
