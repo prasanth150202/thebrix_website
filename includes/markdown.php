@@ -216,6 +216,12 @@ function add_lede_class(string $html): string
     // Only if the paragraph is genuinely the first block of the
     // article; if a heading or table comes first, there is no lede.
     $before = trim(substr($html, 0, $pos));
+
+    // A [cta] button above the opening paragraph is the exception. It
+    // is not prose, so it should not cost the article its lede the way
+    // a heading does - the paragraph under it is still the intro.
+    $before = trim(preg_replace('#<div class="cs-cta[^"]*">.*?</div>#s', '', $before) ?? $before);
+
     if ($before !== '') {
         return $html;
     }
