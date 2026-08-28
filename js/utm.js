@@ -33,7 +33,17 @@
   const SESSION_KEY = 'brix_attr_session';
   const MAX_AGE = 90 * 24 * 60 * 60;
 
+  /* Every App Store link on the page. Clicks on all of them are worth
+     reporting, whoever wrote the link. */
   const CTA_SELECTOR = 'a[href*="apps.shopify.com/thebrix-io"]';
+
+  /* The subset whose href we are allowed to rewrite.
+     -------------------------------------------------------------------
+     A [cta] button written into a post body carries data-utm-lock and
+     is excluded: the author typed their own campaign into the URL, and
+     rewriting the href would throw it away. Those clicks still report,
+     because the reporting above keys off CTA_SELECTOR, not this. */
+  const DECORATE_SELECTOR = CTA_SELECTOR + ':not([data-utm-lock])';
 
   /* ---------- storage: cookie with a localStorage mirror ---------- */
 
@@ -187,7 +197,7 @@
      middle-clicked link carries the same attribution */
   const decorate = () => {
     const url = resolvedUrl();
-    document.querySelectorAll(CTA_SELECTOR).forEach(a => a.setAttribute('href', url));
+    document.querySelectorAll(DECORATE_SELECTOR).forEach(a => a.setAttribute('href', url));
   };
 
   const placement = a => a.closest('[id]')?.id || 'unknown';
@@ -196,7 +206,12 @@
     const a = e.target?.closest?.(CTA_SELECTOR);
     if (!a) return;
 
-    a.setAttribute('href', resolvedUrl());
+    /* Refreshed at the last possible moment, in case attribution
+       resolved after load. Skipped on an author-written [cta], whose
+       URL is deliberately its own. */
+    if (!a.hasAttribute('data-utm-lock')) {
+      a.setAttribute('href', resolvedUrl());
+    }
 
     report({
       event: 'brix_app_store_click',
