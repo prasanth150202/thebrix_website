@@ -121,8 +121,13 @@ $ctaSub = $post['cta_sub'] !== ''
             <p class="post-aside-sub"><?= e($post['hero_subtitle']) ?></p>
           <?php endif; ?>
 
-          <a class="btn btn-primary btn-sm post-aside-cta" href="<?= e(SHOPIFY_APP_URL) ?>"
-             target="_blank" rel="noopener">Install Brix free</a>
+          <?php /* data-utm-lock, or js/utm.js rewrites this href back to
+                   the site-wide Brix-Website campaign on load and the
+                   blog and case-study tagging never reaches Shopify.
+                   The click still reports: only the rewriting selector
+                   skips locked links, the reporting one still matches. */ ?>
+          <a class="btn btn-primary btn-sm post-aside-cta" href="<?= e(article_install_url($post['type'])) ?>"
+             target="_blank" rel="noopener" data-utm-lock>Install Brix free</a>
 
           <?php if ($related): ?>
             <!-- Related reading lives in the sidebar rather than as a
