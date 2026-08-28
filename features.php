@@ -236,8 +236,8 @@ require BRIX_INCLUDES . '/header.php';
             </g>
             <defs>
               <linearGradient id="aovFill2" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#0B86CC" stop-opacity=".22"/>
-                <stop offset="100%" stop-color="#0B86CC" stop-opacity="0"/>
+                <stop offset="0%" stop-color="#7C3AED" stop-opacity=".22"/>
+                <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
               </linearGradient>
             </defs>
             <path class="chart-area" d="M64 156.3 L170 143.9 L276 119.1 L382 98.4 L488 69.5 L594 40.5 L594 210 L64 210 Z" fill="url(#aovFill2)"/>

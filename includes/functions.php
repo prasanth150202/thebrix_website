@@ -365,10 +365,10 @@ function clamp_hero_blur(mixed $value): int
 function card_gradients(): array
 {
     return [
-        'bshot-1' => 'Blue to teal',
-        'bshot-2' => 'Navy to blue',
-        'bshot-3' => 'Teal to green',
-        'bshot-4' => 'Blue to green',
+        'bshot-1' => 'Violet',
+        'bshot-2' => 'Dark to violet',
+        'bshot-3' => 'Violet to AI blue',
+        'bshot-4' => 'Growth green',
     ];
 }
 

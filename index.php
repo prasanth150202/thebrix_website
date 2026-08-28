@@ -236,12 +236,12 @@ require BRIX_INCLUDES . '/header.php';
         <svg class="wm-svg" viewBox="0 0 1000 440" role="img" aria-label="World map highlighting the regions Brix serves: North America, United States, Canada, Europe, India, Singapore and Australia">
           <defs>
             <radialGradient id="wmGlow" cx="50%" cy="46%" r="62%">
-              <stop offset="0%" stop-color="#0E9BE5" stop-opacity=".10"/>
-              <stop offset="100%" stop-color="#0E9BE5" stop-opacity="0"/>
+              <stop offset="0%" stop-color="#8B5CF6" stop-opacity=".10"/>
+              <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0"/>
             </radialGradient>
           </defs>
           <rect x="0" y="0" width="1000" height="440" fill="url(#wmGlow)"/>
-          <g class="wm-grid" stroke="#0B86CC" stroke-opacity=".08" stroke-width="1">
+          <g class="wm-grid" stroke="#7C3AED" stroke-opacity=".08" stroke-width="1">
             <line x1="0" y1="70" x2="1000" y2="70"/>
             <line x1="0" y1="140" x2="1000" y2="140"/>
             <line x1="0" y1="210" x2="1000" y2="210"/>
@@ -254,7 +254,7 @@ require BRIX_INCLUDES . '/header.php';
             <line x1="780" y1="0" x2="780" y2="440"/>
             <line x1="920" y1="0" x2="920" y2="440"/>
           </g>
-          <g class="wm-land" fill="#C4E3F7">
+          <g class="wm-land" fill="#C4B5FD">
             <path d="M56,69 L153,83 L264,78 L306,111 L306,139 L275,181 L231,178 L208,194 L189,175 L161,147 L156,117 L111,83 Z"/>
             <path d="M292,222 L403,272 L389,314 L306,394 L300,361 L278,278 L283,236 Z"/>
             <path d="M475,131 L578,139 L611,83 L528,89 L478,111 Z"/>
@@ -264,7 +264,7 @@ require BRIX_INCLUDES . '/header.php';
             <circle cx="792" cy="252" r="7"/>
             <circle cx="812" cy="266" r="5"/>
           </g>
-          <g class="wm-arcs" fill="none" stroke="#0B86CC" stroke-opacity=".38" stroke-width="1.6" stroke-dasharray="3 6" stroke-linecap="round">
+          <g class="wm-arcs" fill="none" stroke="#7C3AED" stroke-opacity=".38" stroke-width="1.6" stroke-dasharray="3 6" stroke-linecap="round">
             <path d="M233,144 Q380,60 528,111"/>
             <path d="M528,111 Q623,95 719,189"/>
             <path d="M719,189 Q780,200 789,247"/>
@@ -391,18 +391,18 @@ require BRIX_INCLUDES . '/header.php';
             <svg viewBox="0 0 200 82" aria-hidden="true">
               <defs>
                 <linearGradient id="fcAov" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#0B86CC" stop-opacity=".22"/>
-                  <stop offset="100%" stop-color="#0B86CC" stop-opacity="0"/>
+                  <stop offset="0%" stop-color="#7C3AED" stop-opacity=".22"/>
+                  <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
                 </linearGradient>
               </defs>
-              <g stroke="rgba(11,134,204,.12)" stroke-width="1">
+              <g stroke="rgba(124,58,237,.12)" stroke-width="1">
                 <line x1="6" y1="22" x2="194" y2="22"/>
                 <line x1="6" y1="44" x2="194" y2="44"/>
                 <line x1="6" y1="66" x2="194" y2="66"/>
               </g>
               <path d="M8 60 L26 63 L44 54 L62 57 L82 48 L100 44 L118 47 L136 36 L154 30 L172 33 L190 16 L190 74 L8 74 Z" fill="url(#fcAov)"/>
-              <path d="M8 60 L26 63 L44 54 L62 57 L82 48 L100 44 L118 47 L136 36 L154 30 L172 33 L190 16" fill="none" stroke="#0B86CC" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-              <g fill="#0B86CC" opacity=".5">
+              <path d="M8 60 L26 63 L44 54 L62 57 L82 48 L100 44 L118 47 L136 36 L154 30 L172 33 L190 16" fill="none" stroke="#7C3AED" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <g fill="#7C3AED" opacity=".5">
                 <circle cx="44" cy="54" r="1.6"/>
                 <circle cx="62" cy="57" r="1.6"/>
                 <circle cx="82" cy="48" r="1.6"/>
@@ -413,7 +413,7 @@ require BRIX_INCLUDES . '/header.php';
                 <circle cx="172" cy="33" r="1.6"/>
               </g>
               <circle cx="190" cy="16" r="5.5" fill="#fff"/>
-              <circle cx="190" cy="16" r="3.2" fill="#0B86CC"/>
+              <circle cx="190" cy="16" r="3.2" fill="#7C3AED"/>
               <text class="mini-area-end" x="184" y="12" text-anchor="end">$86</text>
             </svg>
             <span class="mini-stat">AOV +32%</span>

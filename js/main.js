@@ -213,7 +213,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
 
 /* ---------- confetti engine ---------- */
 
-const CONFETTI_COLORS = ['#0E9BE5', '#22C55E', '#14B8A6', '#FFB43C', '#5EEAD4'];
+const CONFETTI_COLORS = ['#7C3AED', '#8B5CF6', '#A78BFA', '#38BDF8', '#22C55E'];
 
 function sizeCanvas(canvas) {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);

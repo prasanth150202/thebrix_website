@@ -38,12 +38,12 @@ header('X-Robots-Tag: noindex, nofollow');
 <title>Brix is not configured</title>
 <style>
   body { margin:0; font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif;
-         color:#0B1524; background:#F5F8FB; padding:40px 20px; }
-  .wrap { max-width:560px; margin:0 auto; background:#fff; border:1px solid #E3E9F0;
+         color:#120A24; background:#F8F6FF; padding:40px 20px; }
+  .wrap { max-width:560px; margin:0 auto; background:#FFFFFF; border:1px solid #E7E1F5;
           border-radius:14px; padding:34px; }
   h1 { font-size:1.35rem; margin:0 0 8px; }
-  p { color:#4A5A6E; }
-  code { background:#F5F8FB; border:1px solid #E3E9F0; border-radius:5px; padding:1px 5px;
+  p { color:#5F5570; }
+  code { background:#F8F6FF; border:1px solid #E7E1F5; border-radius:5px; padding:1px 5px;
          font:13px ui-monospace,Menlo,monospace; }
 </style>
 </head>

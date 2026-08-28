@@ -3,17 +3,22 @@
    marketing page, so it loads none of the site's fonts or animation. */
 
 :root {
-  --ink: #0F1B26;
-  --ink-2: #4E6070;
-  --ink-3: #82929F;
-  --line: #E2EBF1;
-  --line-2: #EEF3F7;
-  --paper: #FFFFFF;
-  --paper-soft: #F5F8FB;
-  --brand: #0B86CC;
-  --brand-deep: #0973B1;
-  --brand-soft: #DFF1FC;
-  --green: #12A150;
+  /* Same BRIX palette as the public site; the panel just needs
+     fewer of the swatches. The violet ramp sits one step lighter
+     than the brand sheet prints it - see the note in
+     css/styles.css, and keep the two files in step. */
+  --ink: #120A24;        /* Heading Text     */
+  --ink-2: #5F5570;      /* Body Text        */
+  --ink-3: #8B819C;
+  --line: #E7E1F5;
+  --line-2: #F1EDFA;
+  --paper: #FFFFFF;      /* Card Background  */
+  --paper-soft: #F8F6FF; /* Light Background */
+  --brand: #7C3AED;      /* resting brand    */
+  --brand-deep: #6D28D9; /* sheet's Primary  */
+  --brand-soft: #EDE9FE;
+  --ai-blue: #38BDF8;    /* AI Blue Accent   */
+  --green: #12A150;      /* kept: status green, not the brand accent */
   --amber: #E8912D;
   --red: #D64545;
   --radius: 12px;
@@ -102,7 +107,7 @@ code {
   text-transform: uppercase;
   letter-spacing: .02em;
   /* The wordmark's own ink colour, so the two words match exactly. */
-  color: #0D121C;
+  color: #120A24;
 }
 .ad-tabs { display: flex; gap: 4px; margin-right: auto; }
 .ad-tabs a {
@@ -322,8 +327,11 @@ textarea { resize: vertical; }
   font-size: .87rem;
   font-weight: 600;
 }
-.ad-filters a:hover { text-decoration: none; border-color: var(--ink-3); }
-.ad-filters a.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+.ad-filters a:hover { text-decoration: none; border-color: var(--brand); color: var(--brand); }
+/* Selected chip in Primary Violet, which is what the palette gives a
+   navigation chip in its active state. */
+.ad-filters a.on { background: var(--brand); border-color: var(--brand); color: #fff; }
+.ad-filters a.on:hover { color: #fff; }
 
 /* ---------- table ---------- */
 
@@ -450,10 +458,10 @@ textarea { resize: vertical; }
   color: rgba(255, 255, 255, .9);
 }
 .ad-cardpreview-shot svg { width: 40px; height: 40px; opacity: .85; }
-.bshot-1 { background: linear-gradient(135deg, #0E9BE5, #14B8A6); }
-.bshot-2 { background: linear-gradient(135deg, #07192B, #0B86CC); }
-.bshot-3 { background: linear-gradient(135deg, #14B8A6, #22C55E); }
-.bshot-4 { background: linear-gradient(135deg, #0B86CC, #22C55E); }
+.bshot-1 { background: linear-gradient(135deg, #7C3AED, #A78BFA); }
+.bshot-2 { background: linear-gradient(135deg, #140B2D, #7C3AED); }
+.bshot-3 { background: linear-gradient(135deg, #8B5CF6, #38BDF8); }
+.bshot-4 { background: linear-gradient(135deg, #22C55E, #4ADE80); }
 
 /* ---------- submissions ---------- */
 
@@ -621,7 +629,7 @@ textarea { resize: vertical; }
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(244, 249, 252, .78), rgba(244, 249, 252, .9));
+  background: linear-gradient(180deg, rgba(248, 246, 255, .78), rgba(248, 246, 255, .9));
 }
 
 .ad-heroshot-empty {
@@ -663,8 +671,8 @@ textarea { resize: vertical; }
   display: inline-block;
   padding: 2px 8px;
   border-radius: 6px;
-  background: #E8F3FB;
-  color: #0973B1;
+  background: #EDE9FE;
+  color: #6D28D9;
   font-size: .72rem;
   font-weight: 700;
   letter-spacing: .01em;
