@@ -3962,6 +3962,25 @@ body.bx-open .bx-panel { transform: translateY(0) scale(1); opacity: 1; pointer-
   margin: 38px 0;
 }
 
+/* An author-placed [cta] button inside the body. The button itself is
+   the site's own .btn-primary, so this only has to own the block: the
+   space around it, and which edge it sits on. */
+.cs-cta {
+  display: flex;
+  margin: 34px 0;
+}
+.cs-cta-left { justify-content: flex-start; }
+.cs-cta-center { justify-content: center; }
+.cs-cta-right { justify-content: flex-end; }
+
+/* A long label must wrap rather than push the article sideways on a
+   narrow screen, which .btn's nowrap would otherwise do. */
+.cs-cta .btn {
+  white-space: normal;
+  text-align: center;
+  max-width: 100%;
+}
+
 .cs-article img {
   display: block;
   max-width: 100%;

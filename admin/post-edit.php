@@ -392,6 +392,16 @@ admin_head($post ? 'Edit post' : 'New post', $user, 'posts');
             because the title is already shown in the hero. Raw HTML is passed through if
             you need a block markdown cannot express.
           </p>
+          <p class="ad-hint">
+            <b>Buttons.</b> Put a line of its own anywhere in the body:<br>
+            <code>[cta text="Install Brix free" url="/pricing" align="center"]</code><br>
+            <code>align</code> is optional and can be <code>left</code> (the default),
+            <code>center</code> or <code>right</code>. Use as many as you like. Write any
+            UTM parameters into <code>url</code> in full &mdash; they are kept exactly as
+            you type them, including on App&nbsp;Store links. A button with no text, or a
+            link that is not <code>https://</code>, <code>http://</code>, <code>/a-path</code>
+            or <code>#an-anchor</code>, is left off the page entirely.
+          </p>
         </div>
 
         <div class="ad-card">

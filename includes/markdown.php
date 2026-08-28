@@ -51,11 +51,116 @@ function render_markdown(string $markdown): string
     $html = brix_parsedown()->text($markdown);
 
     $html = style_tables($html);
+    // Before add_lede_class(), so a post opening with a button does not
+    // spend its .cs-lede on the button and leave the real first
+    // paragraph unstyled.
+    $html = render_body_ctas($html);
     $html = add_lede_class($html);
     $html = add_heading_anchors($html);
     $html = harden_links($html);
 
     return $html;
+}
+
+/**
+ * Turn a [cta] shortcode in the body into the site's button.
+ *
+ *   [cta text="Install Brix free" url="/pricing" align="center"]
+ *
+ * Three attributes, in any order. `align` is optional and defaults to
+ * left, which is where the body text around it sits. Any number of
+ * them can appear in one post.
+ *
+ * UTM parameters go inside `url`, written out in full. That is why the
+ * rendered link carries data-utm-lock: js/utm.js rewrites the href of
+ * every App Store link on the page, and would otherwise throw away the
+ * campaign the author just typed.
+ *
+ * Only a shortcode alone in its own paragraph is converted. One typed
+ * mid-sentence is left as visible text on purpose: it shows up in the
+ * draft preview as obviously wrong, which is easier to notice than a
+ * button that silently failed to appear.
+ *
+ * Runs before harden_links(), so a CTA pointing off-site picks up
+ * target="_blank" rel="noopener" like every other outbound link.
+ */
+function render_body_ctas(string $html): string
+{
+    return preg_replace_callback(
+        '#<p>\s*\[cta\s+([^\]]*)\]\s*</p>#i',
+        static function (array $m): string {
+            $attrs = parse_shortcode_attrs($m[1]);
+
+            $text = trim($attrs['text'] ?? '');
+            $url  = cta_safe_url($attrs['url'] ?? '');
+
+            // Nothing to click, or nowhere safe to send them: render
+            // nothing at all rather than an empty or dangerous button.
+            if ($text === '' || $url === null) {
+                return '';
+            }
+
+            $align = strtolower(trim($attrs['align'] ?? 'left'));
+            if (!in_array($align, ['left', 'center', 'right'], true)) {
+                $align = 'left';
+            }
+
+            // href first: harden_links() below anchors its match on
+            // "<a href=", and an off-site button should pick up
+            // target="_blank" rel="noopener" from it like any other
+            // outbound link in the article rather than rolling its own.
+            return '<div class="cs-cta cs-cta-' . $align . '">'
+                 . '<a href="' . e($url) . '" class="btn btn-primary btn-lg" data-utm-lock>'
+                 . e($text)
+                 . '</a></div>';
+        },
+        $html
+    ) ?? $html;
+}
+
+/**
+ * key="value" pairs out of a shortcode's attribute string.
+ *
+ * Parsedown has already run, so an & in a URL arrives as &amp; and the
+ * quotes may have been curled by nothing at all - but the entities are
+ * decoded here so the value is the URL the author actually typed.
+ */
+function parse_shortcode_attrs(string $raw): array
+{
+    preg_match_all('/([a-z_]+)\s*=\s*"([^"]*)"/i', $raw, $pairs, PREG_SET_ORDER);
+
+    $out = [];
+    foreach ($pairs as $p) {
+        $out[strtolower($p[1])] = html_entity_decode($p[2], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+
+    return $out;
+}
+
+/**
+ * A URL a CTA is allowed to point at, or null.
+ *
+ * An absolute http(s) address, a root-relative path, or an anchor on
+ * the same page. Everything else is refused, which is what keeps
+ * javascript: and data: out of a button rendered on a public page.
+ *
+ * "//host" is refused too. It reads like a path but a browser treats
+ * it as protocol-relative, so it would send the reader to whatever
+ * host follows the slashes.
+ */
+function cta_safe_url(string $url): ?string
+{
+    $url = trim($url);
+
+    if ($url === '') {
+        return null;
+    }
+
+    $ok = preg_match('#^https?://#i', $url)
+       || (str_starts_with($url, '/') && !str_starts_with($url, '//'))
+       || str_starts_with($url, '#');
+
+    return $ok ? $url : null;
 }
 
 /**
@@ -111,6 +216,12 @@ function add_lede_class(string $html): string
     // Only if the paragraph is genuinely the first block of the
     // article; if a heading or table comes first, there is no lede.
     $before = trim(substr($html, 0, $pos));
+
+    // A [cta] button above the opening paragraph is the exception. It
+    // is not prose, so it should not cost the article its lede the way
+    // a heading does - the paragraph under it is still the intro.
+    $before = trim(preg_replace('#<div class="cs-cta[^"]*">.*?</div>#s', '', $before) ?? $before);
+
     if ($before !== '') {
         return $html;
     }
