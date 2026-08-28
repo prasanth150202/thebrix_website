@@ -359,6 +359,38 @@ function clamp_hero_blur(mixed $value): int
 }
 
 /**
+ * The App Store link for the CTA in an article's sidebar, tagged with
+ * the kind of page the reader clicked from.
+ *
+ * Everywhere else on the site sends Brix-Website / Website_Tracking,
+ * which lumps a reader who came through a blog post in with every
+ * other visitor. Reading is a slower route to an install than a
+ * landing page is, and it is worth being able to see that separately
+ * in Shopify.
+ *
+ * Only the source and the campaign change. utm_medium stays Organic,
+ * and utm_id stays Website because that is the parameter Shopify
+ * filters website installs on: vary it and these installs drop out of
+ * that view entirely.
+ *
+ * The address itself is taken from SHOPIFY_APP_URL rather than written
+ * out again, so there is still one place the store URL is defined.
+ */
+function article_install_url(string $type): string
+{
+    [$source, $campaign] = $type === 'case_study'
+        ? ['Brix-Case-Studies', 'Case_Studies_Tracking']
+        : ['Brix-Blogs', 'Blogs_Tracking'];
+
+    return strtok(SHOPIFY_APP_URL, '?') . '?' . http_build_query([
+        'utm_source'   => $source,
+        'utm_medium'   => 'Organic',
+        'utm_campaign' => $campaign,
+        'utm_id'       => 'Website',
+    ]);
+}
+
+/**
  * The card gradients the site already ships. Keyed so the editor can
  * offer them as a choice rather than asking for a raw class name.
  */
