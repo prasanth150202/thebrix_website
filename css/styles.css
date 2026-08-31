@@ -79,7 +79,26 @@ body {
   color: var(--ink);
   background: var(--paper);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+}
+
+/* Sideways overflow is clipped on BOTH elements, not body alone.
+   -------------------------------------------------------------------
+   body's overflow only propagates to the viewport while html is
+   visible, and Chrome on Android still sizes the layout viewport to
+   the wider content: the page gets a strip of empty space down the
+   right, and the fixed nav is laid out against that wider box, which
+   puts the burger past the right edge of the screen. iOS Safari clamps
+   it, which is why this only ever showed up on Android.
+
+   clip rather than hidden: hidden would make html a scroll container
+   and change how position:sticky resolves (the article sidebar). clip
+   does not, so nothing else has to move. The hidden pair below it is
+   the fallback for a browser too old for clip, where the behaviour is
+   no worse than it already was. */
+html, body { overflow-x: hidden; }
+
+@supports (overflow-x: clip) {
+  html, body { overflow-x: clip; }
 }
 
 img, svg { display: inline-block; vertical-align: middle; }
@@ -2002,6 +2021,12 @@ body.has-preview-bar .cs-article h3[id] {
   align-items: start;
 }
 
+/* A grid item's automatic minimum size is its content, so the signup
+   column could not shrink below the width of the email field plus the
+   Subscribe button side by side. On a 360px phone that forced the
+   whole footer 41px wider than the screen. */
+.footer-grid > * { min-width: 0; }
+
 .logo-light { color: #fff; }
 
 .footer-brand p { margin-top: 14px; font-size: .9rem; max-width: 24ch; color: rgba(255,255,255,.55); }
@@ -3371,6 +3396,13 @@ body.gsap-on .hero-chip { animation: none; }
 }
 
 @media (max-width: 680px) {
+  /* These are blurred decoration sitting behind a card, inset past
+     every edge so the glow bleeds. On a phone the horizontal bleed is
+     wider than the screen, so it is dropped and the vertical bleed
+     kept: at this size the difference is invisible, and it is the
+     larger half of what was pushing the page sideways. */
+  .wb-glow, .waov-glow { left: 0; right: 0; }
+
   .section { padding: 54px 0; }
   .nav-links { display: none; }
   .nav-burger { display: flex; }
