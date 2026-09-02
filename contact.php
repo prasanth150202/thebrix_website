@@ -150,6 +150,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     db()->prepare($sql)->execute($params);
                 }
 
+                /* Mirrored to the Sheet only now the row is safely in the
+                   database, and outside nothing that could fail the
+                   submission: brix_lead_to_sheet() swallows its own
+                   errors, so a bad day at Google cannot turn into "we
+                   could not save your message". */
+                require_once BRIX_INCLUDES . '/sheets.php';
+                brix_lead_to_sheet([
+                    'name'      => $name,
+                    'email'     => $values['email'],
+                    'store_url' => $storeUrl,
+                    'message'   => $message,
+                    'source'    => '',
+                ]);
+
                 $sent   = true;
                 $values = ['name' => '', 'email' => '', 'store_url' => '', 'message' => ''];
             } catch (Throwable) {

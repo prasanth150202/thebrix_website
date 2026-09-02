@@ -184,5 +184,18 @@ function brix_lead_handle(string $source, array $questions = []): array
         ];
     }
 
+    /* Mirrored to the Sheet only now the row is safely in the database,
+       and after the try/catch above rather than inside it: this must not
+       be able to turn a saved lead into an error the visitor sees.
+       brix_lead_to_sheet() swallows its own failures. */
+    require_once BRIX_INCLUDES . '/sheets.php';
+    brix_lead_to_sheet([
+        'name'      => $name,
+        'email'     => $values['email'],
+        'store_url' => $storeUrl,
+        'message'   => $message,
+        'source'    => $src,
+    ]);
+
     return ['sent' => true, 'errors' => [], 'values' => brix_lead_blank()];
 }
