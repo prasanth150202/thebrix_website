@@ -19,7 +19,7 @@
 
 // Must match BRIX_SHEETS_WEBHOOK_SECRET in the site's .env, byte for byte.
 // Stored in Script Properties rather than written here, so the secret is not
-// sitting in a file that gets copied around. See setSecret_() at the bottom.
+// sitting in a file that gets copied around. See setSecret() at the bottom.
 const SECRET_PROPERTY = 'BRIX_SHEETS_WEBHOOK_SECRET';
 
 const TAB_NAME = 'Leads';
@@ -112,7 +112,7 @@ function signatureValid_(raw, provided) {
   const secret = PropertiesService.getScriptProperties().getProperty(SECRET_PROPERTY);
 
   if (!secret) {
-    console.error('lead sheet: ' + SECRET_PROPERTY + ' is not set — run setSecret_ first');
+    console.error('lead sheet: ' + SECRET_PROPERTY + ' is not set — run setSecret first');
     return false;
   }
   if (!provided) return false;
@@ -220,20 +220,25 @@ function findRowByEmail_(sh, email) {
 
 // ---------------------------------------------------------------------------
 // Setup and diagnostics — run these by hand from the editor
+//
+// These two deliberately do NOT end in an underscore. Apps Script treats a
+// trailing underscore as private and hides those functions from the Run
+// dropdown, which is right for the helpers above and wrong for anything the
+// setup asks you to run yourself. Do not add one here.
 // ---------------------------------------------------------------------------
 
 /**
  * Store the shared secret. Edit the string, run once, then blank it again
  * and save so the value is not left sitting in the file.
  */
-function setSecret_() {
+function setSecret() {
   const secret = 'PASTE_THE_SAME_SECRET_AS_THE_SITE_ENV';
 
   if (secret.indexOf('PASTE_') === 0) {
-    throw new Error('Edit setSecret_ and put the real secret in first.');
+    throw new Error('Edit setSecret and put the real secret in first.');
   }
   PropertiesService.getScriptProperties().setProperty(SECRET_PROPERTY, secret);
-  console.log('Secret stored. Now blank the string in setSecret_ and save.');
+  console.log('Secret stored. Now blank the string in setSecret and save.');
 }
 
 /**
@@ -244,9 +249,9 @@ function setSecret_() {
  * the secret matches and the signature scheme agrees on both sides - which
  * is the one thing worth proving before pointing the live site at this.
  */
-function testRoundTrip_() {
+function testRoundTrip() {
   const secret = PropertiesService.getScriptProperties().getProperty(SECRET_PROPERTY);
-  if (!secret) throw new Error('Run setSecret_ first.');
+  if (!secret) throw new Error('Run setSecret first.');
 
   const body = JSON.stringify({
     received_at: new Date().toISOString(),
@@ -254,7 +259,7 @@ function testRoundTrip_() {
     email: 'test@example.com',
     store_url: 'example.myshopify.com',
     source: 'self-test',
-    message: 'Written by testRoundTrip_, safe to delete.',
+    message: 'Written by testRoundTrip, safe to delete.',
   });
 
   const bytes = Utilities.computeHmacSha256Signature(body, secret);

@@ -51,15 +51,15 @@ must match byte for byte.
 
 Store the secret:
 
-1. Edit `setSecret_()` at the bottom of the file and put the real secret in.
-2. Select `setSecret_` in the function dropdown and press **Run**. Approve the
+1. Edit `setSecret()` at the bottom of the file and put the real secret in.
+2. Select `setSecret` in the function dropdown and press **Run**. Approve the
    permissions prompt the first time.
 3. **Blank the string again and save.** The value now lives in Script
    Properties, so it does not need to sit in the file.
 
 ### 4. Prove the two sides agree before going live
 
-Run `testRoundTrip_` from the same dropdown.
+Run `testRoundTrip` from the same dropdown.
 
 It signs a fake lead exactly the way `includes/sheets.php` does and pushes it
 through `doPost`. A row for `test@example.com` appearing in the `Leads` tab means
