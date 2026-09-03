@@ -1,8 +1,8 @@
 /**
  * BRIX — GA4 permanent archive in Google Sheets
  *
- * Every tab is append-only. Rows are upserted by their dimension values, so a
- * day that has already settled is never rewritten and never deleted — the
+ * Every tab is append-only by date. A date GA4 still serves is rewritten from
+ * the fetch on each run; a date it no longer serves is never touched — so the
  * spreadsheet keeps data long after GA4's own retention window has discarded it.
  *
  * Website and App Store data live in separate tabs, prefixed "Web ·" and "Store ·".
@@ -26,7 +26,13 @@ const PROPERTIES = {
 const CONFIG = {
   // Hourly runs only re-pull the last few days. Anything older is already in the
   // archive and is deliberately left untouched.
-  refreshWindowDays: 3,
+  //
+  // Seven rather than three: GA4 keeps re-stating a day for a while after it
+  // happens, and attribution is the slowest part to settle — a session first
+  // reported as "(not set)" can resolve to a real source a day or two later. A
+  // date has to stay inside this window until it stops changing, or it freezes
+  // half attributed.
+  refreshWindowDays: 7,
 
   // One-off seeding window. GA4 can only return what its retention setting has
   // kept, so this is an upper bound, not a promise.
@@ -396,7 +402,7 @@ function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('GA4')
     .addItem('Refresh now (recent days)', 'refreshArchive')
-    .addItem('Backfill history (one-off)', 'backfillArchive')
+    .addItem('Backfill / repair history', 'backfillArchive')
     .addSeparator()
     .addItem('Install hourly trigger', 'installHourlyTrigger')
     .addItem('Remove triggers', 'removeTriggers')
@@ -413,8 +419,14 @@ function refreshArchive() {
 }
 
 /**
- * One-off history seed. Run this once after setting GA4 data retention to
- * 14 months. Safe to re-run: rows are upserted, never duplicated.
+ * History seed, and the repair for a tab that has already been double counted.
+ *
+ * Run it once after setting GA4 data retention to 14 months, and again after
+ * any change to how rows are merged: every date GA4 can still serve is rewritten
+ * from scratch, which clears duplicates an earlier run left behind, while every
+ * date GA4 has already discarded is kept exactly as archived.
+ *
+ * Safe to re-run at any time.
  */
 function backfillArchive() {
   runArchive_(CONFIG.backfillDays);
@@ -444,6 +456,7 @@ function runArchive_(windowDays) {
     const dropped = [];
     const notes = [];
     const rowCounts = {};
+    const retired = {};
     const fieldCache = {};
 
     const reports = REPORTS.concat(discoverCustomReports_(fieldCache, errors));
@@ -490,7 +503,7 @@ function runArchive_(windowDays) {
         const headers = dimensions.concat(metrics).map(function (pair) { return pair[1]; });
 
         rowCounts[tab] = upsertSheet_(ss, tab, headers, fetched.rows,
-          dimensions.length, stamp);
+          dimensions.length, stamp, retired);
 
         Logger.log('%s: %s fetched, %s total', tab, fetched.rows.length, rowCounts[tab]);
       } catch (err) {
@@ -526,6 +539,7 @@ function runArchive_(windowDays) {
       stamp: stamp,
       window: windowDays + ' days ending today',
       rowCounts: rowCounts,
+      retired: retired,
       dropped: dropped,
       notes: notes,
       errors: errors,
@@ -649,13 +663,27 @@ function customLabel_(apiName) {
 
 /**
  * Merges freshly fetched rows into an archive tab and returns the total row
- * count. Existing rows are matched on their dimension values and replaced;
- * unmatched existing rows are preserved untouched, which is what makes the
- * archive outlive GA4's retention window.
+ * count.
+ *
+ * Replacement is per DATE, not per row key. Every date this fetch returned is
+ * cleared out of the tab and rewritten from the fetch; every date it did not
+ * return is preserved untouched, which is what makes the archive outlive GA4's
+ * retention window.
+ *
+ * Keying on the dimension values alone was not enough, because those values are
+ * not stable. GA4 back-fills attribution for a day or two after the fact, so the
+ * same click arrives first with sessionSource "(not set)" and later with the
+ * real source. That is a different key, so the old upsert inserted a second row
+ * and kept the first one for ever, and the day ended up counted twice — once
+ * attributed, once not. The date is the only part of the key GA4 never revises,
+ * so it is the only safe unit of replacement.
+ *
+ * `retired` collects, per tab, the rows dropped because GA4 no longer reports
+ * them under that key. Purely for _Status.
  *
  * Returns the number of rows in the tab after the merge.
  */
-function upsertSheet_(ss, name, headers, rows, keyCount, stamp) {
+function upsertSheet_(ss, name, headers, rows, keyCount, stamp, retired) {
   let sheet = ss.getSheetByName(name);
   if (!sheet) sheet = ss.insertSheet(name);
 
@@ -664,13 +692,35 @@ function upsertSheet_(ss, name, headers, rows, keyCount, stamp) {
   const merged = [];
   const index = {};
 
+  // The dates this fetch re-stated, and the keys it re-stated them under.
+  // Every report leads with the date dimension; if one ever does not, restated
+  // stays empty and the merge falls back to matching on the key alone.
+  const restated = {};
+  const fetchedKeys = {};
+  if (fullHeaders.indexOf('Date') === 0) {
+    rows.forEach(function (row) { restated[String(row[0])] = true; });
+  }
+  rows.forEach(function (row) {
+    fetchedKeys[rowKey_(row.concat([stamp]), keyCount)] = true;
+  });
+
   // Carry existing rows over, remapped onto the current header layout so that
   // registering a new custom dimension later does not orphan the archive.
+  // Rows on a re-stated date are dropped here and come back from the fetch
+  // below, so a value GA4 has since revised cannot survive as a second row.
   if (existing.headers.length) {
     const map = fullHeaders.map(function (h) { return existing.headers.indexOf(h); });
     existing.rows.forEach(function (row) {
       const remapped = map.map(function (i) { return i === -1 ? '' : row[i]; });
       const key = rowKey_(remapped, keyCount);
+      if (restated[String(remapped[0])]) {
+        // Worth reporting only when the fetch did not bring the row back under
+        // the same key — that is one GA4 has retracted, not one it rewrote.
+        if (!fetchedKeys[key] && retired) {
+          retired[name] = (retired[name] || 0) + 1;
+        }
+        return;
+      }
       if (index[key] === undefined) {
         index[key] = merged.length;
         merged.push(remapped);
@@ -919,12 +969,52 @@ function buildLeadJourney_(ss, rowCounts, notes) {
   });
 
   // --- optional: fill in tokens for leads that never produced a click row ---
+  //
+  // Without the key, a lead is only knowable if Smartlead happened to log a
+  // click carrying their token. Everyone else is invisible to the GA4 join even
+  // when their visit is sitting in Lead Sessions with a perfectly good token on
+  // it, because there is no lead record to attach it to.
   const keyHex = PropertiesService.getScriptProperties().getProperty('LEAD_TOKEN_KEY');
+  const total = Object.keys(leads).length;
+
   if (keyHex) {
     const keyBytes = hexToBytes_(keyHex.trim());
+    let agree = 0;
+    let disagree = 0;
+    let filled = 0;
+
     Object.keys(leads).forEach(function (k) {
-      if (!leads[k].token) leads[k].token = leadToken_(leads[k].email, keyBytes);
+      const lead = leads[k];
+      const computed = leadToken_(lead.email, keyBytes);
+      if (lead.token) {
+        // This token came out of a real click URL, so it is ground truth. It is
+        // the only way to tell a correct key from a wrong one: a wrong key
+        // produces perfectly well-formed tokens that simply match nothing.
+        if (lead.token === computed) agree++; else disagree++;
+      } else {
+        lead.token = computed;
+        filled++;
+      }
     });
+
+    notes.push('LEAD_TOKEN_KEY set: ' + filled + ' of ' + total
+      + ' lead(s) given a computed token.');
+    if (!agree && !disagree) {
+      notes.push('No click URL carried a token, so the key is still unverified.');
+    } else if (!disagree) {
+      notes.push('Key verified against ' + agree + ' click URL(s).');
+    } else {
+      notes.push('KEY LOOKS WRONG: ' + disagree + ' of ' + (agree + disagree)
+        + ' click URL(s) disagree with the computed token. Every computed token '
+        + 'is junk and will match nothing.');
+    }
+  } else {
+    const known = Object.keys(leads).filter(function (k) {
+      return leads[k].token;
+    }).length;
+    notes.push('LEAD_TOKEN_KEY not set: only ' + known + ' of ' + total
+      + ' lead(s) have a token, recovered from click URLs alone. The rest cannot '
+      + 'be matched to GA4 activity even when they did visit.');
   }
 
   // --- GA4 side ---
@@ -1715,6 +1805,15 @@ function writeStatus_(ss, info) {
   Object.keys(info.rowCounts).sort().forEach(function (tab) {
     rows.push([tab, info.rowCounts[tab]]);
   });
+
+  const retiredTabs = Object.keys(info.retired || {}).sort();
+  if (retiredTabs.length) {
+    rows.push(['', '']);
+    rows.push(['RETIRED ROWS', 'superseded by a later GA4 re-statement']);
+    retiredTabs.forEach(function (tab) {
+      rows.push(['', tab + ': ' + info.retired[tab]]);
+    });
+  }
 
   if (info.notes && info.notes.length) {
     rows.push(['', '']);

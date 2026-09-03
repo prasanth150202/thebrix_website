@@ -12,10 +12,14 @@ GA4 property setup: [ga4-utm-setup.md](ga4-utm-setup.md)
 
 This is an **archive, not a mirror**.
 
-Each run fetches only the last few days and merges them into the existing tabs by
-matching on the dimension values. A day that has already settled is never
-rewritten and never deleted. So when GA4 eventually discards data past its
-retention limit, your spreadsheet still has it.
+Each run fetches only the last few days and merges them into the existing tabs
+**one date at a time**. Any date the fetch returned is cleared and rewritten from
+that fetch; any date it did not return is left exactly as it is. So when GA4
+eventually discards data past its retention limit, your spreadsheet still has it.
+
+The date is the unit of replacement because it is the only part of a row GA4
+never revises. Everything else can change after the fact — see
+[Why rows are replaced by date](#why-rows-are-replaced-by-date).
 
 That is the whole reason for the design. An earlier version of this script cleared
 each tab and rewrote it from a rolling window — under that model, data disappeared
@@ -23,7 +27,7 @@ from the sheet the moment GA4 dropped it.
 
 | | Mirror (old) | Archive (now) |
 |---|---|---|
-| Each run | clears and rewrites every tab | merges recent days into what is there |
+| Each run | clears and rewrites every tab | rewrites recent dates, keeps the rest |
 | History | only as far back as GA4 keeps it | unlimited, grows forever |
 | Hourly run | pointless, refetches identical data | useful, corrects today as it fills in |
 
@@ -74,10 +78,16 @@ fields it skipped. If you see errors, jump to the troubleshooting section.
 
 ### 6. Backfill history, once
 
-**GA4 → Backfill history (one-off)** in the spreadsheet menu.
+**GA4 → Backfill / repair history** in the spreadsheet menu.
 
-Pulls up to 400 days in one go and merges it in. Safe to re-run — rows are
-upserted, never duplicated — but there is no reason to run it twice.
+Pulls up to 400 days in one go and merges it in. Safe to re-run at any time:
+every date GA4 can still serve is rewritten from scratch, and every date it has
+already discarded is kept exactly as archived.
+
+This is also the repair. If a tab was written by a version of this script that
+merged on the row key rather than the date, it holds duplicate rows — run this
+once and they are cleared. See
+[Why rows are replaced by date](#why-rows-are-replaced-by-date).
 
 ### 7. Install the hourly trigger
 
@@ -179,6 +189,42 @@ need them for a single slice.
 
 ---
 
+## Why rows are replaced by date
+
+GA4 does not finish reporting a day when the day ends. Attribution in particular
+settles late: a session is first served with `sessionSource` = `(not set)` and
+resolves to the real source a day or two later. The custom `utm_*` and `click_*`
+dimensions behave the same way.
+
+An earlier version of this script merged each fetch into the tab by matching on
+**all** the dimension values. That works only while those values hold still. Once
+`(not set)` resolved to `Mail`, the row no longer matched anything in the tab, so
+the merge inserted it as a new row — and the archive's own rule, that an
+unmatched existing row is never deleted, kept the stale `(not set)` row for ever.
+Every affected day was then counted twice, once attributed and once not:
+
+```
+2026-08-19  / why-brix  (direct)    2 clicks   updated 08-22
+2026-08-19  / why-brix  google      1 click    updated 08-22
+2026-08-19  / why-brix  (not set)   3 clicks   updated 08-20   <- stale first pass
+```
+
+Across a three-week sample this inflated `Web · Store Clicks` from 21 real clicks
+to 30, and `Web · Landings Last Touch` from 289 to 498. Only the tabs keyed on
+something GA4 never revises — `Web · Events Daily`, `Store · Events`, the `Pages`
+and `Audience` tabs — were correct.
+
+The fix is to replace by **date** instead. A date the fetch returned is
+authoritative and is rewritten wholesale; a date it did not return is untouched,
+which is what still lets the archive outlive GA4's retention window. `_Status`
+reports what this retired under **RETIRED ROWS**.
+
+`refreshWindowDays` is **7** for the same reason: a date has to stay inside the
+refresh window until it stops changing, and three days was not always long enough
+for attribution to settle.
+
+---
+
 ## Why click reports use different fields from landing reports
 
 Worth knowing, because the two sets of numbers are attributed differently.
@@ -228,10 +274,24 @@ across a whole sequence.
 out of your own sheet. A lead who never clicked has no website activity to
 attribute, so nothing is lost.
 
-*Optional fallback:* set a script property named `LEAD_TOKEN_KEY` to the hex key
-(**Project Settings → Script Properties**, never in the file) and the script will
-also compute tokens for leads whose click row was missed. Script properties are
-not stored in the code and not committed.
+*Strongly recommended:* set a script property named `LEAD_TOKEN_KEY` to the hex
+key (**Project Settings → Script Properties**, never in the file) and the script
+will also compute tokens for leads whose click row was missed. Script properties
+are not stored in the code and not committed.
+
+Without it, a lead is only knowable if Smartlead happened to log a click carrying
+their token — which in practice is a minority of them. Everyone else is invisible
+to the join **even when their visit is sitting in `Store · Lead Sessions` with a
+perfectly good token on it**, because there is no lead record to attach it to.
+That is what makes `Reached Listing` and `Clicked Add App` read 0 while the store
+data plainly shows the traffic.
+
+`_Status` reports under **LEAD JOURNEY** whether the key is set and, by comparing
+it against tokens from click URLs that *were* logged, whether it is the right
+one. A wrong key produces well-formed tokens that match nothing, so check that
+line rather than assuming.
+
+Step-by-step setup: [ga4-fix-instructions.md](ga4-fix-instructions.md).
 
 On the GA4 side the join uses **`sessionManualTerm`**, the built-in session-scoped
 dimension derived from `utm_term`. Being session-scoped, it attaches to *every*
