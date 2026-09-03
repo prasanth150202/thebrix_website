@@ -32,6 +32,16 @@ try {
 }
 
 if ($post === null) {
+    // The address may be one this post used to have. Sending a visitor
+    // and a crawler on to the current one keeps every old link working
+    // and keeps the ranking with the page.
+    $moved = get_published_post_by_old_slug($slug);
+
+    if ($moved !== null) {
+        header('Location: ' . SITE_URL . post_url($moved), true, 301);
+        exit;
+    }
+
     http_response_code(404);
     require __DIR__ . '/404.php';
     exit;

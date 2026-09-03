@@ -71,6 +71,30 @@ if ($fields['title'] === '') {
     $fields['title'] = (string) (markdown_first_heading($fields['body_md']) ?? 'Untitled draft');
 }
 
+/**
+ * The address, on the same terms as the editor: it follows the title
+ * until the box has been typed into. It arrives as the last segment
+ * only, so the section prefix goes back on here, and the draft row and
+ * the staged payload then hold exactly what a real save would write.
+ */
+$slugAuto = ($_POST['slug_auto'] ?? '') === '1';
+
+$fields['slug'] = normalise_slug_input(
+    $slugAuto || $fields['slug'] === '' ? $fields['title'] : $fields['slug'],
+    $fields['type']
+);
+
+// An autosave must never fail over an address. If the one on screen is
+// taken, keep the address the row already has and let the editor's own
+// save be the thing that reports the clash.
+if ($fields['slug'] === '' || !slug_is_available($fields['slug'], $post['id'] ?? null)) {
+    $fields['slug'] = $post !== null
+        ? (string) $post['slug']
+        : unique_slug($fields['slug'] !== ''
+            ? $fields['slug']
+            : post_slug_prefix($fields['type']) . 'untitled');
+}
+
 try {
     /* ---------- a live post: stage the edit, touch nothing public ---------- */
     if ($post !== null && $post['status'] === 'published') {
@@ -90,22 +114,17 @@ try {
     $cols = array_keys($fields);
 
     if ($post === null) {
-        $prefix = post_slug_prefix($fields['type']);
-        $body   = slugify($fields['title']);
-        $slug   = unique_slug($body === '' ? $prefix . 'untitled' : (
-            str_starts_with($body, rtrim($prefix, '-')) ? $body : $prefix . $body
-        ));
-
-        $insertCols = array_merge($cols, ['slug', 'status', 'draft_saved_at']);
+        // `slug` is one of the editable fields now, so it is already in
+        // $cols and must not be appended a second time.
+        $insertCols = array_merge($cols, ['status', 'draft_saved_at']);
         $sql = 'INSERT INTO posts (' . implode(', ', $insertCols) . ') VALUES ('
              . implode(', ', array_map(static fn($c) => ':' . $c, $cols))
-             . ', :slug, "draft", NOW())';
+             . ', "draft", NOW())';
 
         $params = [];
         foreach ($fields as $k => $v) {
             $params[':' . $k] = $v;
         }
-        $params[':slug'] = $slug;
 
         db()->prepare($sql)->execute($params);
         $newId = (int) db()->lastInsertId();

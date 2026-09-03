@@ -108,9 +108,22 @@ and in `sitemap.xml`, with no further work.
 
 ### The web address
 
-You never type it. It is built from the title when the post is first
-created and then fixed for good, so links and search results pointing
-at it keep working even if you later reword the title.
+The box under the title holds the last part of the address. The
+`/blog/` or `/case-study/` in front of it comes from the post's type,
+so an address can never disagree with the list the post appears on.
+
+On a new post it follows the title until you type your own, and is then
+left exactly as you typed it. Emptying the box hands it back to the
+title.
+
+Changing the address of a post that is already live moves the page when
+you publish. The address it had keeps working: it permanently redirects
+to the new one, so inbound links and search results do not break, and
+the editor lists every old address under the box. `sitemap.xml` is
+generated from the database, so it picks the new address up on its own.
+
+An address that another post uses, or that another post has moved away
+from, is refused rather than quietly numbered.
 
 ### Search engine listing
 

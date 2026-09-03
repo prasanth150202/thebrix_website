@@ -48,6 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'purge') {
         db()->prepare('DELETE FROM posts WHERE id = :id AND deleted_at IS NOT NULL')
             ->execute([':id' => $id]);
+        // Nothing left to redirect to, and holding the rows would keep
+        // those addresses reserved against every future post.
+        forget_slug_redirects($id);
         flash('Erased "' . $post['title'] . '" for good.');
         redirect('index.php');
     }

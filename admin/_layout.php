@@ -26,7 +26,7 @@ function admin_head(string $title, ?array $user = null, string $active = ''): vo
 <meta name="robots" content="noindex, nofollow">
 <title><?= e($title) ?> &middot; Brix admin</title>
 <link rel="icon" type="image/png" href="../assets/favicon.png?v=2">
-<link rel="stylesheet" href="assets/admin.css?v=6">
+<link rel="stylesheet" href="assets/admin.css?v=7">
 </head>
 <body>
 <?php if ($user !== null): ?>

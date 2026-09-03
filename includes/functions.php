@@ -37,12 +37,37 @@ function slugify(string $text): string
 }
 
 /**
+ * The stored-slug prefix and the public path segment of each type.
+ *
+ * Declared once because three copies of this mapping is precisely how
+ * an address and the slug behind it drift apart. The editor, the
+ * router and the sitemap all reach it through the helpers below.
+ */
+function post_sections(): array
+{
+    return [
+        'case_study' => ['prefix' => 'case-study-', 'path' => '/case-study/'],
+        'blog'       => ['prefix' => 'blog-',       'path' => '/blog/'],
+    ];
+}
+
+/**
  * Build the public filename stem for a post, preserving the naming
  * convention the site already uses.
  */
 function post_slug_prefix(string $type): string
 {
-    return $type === 'case_study' ? 'case-study-' : 'blog-';
+    $sections = post_sections();
+
+    return ($sections[$type] ?? $sections['blog'])['prefix'];
+}
+
+/** The path segment a type's articles are published under. */
+function section_path(string $type): string
+{
+    $sections = post_sections();
+
+    return ($sections[$type] ?? $sections['blog'])['path'];
 }
 
 /**
@@ -76,15 +101,79 @@ function slug_path(string $slug): string
     // Root-relative, because an article now sits a level down: a link
     // written relative to /blog/cart-upsell-examples would resolve
     // against /blog/ and point at a page that does not exist.
-    foreach (['case-study-' => '/case-study/', 'blog-' => '/blog/'] as $prefix => $path) {
-        if (str_starts_with($slug, $prefix)) {
-            return $path . substr($slug, strlen($prefix));
+    foreach (post_sections() as $section) {
+        if (str_starts_with($slug, $section['prefix'])) {
+            return $section['path'] . substr($slug, strlen($section['prefix']));
         }
     }
 
     // A slug that carries neither prefix should not exist, but if one is
     // ever hand-written it is better linked flat than linked wrongly.
     return '/' . $slug;
+}
+
+/**
+ * The half of a slug an author actually types.
+ *
+ * The stored slug carries the section as a prefix, but the address
+ * shows the section as a path segment. The editor therefore offers only
+ * what comes after it, which is what stops a hand-written address from
+ * putting a post in a section its type does not match.
+ */
+function slug_tail(string $slug): string
+{
+    foreach (post_sections() as $section) {
+        if (str_starts_with($slug, $section['prefix'])) {
+            return substr($slug, strlen($section['prefix']));
+        }
+    }
+
+    return $slug;
+}
+
+/**
+ * Turn what someone typed into the Web address box into a stored slug.
+ *
+ * A bare segment, a path and a whole pasted URL are all things an
+ * author reasonably types when they mean "put it here", so all three
+ * are accepted. Only the last segment survives, and the prefix for the
+ * post's current type is put back on: an address can never contradict
+ * the list the post appears on, and changing a blog entry into a case
+ * study moves its address with it.
+ *
+ * Returns '' when nothing usable is left, which the caller reports
+ * rather than saving.
+ */
+function normalise_slug_input(string $raw, string $type): string
+{
+    $raw = trim($raw);
+
+    // A pasted address: drop the scheme and host, then any extension
+    // left over from the static-page era.
+    $raw = preg_replace('#^[a-z][a-z0-9+.-]*://[^/]+#i', '', $raw) ?? $raw;
+    $raw = preg_replace('#\.(php|html?)$#i', '', $raw) ?? $raw;
+    $raw = trim($raw, '/');
+
+    // /blog/cart-tips and cart-tips mean the same thing here: the
+    // section is decided by the post's type, never by what was typed.
+    if (($cut = strrpos($raw, '/')) !== false) {
+        $raw = substr($raw, $cut + 1);
+    }
+
+    $body = slugify($raw);
+
+    // Typing the prefix as well is not a mistake worth refusing, and it
+    // is what a pasted stem looks like. Take it off rather than
+    // doubling it, unless it is the whole of what was typed.
+    foreach (post_sections() as $section) {
+        if (str_starts_with($body, $section['prefix'])
+            && strlen($body) > strlen($section['prefix'])) {
+            $body = substr($body, strlen($section['prefix']));
+            break;
+        }
+    }
+
+    return $body === '' ? '' : post_slug_prefix($type) . $body;
 }
 
 /** Listing page a post belongs to. */
