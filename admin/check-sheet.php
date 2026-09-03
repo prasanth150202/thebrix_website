@@ -82,10 +82,17 @@ if ($url !== '' && $secret !== '' && function_exists('curl_init')) {
         $verdict = 'WORKING. A row for diagnostic@example.com should be in the Leads tab now. '
                  . 'If it is not, the deployment is serving an older version of the script: '
                  . 'Deploy → Manage deployments → pencil → Version: New version.';
+    } elseif (str_contains($body200, 'no signature received')) {
+        $verdict = 'The script ran but got no signature. That is the old header-only version of '
+                 . 'lead-sheet.gs: Apps Script never sees request headers. Repaste the current '
+                 . 'docs/lead-sheet.gs, then Deploy → Manage deployments → pencil → Version: New version.';
+    } elseif (str_contains($body200, 'secret not set')) {
+        $verdict = 'The script ran, but no secret is stored on its side. Open the Apps Script editor, '
+                 . 'put the secret into setSecret, and Run it once.';
     } elseif (str_contains($body200, 'bad signature')) {
-        $verdict = 'Reached the script, but the secret does not match. The value in .env and the one '
-                 . 'stored by setSecret are different. Re-run setSecret with the exact string above, '
-                 . 'then Deploy → Manage deployments → New version.';
+        $verdict = 'Reached the script and it received the signature, but the two secrets differ. '
+                 . 'The one stored by setSecret is not the string in .env — compare it against the '
+                 . 'first and last four characters shown above, then redeploy a new version.';
     } elseif (stripos($body200, '<html') !== false || $status === 302 || $status === 401 || $status === 403) {
         $verdict = 'Google served a login or error page instead of running the script. The deployment '
                  . 'is almost certainly not open: Deploy → Manage deployments → pencil → '

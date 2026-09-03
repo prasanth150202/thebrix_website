@@ -68,7 +68,19 @@ function brix_lead_to_sheet(array $lead): void
        anybody who learned the address could write rows. */
     $signature = hash_hmac('sha256', $body, $secret);
 
-    $ch = curl_init($url);
+    /* On the query string, not only in a header.
+       -------------------------------------------------------------------
+       An Apps Script web app never sees request headers: doPost(e) is
+       given parameter, postData and queryString and nothing else, so a
+       signature sent as X-Brix-Signature arrives nowhere and every lead
+       is rejected as unsigned. The query string is the only channel that
+       reaches the script.
+
+       The header is kept as well because it costs nothing and makes the
+       request readable to anything else that might sit in front of this. */
+    $signed = $url . (str_contains($url, '?') ? '&' : '?') . 'signature=' . urlencode($signature);
+
+    $ch = curl_init($signed);
     curl_setopt_array($ch, [
         CURLOPT_POST           => true,
         CURLOPT_POSTFIELDS     => $body,

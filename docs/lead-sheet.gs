@@ -60,8 +60,21 @@ function doPost(e) {
 
     const raw = e.postData.contents;
 
-    if (!signatureValid_(raw, headerSignature_(e))) {
-      return reply_(false, 'bad signature');
+    /* Three different problems used to look identical from the outside.
+       They are named separately because the fix for each is different:
+       set the Script Property, redeploy the site, or correct the secret. */
+    const secret = PropertiesService.getScriptProperties().getProperty(SECRET_PROPERTY);
+    if (!secret) {
+      return reply_(false, 'secret not set — run setSecret in the Apps Script editor');
+    }
+
+    const provided = headerSignature_(e);
+    if (!provided) {
+      return reply_(false, 'no signature received — the site is sending it as a header, which Apps Script cannot see');
+    }
+
+    if (!signatureValid_(raw, provided, secret)) {
+      return reply_(false, 'bad signature — the secret here and the one in the site .env differ');
     }
 
     const lead = JSON.parse(raw);
@@ -93,12 +106,17 @@ function reply_(ok, message) {
 // ---------------------------------------------------------------------------
 
 /**
- * Apps Script lower-cases inbound header names inconsistently between
- * versions, so both spellings are checked rather than trusting one.
+ * The signature off the query string.
+ *
+ * A deployed web app is handed parameter, postData and queryString and
+ * nothing else - request headers are not exposed to Apps Script at all -
+ * so the query string is the only place this can arrive from the site.
+ * The header fallback below only ever fires for a hand-built event
+ * object, which is what testRoundTrip passes in.
  */
 function headerSignature_(e) {
-  const h = (e && e.parameter && e.parameter.signature) ? e.parameter.signature : null;
-  if (h) return h;
+  const q = (e && e.parameter && e.parameter.signature) ? e.parameter.signature : null;
+  if (q) return q;
 
   const headers = (e && e.headers) ? e.headers : {};
   return headers['X-Brix-Signature'] || headers['x-brix-signature'] || '';
@@ -108,14 +126,8 @@ function headerSignature_(e) {
  * HMAC-SHA256 over the exact bytes the site posted, compared in constant
  * time. The secret itself never travels.
  */
-function signatureValid_(raw, provided) {
-  const secret = PropertiesService.getScriptProperties().getProperty(SECRET_PROPERTY);
-
-  if (!secret) {
-    console.error('lead sheet: ' + SECRET_PROPERTY + ' is not set — run setSecret first');
-    return false;
-  }
-  if (!provided) return false;
+function signatureValid_(raw, provided, secret) {
+  if (!secret || !provided) return false;
 
   const bytes = Utilities.computeHmacSha256Signature(raw, secret);
   const expected = bytes
@@ -267,9 +279,13 @@ function testRoundTrip() {
     .map(function (b) { return ((b < 0 ? b + 256 : b) + 0x100).toString(16).slice(1); })
     .join('');
 
+  /* parameter, not headers. A deployed web app is never given request
+     headers, so a test that passed the signature as one would prove the
+     script works in a way the live site cannot reach it - which is
+     exactly how the header-only version of this shipped and failed. */
   const result = doPost({
     postData: { contents: body },
-    headers: { 'X-Brix-Signature': signature },
+    parameter: { signature: signature },
   });
 
   console.log(result.getContent());

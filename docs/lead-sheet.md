@@ -83,6 +83,16 @@ could write rows. The URL is not a credential.
 
 Copy the `/exec` URL.
 
+**If you change the script later, the deployed URL keeps serving the old
+version** until you publish a new one: Deploy → Manage deployments → pencil →
+Version: **New version**. The editor shows the new code while the web app runs
+the old, which makes this an easy hour to lose.
+
+The signature travels on the query string, not in a header. A deployed web app
+is never handed request headers - `doPost(e)` gets `parameter`, `postData` and
+`queryString` and nothing else - so a header would arrive nowhere and every lead
+would be rejected as unsigned.
+
 ### 6. Point the site at it
 
 In the site's `.env`:
