@@ -527,23 +527,44 @@ textarea { resize: vertical; }
 
 /* ---------- permalink and search listing preview ---------- */
 
-/* The web address is shown, not typed: it is derived from the title
-   and then fixed for the life of the post. */
+/* The section in front of the address is fixed by the post's type; the
+   segment after it is typed. Both sit in one box, so what is read is a
+   whole address rather than a label next to a field. */
 .ad-permalink {
+  display: flex;
+  align-items: center;
   margin: 0;
-  padding: 10px 13px;
+  padding: 0 4px 0 13px;
   background: var(--paper-soft);
   border: 1px solid var(--line);
   border-radius: 8px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: .84rem;
   color: var(--ink-3);
-  word-break: break-all;
   min-height: 40px;
-  display: flex;
-  align-items: center;
 }
-.ad-permalink b { color: var(--ink); font-weight: 600; }
+.ad-permalink:focus-within {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-soft);
+}
+.ad-permalink-base { white-space: nowrap; }
+.ad-permalink input[type="text"] {
+  min-height: 34px;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--ink);
+}
+/* The ring belongs to the box, not to the half of it that takes focus. */
+.ad-permalink input[type="text"]:focus {
+  border: 0;
+  box-shadow: none;
+}
 
 /* Shows the values that will actually be published, so a blank meta
    box is never a mystery. */

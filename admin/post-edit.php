@@ -75,6 +75,19 @@ if ($editing !== null) {
     }
 }
 
+/**
+ * Is the address still following the title?
+ *
+ * True until someone types into the Web address box, which the editor
+ * records in a hidden field so the server can tell a derived address
+ * from a deliberate one. A post that already exists has an address
+ * people may be linking to, so it never follows the title again.
+ */
+$slugAuto = $post === null;
+
+/** Addresses this post has moved away from, shown under the box. */
+$oldSlugs = $post !== null ? get_slug_redirects((int) $post['id']) : [];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrf_check($_POST['csrf'] ?? null)) {
         $errors[] = 'Your session expired. Nothing was saved. Copy your text, reload, and try again.';
@@ -152,25 +165,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     /**
-     * The URL is derived from the title and is never asked for.
+     * The web address.
      *
-     * An existing post keeps the slug it already has, even if the
-     * title is later reworded: the address is public, may be linked
-     * to from elsewhere and is already indexed, so it must not move
-     * silently underneath an edit.
+     * It follows the title until someone types their own, and from then
+     * on the box is what decides. The difference matters when the
+     * address is already taken: a derived one is numbered, because the
+     * author never asked for that exact address, while a typed one is
+     * refused, because saving someone at a different address than the
+     * one they typed is worse than telling them it was not free.
+     *
+     * An existing post keeps the address it has unless it is changed
+     * here deliberately. Rewording the title never moves it.
      */
-    if ($post !== null) {
-        $form['slug'] = $post['slug'];
-    } else {
-        $prefix = post_slug_prefix($form['type']);
-        $body   = slugify($form['title']);
+    $slugAuto = ($_POST['slug_auto'] ?? '') === '1';
 
-        if ($body === '') {
-            $errors[] = 'Could not build a web address from that title.';
-        } else {
-            $candidate = str_starts_with($body, rtrim($prefix, '-')) ? $body : $prefix . $body;
-            $form['slug'] = unique_slug($candidate);
-        }
+    $candidate = normalise_slug_input(
+        $slugAuto || $form['slug'] === '' ? $form['title'] : $form['slug'],
+        $form['type']
+    );
+
+    $currentSlug = (string) ($post['slug'] ?? '');
+
+    if ($candidate === '') {
+        $errors[] = 'Could not work out a web address. Type one into the Web address box.';
+        $form['slug'] = $currentSlug;
+    } elseif ($candidate === $currentSlug) {
+        $form['slug'] = $currentSlug;
+    } elseif ($slugAuto) {
+        $form['slug'] = unique_slug($candidate, $post['id'] ?? null);
+    } elseif (!slug_is_available($candidate, $post['id'] ?? null)) {
+        $errors[] = 'The web address ' . slug_path($candidate)
+                  . ' is already in use. Pick a different one.';
+        $form['slug'] = $candidate;
+    } else {
+        $form['slug'] = $candidate;
     }
 
     $action = $_POST['action'] ?? 'draft';
@@ -214,8 +242,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         };
 
         if ($action === 'publish') {
+            // Only a live post's old address is worth keeping: a draft's
+            // was never public, so nothing can be linking to it.
+            $movedFrom = ($post !== null && $post['status'] === 'published'
+                          && (string) $post['slug'] !== $form['slug'])
+                ? (string) $post['slug']
+                : '';
+
             $newId = $writeLive($form, $columns, $post['id'] ?? null);
-            flash('Published "' . $form['title'] . '". It is live now.');
+
+            if ($movedFrom !== '') {
+                record_slug_redirect($newId, $movedFrom, $form['slug']);
+                flash('Published "' . $form['title'] . '" at ' . slug_path($form['slug'])
+                    . '. ' . slug_path($movedFrom) . ' now redirects to it.');
+            } else {
+                flash('Published "' . $form['title'] . '". It is live now.');
+            }
 
         } elseif ($post !== null && $post['status'] === 'published') {
             // The post is live, so hold the edit back rather than
@@ -270,6 +312,15 @@ if (($_GET['unpublish'] ?? '') !== '' && $post !== null) {
     // Any staged edits become the working copy, since there is no
     // longer a live version they need to be held back from.
     $merged = post_with_draft($post);
+
+    // A staged address becomes the draft's own. If something has taken
+    // it in the meantime, keep the one the post already has rather than
+    // failing the unpublish over it.
+    if ((string) ($merged['slug'] ?? '') === ''
+        || !slug_is_available((string) $merged['slug'], (int) $post['id'])) {
+        $merged['slug'] = $post['slug'];
+    }
+
     $sets = [];
     $vals = [':id' => $post['id']];
     foreach (post_editable_fields() as $f) {
@@ -356,15 +407,39 @@ admin_head($post ? 'Edit post' : 'New post', $user, 'posts');
 
           <div class="ad-field">
             <span class="ad-label">Web address</span>
-            <p class="ad-permalink" id="fPermalink"><?= e(SITE_URL) ?><b><?= $form['slug'] !== '' ? e(slug_path($form['slug'])) : '/...' ?></b></p>
+
+            <!-- Only the last segment is typed. The section in front of
+                 it comes from the post's type, so an address can never
+                 disagree with the list the post appears on. -->
+            <div class="ad-permalink">
+              <span class="ad-permalink-base"><?= e(SITE_URL) ?><span id="fSection"><?= e(section_path($form['type'])) ?></span></span>
+              <input type="text" name="slug" id="fSlug" value="<?= e(slug_tail($form['slug'])) ?>"
+                     autocomplete="off" autocapitalize="off" spellcheck="false"
+                     placeholder="from the title">
+            </div>
+            <input type="hidden" name="slug_auto" id="fSlugAuto" value="<?= $slugAuto ? '1' : '0' ?>">
+
             <span class="ad-hint">
-              <?php if ($post !== null): ?>
-                Fixed once a post is created, so links and search results pointing at it
-                keep working even if you reword the title.
+              <?php if ($post !== null && $post['status'] === 'published'): ?>
+                Changing this moves the live page. The address it has now keeps working
+                afterwards &mdash; it redirects here &mdash; so nothing already linking to
+                it breaks. Takes effect when you publish.
+              <?php elseif ($post !== null): ?>
+                This post is not public yet, so the address can be changed freely.
               <?php else: ?>
-                Built from the title automatically.
+                Follows the title until you type your own. Letters, numbers and hyphens;
+                anything else is converted.
               <?php endif; ?>
             </span>
+
+            <?php if ($oldSlugs): ?>
+              <span class="ad-hint">
+                Also reachable at <?= implode(', ', array_map(
+                    static fn($old) => '<code>' . e(slug_path((string) $old['old_slug'])) . '</code>',
+                    $oldSlugs
+                )) ?> &mdash; redirected here.
+              </span>
+            <?php endif; ?>
           </div>
         </div>
 
@@ -414,7 +489,7 @@ admin_head($post ? 'Edit post' : 'New post', $user, 'posts');
 
           <!-- Shows the effective values, so an empty box is never a mystery. -->
           <div class="ad-serp">
-            <span class="ad-serp-url"><?= e(SITE_URL) ?><?= $form['slug'] !== '' ? e(slug_path($form['slug'])) : '/...' ?></span>
+            <span class="ad-serp-url" id="serpUrl"><?= e(SITE_URL) ?><?= $form['slug'] !== '' ? e(slug_path($form['slug'])) : '/...' ?></span>
             <span class="ad-serp-title" id="serpTitle"></span>
             <span class="ad-serp-desc" id="serpDesc"></span>
           </div>
@@ -584,15 +659,16 @@ admin_head($post ? 'Edit post' : 'New post', $user, 'posts');
   var grad     = document.getElementById('fGrad');
   var icon     = document.getElementById('fIcon');
   var prev     = document.getElementById('cardPrev');
-  var permalink = document.getElementById('fPermalink');
+  var slugIn    = document.getElementById('fSlug');
+  var slugAuto  = document.getElementById('fSlugAuto');
+  var sectionEl = document.getElementById('fSection');
   var metaTitle = document.getElementById('fMetaTitle');
   var metaDesc  = document.getElementById('fMetaDesc');
+  var serpUrl   = document.getElementById('serpUrl');
   var serpTitle = document.getElementById('serpTitle');
   var serpDesc  = document.getElementById('serpDesc');
   var excerpt   = document.querySelector('[name="excerpt"]');
 
-  /* An existing post keeps the address it was created with. */
-  var slugLocked = <?= $post !== null ? 'true' : 'false' ?>;
   var SITE = <?= json_encode(SITE_URL) ?>;
 
   var ICONS = <?php
@@ -601,27 +677,53 @@ admin_head($post ? 'Edit post' : 'New post', $user, 'posts');
       echo json_encode($iconJs);
   ?>;
 
-  /* The web address is derived from the title, never typed. */
+  /* The web address: typed if it was typed, derived from the title if
+     it was not. */
   function slugifyJs(s) {
     return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
             .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   }
+  /* The section is a path segment in the address even though it is a
+     prefix in the stored slug, so what is shown is /blog/x rather than
+     the blog-x that goes into the database. */
+  function sectionPath() {
+    return typeSel.value === 'case_study' ? '/case-study/' : '/blog/';
+  }
+
+  /* The address follows the title until the box is typed into, and is
+     then left exactly as typed. Emptying the box hands it back to the
+     title, which is the only way back without reloading. */
   function syncSlug() {
-    if (slugLocked) return;
-    /* The section is a path segment in the address even though it is a
-       prefix in the stored slug, so this previews /blog/x rather than
-       the blog-x that goes into the database. */
-    var section = typeSel.value === 'case_study' ? '/case-study/' : '/blog/';
-    var base = slugifyJs(title.value || '');
-    permalink.innerHTML = SITE + '<b>' + (base ? section + base : '/...') + '</b>';
+    if (slugAuto.value === '1') {
+      slugIn.value = slugifyJs(title.value || '');
+    }
+    sectionEl.textContent = sectionPath();
     syncSerp();
   }
+
+  slugIn.addEventListener('input', function () {
+    slugAuto.value = '0';
+    syncSerp();
+  });
+
+  /* Tidy what was typed on the way out of the box rather than fighting
+     the cursor on every keystroke. The server normalises it again, so
+     this is only about showing the real address before saving. */
+  slugIn.addEventListener('blur', function () {
+    slugIn.value = slugifyJs(slugIn.value);
+    if (slugIn.value === '') { slugAuto.value = '1'; }
+    syncSlug();
+  });
+
   typeSel.addEventListener('change', syncSlug);
-  title.addEventListener('input', function () { syncSlug(); syncSerp(); });
+  title.addEventListener('input', function () { syncSlug(); });
 
   /* Search listing preview: always shows the values that will actually
      be published, so an empty meta box is never ambiguous. */
   function syncSerp() {
+    if (serpUrl) {
+      serpUrl.textContent = SITE + sectionPath() + (slugIn.value || '...');
+    }
     if (!serpTitle) return;
     var t = (metaTitle.value || '').trim() || (title.value || '').trim() || 'Untitled';
     var d = (metaDesc.value || '').trim() || (excerpt ? excerpt.value.trim() : '')
@@ -677,8 +779,9 @@ admin_head($post ? 'Edit post' : 'New post', $user, 'posts');
       if (!kv) return;
       var val = kv[2].trim().replace(/^"([\s\S]*)"$/, '$1').replace(/\\"/g, '"');
       if (!val) return;
-      // 'slug' is intentionally ignored: the address is derived from
-      // the title on a new post and fixed on an existing one.
+      // 'slug' is intentionally ignored. The address is editable, but
+      // loading a file must not silently move a page that is already
+      // published; type the new address in if that is what you want.
       if (kv[1] === 'slug') return;
       var el = document.querySelector('[name="' + (alias[kv[1]] || kv[1]) + '"]');
       if (el) el.value = val;

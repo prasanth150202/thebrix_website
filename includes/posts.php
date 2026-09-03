@@ -18,14 +18,17 @@ const POST_TYPES = [
  * The fields an author can edit.
  *
  * Declared once and used by the editor, the autosave endpoint and the
- * draft merge, so the three can never drift apart. `slug` and `status`
- * are excluded on purpose: the address is derived from the title, and
- * the status is set by which button was pressed.
+ * draft merge, so the three can never drift apart. `status` is excluded
+ * on purpose: it is set by which button was pressed, not by a field.
+ *
+ * `slug` is one of them, so a changed address is staged in
+ * draft_payload like every other edit and only becomes the live URL
+ * when Publish is pressed.
  */
 function post_editable_fields(): array
 {
     return [
-        'type', 'title', 'author', 'category', 'hero_subtitle', 'hero_image',
+        'type', 'slug', 'title', 'author', 'category', 'hero_subtitle', 'hero_image',
         'hero_blur', 'excerpt', 'body_md', 'read_minutes', 'date_published',
         'card_gradient', 'card_icon',
         'cta_heading', 'cta_sub', 'meta_title', 'meta_description',
@@ -159,7 +162,8 @@ function get_related_posts(array $post, int $limit = 2): array
  *
  * Also rejects slugs that collide with a real file in the web root,
  * because .htaccess serves existing files before it consults the
- * database. A post slugged "pricing" would be unreachable.
+ * database. A post slugged "pricing" would be unreachable, and an
+ * address another post has moved away from is not free either.
  */
 function slug_is_available(string $slug, ?int $exceptId = null): bool
 {
@@ -176,6 +180,28 @@ function slug_is_available(string $slug, ?int $exceptId = null): bool
 
     if ((int) $stmt->fetchColumn() > 0) {
         return false;
+    }
+
+    // An address that still redirects to another post: handing it to a
+    // second one would kill that redirect and leave anyone holding the
+    // old link on the wrong article.
+    $sql = 'SELECT COUNT(*) FROM post_redirects WHERE old_slug = :slug';
+    $params = [':slug' => $slug];
+
+    if ($exceptId !== null) {
+        $sql .= ' AND post_id <> :id';
+        $params[':id'] = $exceptId;
+    }
+
+    try {
+        $stmt = db()->prepare($sql);
+        $stmt->execute($params);
+
+        if ((int) $stmt->fetchColumn() > 0) {
+            return false;
+        }
+    } catch (Throwable) {
+        // A database that predates the table must still be able to save.
     }
 
     return !file_exists(BRIX_ROOT . '/' . $slug . '.php')
@@ -198,6 +224,87 @@ function unique_slug(string $base, ?int $exceptId = null): string
     }
 
     return $slug;
+}
+
+/**
+ * Remember an address a live post has just moved away from.
+ *
+ * The row points at the post rather than at its new slug, so renaming a
+ * post a second time does not send a visitor through two redirects.
+ * Renaming it back to an address it used to have deletes the row that
+ * would otherwise point the new address at itself.
+ *
+ * A failure here is swallowed: the post itself saved correctly, and
+ * losing the save over the redirect would be the worse outcome.
+ */
+function record_slug_redirect(int $postId, string $oldSlug, string $newSlug): void
+{
+    if ($oldSlug === '' || $oldSlug === $newSlug) {
+        return;
+    }
+
+    try {
+        db()->prepare('DELETE FROM post_redirects WHERE old_slug = :slug')
+            ->execute([':slug' => $newSlug]);
+
+        db()->prepare(
+            'INSERT INTO post_redirects (old_slug, post_id) VALUES (:slug, :id)
+             ON DUPLICATE KEY UPDATE post_id = VALUES(post_id)'
+        )->execute([':slug' => $oldSlug, ':id' => $postId]);
+    } catch (Throwable) {
+        // Nothing to do: the post is saved, the old address just stops
+        // resolving.
+    }
+}
+
+/** Forget every address a post used to have. Called when it is erased. */
+function forget_slug_redirects(int $postId): void
+{
+    try {
+        db()->prepare('DELETE FROM post_redirects WHERE post_id = :id')
+            ->execute([':id' => $postId]);
+    } catch (Throwable) {
+        // See record_slug_redirect().
+    }
+}
+
+/**
+ * The published post an old address belongs to, or null.
+ *
+ * article.php uses this to turn a request for a moved page into a
+ * permanent redirect instead of a 404.
+ */
+function get_published_post_by_old_slug(string $slug): ?array
+{
+    try {
+        $stmt = db()->prepare(
+            'SELECT p.* FROM post_redirects r
+             JOIN posts p ON p.id = r.post_id
+             WHERE r.old_slug = :slug
+               AND p.status = "published" AND p.deleted_at IS NULL
+             LIMIT 1'
+        );
+        $stmt->execute([':slug' => $slug]);
+
+        return $stmt->fetch() ?: null;
+    } catch (Throwable) {
+        return null;
+    }
+}
+
+/** Every address a post used to have, oldest first. Admin only. */
+function get_slug_redirects(int $postId): array
+{
+    try {
+        $stmt = db()->prepare(
+            'SELECT old_slug FROM post_redirects WHERE post_id = :id ORDER BY id'
+        );
+        $stmt->execute([':id' => $postId]);
+
+        return $stmt->fetchAll();
+    } catch (Throwable) {
+        return [];
+    }
 }
 
 /** Newest published posts across both types, for the footer column. */

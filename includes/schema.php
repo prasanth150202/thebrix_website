@@ -78,6 +78,25 @@ function brix_schema_statements(): array
                 KEY idx_listing (type, status, deleted_at, date_published)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
 
+        /* Addresses a post has moved away from.
+
+           Changing a live post's web address would otherwise break
+           every link to the old one and throw away the ranking it has
+           already earned. The old slug is kept here and permanently
+           redirects to whatever the post's address is now. The row
+           points at the post rather than at a replacement slug, so a
+           post renamed twice still costs a visitor one redirect. */
+        'post_redirects' => "
+            CREATE TABLE IF NOT EXISTS post_redirects (
+                id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                old_slug   VARCHAR(190) NOT NULL,
+                post_id    INT UNSIGNED NOT NULL,
+                created_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id),
+                UNIQUE KEY uniq_old_slug (old_slug),
+                KEY idx_post (post_id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+
         'newsletter_subscribers' => "
             CREATE TABLE IF NOT EXISTS newsletter_subscribers (
                 id           INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -133,7 +152,7 @@ function brix_schema_statements(): array
  * columns the database did not have. The session now records which
  * version it checked, so a bump here invalidates it everywhere.
  */
-define('BRIX_SCHEMA_VERSION', 3);
+define('BRIX_SCHEMA_VERSION', 4);
 
 function brix_added_columns(): array
 {
@@ -173,17 +192,25 @@ function brix_added_indexes(): array
 }
 
 /**
- * Add any column listed above that the database does not have yet.
+ * Bring an existing database up to the definitions above.
  *
- * Returns the names of the columns it added, so a caller can report
- * them. Each one is checked before it is added, which makes running
+ * Returns the names of everything it added, so a caller can report
+ * them. Each change is checked before it is made, which makes running
  * this on every admin session harmless. The table and column names
- * come from the list above and never from a request, so interpolating
+ * come from the lists above and never from a request, so interpolating
  * them into the ALTER is safe.
  */
 function brix_upgrade_schema(PDO $pdo): array
 {
     $added = [];
+
+    // Every statement is CREATE TABLE IF NOT EXISTS, so this is a no-op
+    // for the tables the database already has. It is also the only way
+    // an established install picks up a table added later: the column
+    // and index passes below cannot create one.
+    foreach (brix_schema_statements() as $sql) {
+        $pdo->exec($sql);
+    }
 
     $exists = $pdo->prepare(
         'SELECT COUNT(*) FROM information_schema.COLUMNS
@@ -227,11 +254,7 @@ function brix_upgrade_schema(PDO $pdo): array
 /** Create anything that is missing. Safe to call repeatedly. */
 function brix_install_schema(PDO $pdo): void
 {
-    foreach (brix_schema_statements() as $sql) {
-        $pdo->exec($sql);
-    }
-
-    // Covers the case where the tables were created by an earlier
-    // version of this file.
+    // Creates the tables and then adds anything a database made by an
+    // earlier version of this file is missing.
     brix_upgrade_schema($pdo);
 }
