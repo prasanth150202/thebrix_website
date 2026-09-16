@@ -175,6 +175,13 @@ function db(): PDO
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES   => false,
+        // Every page reaches this through footer.php's try/catch around
+        // get_footer_links(), which is meant to fail soft. Without a
+        // connect timeout, "soft" still meant a ~20s hang per request
+        // when the database was unreachable — long enough that a few
+        // concurrent requests exhausted the host's worker limit and the
+        // whole site started 429ing. Fail in seconds instead.
+        PDO::ATTR_TIMEOUT             => 3,
     ]);
 
     return $pdo;
