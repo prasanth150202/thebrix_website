@@ -16,6 +16,14 @@
  *                     install button and drops the nav links, the burger
  *                     and the drawer, so the only way off the page is the
  *                     one the campaign is paying for.
+ *   $page_schema      optional array of extra JSON-LD blocks (each one a
+ *                     schema.org object as a plain array) specific to
+ *                     this page, e.g. SoftwareApplication on the homepage.
+ *                     Organization, WebSite and BreadcrumbList are added
+ *                     automatically below and do not need to be passed.
+ *   $page_breadcrumb_current  optional label for the last breadcrumb
+ *                     crumb on an article page (the post title) — falls
+ *                     back to a generic label when not set.
  *
  * The markup below is the header that was already on every page, with
  * only the varying parts pulled out into those variables.
@@ -30,6 +38,48 @@ $page_nav         = $page_nav         ?? null;
 $page_robots      = $page_robots      ?? null;
 $page_body_class  = $page_body_class  ?? '';
 $page_chrome      = $page_chrome      ?? 'full';
+$page_schema      = $page_schema      ?? [];
+
+/**
+ * BreadcrumbList for every page except the homepage. The hub pages
+ * (Features, Pricing, and the four Resources pages) get a two-level
+ * crumb; an individual blog post or case study gets a third level
+ * naming the post, via $page_breadcrumb_current.
+ */
+$breadcrumb_hub_labels = [
+    'features'     => 'Features',
+    'pricing'      => 'Pricing',
+    'case-studies' => 'Case studies',
+    'blog'         => 'Blog',
+    'how-to'       => 'Guides',
+    'tutorials'    => 'How to use',
+];
+
+// post_url() (used for articles) returns a leading-slash path like
+// "/blog/cart-upsell-examples"; the hub pages set $page_canonical
+// without one (e.g. "case-studies"). Normalise before matching, the
+// same way the <link rel="canonical"> above already does.
+$breadcrumb_path = ltrim($page_canonical, '/');
+
+$breadcrumb_items = null;
+if (isset($breadcrumb_hub_labels[$breadcrumb_path])) {
+    $breadcrumb_items = [
+        ['name' => 'Home', 'item' => SITE_URL . '/'],
+        ['name' => $breadcrumb_hub_labels[$breadcrumb_path], 'item' => SITE_URL . '/' . $breadcrumb_path],
+    ];
+} elseif (str_starts_with($breadcrumb_path, 'blog/')) {
+    $breadcrumb_items = [
+        ['name' => 'Home', 'item' => SITE_URL . '/'],
+        ['name' => 'Blog', 'item' => SITE_URL . '/blog'],
+        ['name' => $page_breadcrumb_current ?? 'Article', 'item' => SITE_URL . '/' . $breadcrumb_path],
+    ];
+} elseif (str_starts_with($breadcrumb_path, 'case-study/')) {
+    $breadcrumb_items = [
+        ['name' => 'Home', 'item' => SITE_URL . '/'],
+        ['name' => 'Case studies', 'item' => SITE_URL . '/case-studies'],
+        ['name' => $page_breadcrumb_current ?? 'Case study', 'item' => SITE_URL . '/' . $breadcrumb_path],
+    ];
+}
 
 /**
  * Mirror the robots directive as a header as well as a meta tag. The tag
@@ -126,6 +176,52 @@ $nav_caret = '<svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="cur
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css?v=<?= ASSET_CSS_VER ?>">
   <link rel="icon" type="image/png" href="/assets/favicon.png?v=2">
+  <?php /* Organization + WebSite ground the brand as one entity for
+           Google and AI answer engines; both are the same on every
+           page, so they live here rather than being passed in. */ ?>
+  <?= brix_ld_json([
+        '@context'    => 'https://schema.org',
+        '@type'       => 'Organization',
+        '@id'         => SITE_URL . '/#organization',
+        'name'        => 'Brix',
+        'url'         => SITE_URL . '/',
+        'logo'        => SITE_URL . '/assets/brix-logo-dark.png',
+        'description' => 'Brix is an AI-powered cart upsell, cross-sell, and average order value (AOV) optimization app for Shopify merchants.',
+        'sameAs'      => [
+            SHOPIFY_APP_STORE_URL,
+            'https://x.com/app_thebrix',
+            'https://www.linkedin.com/company/the-brix-io',
+            'https://www.youtube.com/@TheBrixApp',
+            'https://www.instagram.com/thebrix.io/',
+        ],
+    ]) ?>
+  <?= brix_ld_json([
+        '@context' => 'https://schema.org',
+        '@type'    => 'WebSite',
+        '@id'      => SITE_URL . '/#website',
+        'url'      => SITE_URL . '/',
+        'name'     => 'Brix',
+        'publisher' => ['@id' => SITE_URL . '/#organization'],
+    ]) ?>
+<?php if ($breadcrumb_items !== null): ?>
+  <?= brix_ld_json([
+        '@context'        => 'https://schema.org',
+        '@type'           => 'BreadcrumbList',
+        'itemListElement' => array_map(
+            static fn (int $i, array $c): array => [
+                '@type'    => 'ListItem',
+                'position' => $i + 1,
+                'name'     => $c['name'],
+                'item'     => $c['item'],
+            ],
+            array_keys($breadcrumb_items),
+            $breadcrumb_items
+        ),
+    ]) ?>
+<?php endif; ?>
+<?php foreach ($page_schema as $schema_block): ?>
+  <?= brix_ld_json($schema_block) ?>
+<?php endforeach; ?>
 </head>
 <body<?= $page_body_class !== '' ? ' class="' . e($page_body_class) . '"' : '' ?>>
 <!-- Google Tag Manager (noscript) -->

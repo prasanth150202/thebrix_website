@@ -10,6 +10,29 @@ $page_canonical   = '';
 $page_nav         = NULL;
 $footer_col3      = 'case-studies';
 
+// Pricing here is real and kept in sync with pricing.php by hand — there
+// are only three tiers and they change rarely enough that a shared data
+// source would be more machinery than the duplication it replaces.
+// AggregateRating is deliberately left out: Brix's 5.0-from-9 Shopify
+// rating is genuine, but nothing on this page shows it to a visitor yet,
+// and rating markup is expected to reflect what the page itself displays.
+$page_schema = [[
+    '@context'               => 'https://schema.org',
+    '@type'                  => 'SoftwareApplication',
+    'name'                   => 'Brix',
+    'applicationCategory'    => 'BusinessApplication',
+    'applicationSubCategory' => 'Shopify App',
+    'operatingSystem'        => 'Web, Shopify',
+    'url'                    => SITE_URL . '/',
+    'description'            => 'AI-powered cart upsell, cross-sell, and cart-drawer optimization app that increases average order value (AOV) for Shopify merchants.',
+    'publisher'              => ['@id' => SITE_URL . '/#organization'],
+    'offers'                 => [
+        ['@type' => 'Offer', 'url' => SITE_URL . '/pricing', 'name' => 'Free', 'price' => '0', 'priceCurrency' => 'USD', 'category' => 'SaaS subscription'],
+        ['@type' => 'Offer', 'url' => SITE_URL . '/pricing', 'name' => 'Starter', 'price' => '29', 'priceCurrency' => 'USD', 'billingIncrement' => 'P1M', 'category' => 'SaaS subscription'],
+        ['@type' => 'Offer', 'url' => SITE_URL . '/pricing', 'name' => 'Pro', 'price' => '79', 'priceCurrency' => 'USD', 'billingIncrement' => 'P1M', 'category' => 'SaaS subscription'],
+    ],
+]];
+
 require BRIX_INCLUDES . '/header.php';
 ?>
 

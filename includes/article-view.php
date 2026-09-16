@@ -27,6 +27,7 @@ $page_description = $post['meta_description'] !== ''
 $page_canonical   = post_url($post);
 $page_nav         = $isCase ? 'case-studies' : 'blog';
 $footer_col3      = $isCase ? 'case-studies' : 'blog';
+$page_breadcrumb_current = $post['title'];
 
 if (($preview_banner ?? false) === true) {
     $page_robots     = 'noindex, nofollow';
