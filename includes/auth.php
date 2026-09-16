@@ -36,7 +36,7 @@ function admin_user(): ?array
         return $user;
     }
 
-    $stmt = db()->prepare('SELECT id, username, display_name FROM admin_users WHERE id = :id LIMIT 1');
+    $stmt = db()->prepare('SELECT id, username, display_name, bio FROM admin_users WHERE id = :id LIMIT 1');
     $stmt->execute([':id' => $_SESSION['admin_id']]);
 
     return $user = ($stmt->fetch() ?: null);
