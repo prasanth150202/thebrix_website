@@ -54,7 +54,11 @@ define('ASSET_WALKTHROUGH_VER', '2');
 define('BRIX_CHAT_ENABLED', 'partial');
 
 define('SITE_URL', 'https://thebrix.io');
-define('SHOPIFY_APP_URL', 'https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&utm_medium=Organic&utm_campaign=Website_Tracking&utm_id=Website');
+// The bare listing URL, with no UTM tags — this is the stable identity
+// to cite in JSON-LD (sameAs, etc.); SHOPIFY_APP_URL below is the one
+// on-page links and CTAs use, so click attribution keeps working.
+define('SHOPIFY_APP_STORE_URL', 'https://apps.shopify.com/thebrix-io');
+define('SHOPIFY_APP_URL', SHOPIFY_APP_STORE_URL . '?utm_source=Brix-Website&utm_medium=Organic&utm_campaign=Website_Tracking&utm_id=Website');
 
 require_once BRIX_INCLUDES . '/functions.php';
 

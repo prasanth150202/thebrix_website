@@ -12,6 +12,19 @@ function e(?string $value): string
 }
 
 /**
+ * Render one JSON-LD block. JSON_HEX_TAG hex-escapes every angle
+ * bracket, so a post title or excerpt coming out of the database can
+ * never contain a literal "</script" and break out of the tag — the
+ * same reason e() exists for HTML contexts.
+ */
+function brix_ld_json(array $data): string
+{
+    return '<script type="application/ld+json">'
+        . json_encode($data, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP)
+        . '</script>';
+}
+
+/**
  * Turn a title into a URL-safe slug body.
  *
  * The type prefix (blog- / case-study-) is added separately, because
