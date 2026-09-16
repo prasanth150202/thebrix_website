@@ -152,7 +152,7 @@ function brix_schema_statements(): array
  * columns the database did not have. The session now records which
  * version it checked, so a bump here invalidates it everywhere.
  */
-define('BRIX_SCHEMA_VERSION', 4);
+define('BRIX_SCHEMA_VERSION', 5);
 
 function brix_added_columns(): array
 {
@@ -165,6 +165,11 @@ function brix_added_columns(): array
            campaign lead and a support enquiry look identical in the
            admin, and they need answering very differently. */
         ['contact_submissions', 'source', "VARCHAR(40) NOT NULL DEFAULT '' AFTER message"],
+        /* A short, real credential line for the byline and, eventually,
+           BlogPosting/author-entity markup - e.g. "Runs cart CRO for
+           Shopify stores." Set once on admin/account.php, alongside the
+           display_name every post's author has been defaulting to. */
+        ['admin_users', 'bio', "VARCHAR(255) NOT NULL DEFAULT '' AFTER display_name"],
     ];
 }
 
