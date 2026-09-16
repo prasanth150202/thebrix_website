@@ -4,8 +4,8 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/bootstrap.php';
 require_once BRIX_INCLUDES . '/posts.php';
 
-$page_title       = 'How-to guides: Set up Brix step by step';
-$page_description = 'Step-by-step Brix tutorials for Shopify: set up Frequently Bought Together, build a bundle page, work with Brix AI, customize your cart drawer, and add a coupon banner.';
+$page_title       = 'How to Set Up Brix: Shopify Cart Upsell Guide';
+$page_description = 'Step-by-step guides to set up Brix on Shopify: Frequently Bought Together, Bundle Builder, Brix AI, cart drawer customization, and coupon banners.';
 $page_canonical   = 'how-to';
 $page_nav         = 'how-to';
 $footer_col3      = 'howto';

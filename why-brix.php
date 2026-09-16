@@ -39,8 +39,8 @@ $lead = brix_lead_handle('why-brix', [
     'orders' => 'Monthly orders',
 ]);
 
-$page_title       = 'Why Brix: what changes when your Shopify cart starts selling';
-$page_description = 'What Brix is, what it changes in your cart, and what it is worth. See the before and after, then tell us about your store.';
+$page_title       = 'Why Brix? AI Cart Upsells for Shopify Stores';
+$page_description = 'Brix uses AI to turn your Shopify cart into a revenue channel: automatic upsells, cross-sells, and reward incentives that lift average order value.';
 $page_canonical   = 'why-brix';
 $page_robots      = 'noindex, nofollow, noarchive, nosnippet, noimageindex';
 $page_chrome      = 'minimal';

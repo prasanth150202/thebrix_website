@@ -48,8 +48,8 @@ $lead = brix_lead_handle('cart-that-sells', [
     'orders' => 'Monthly orders',
 ]);
 
-$page_title       = 'Brix: turn your Shopify cart into your best salesperson';
-$page_description = 'Your cart is the last screen before checkout and the cheapest place to grow revenue. Brix adds AI upsells, Frequently Bought Together, reward tiers and coupon banners inside the cart drawer. Free plan, no credit card.';
+$page_title       = 'Brix: Turn Your Shopify Cart Into a Salesperson';
+$page_description = 'Brix adds AI upsells, Frequently Bought Together, reward tiers, and coupon banners to your Shopify cart drawer. Free plan, no credit card.';
 $page_canonical   = 'cart-that-sells';
 $page_robots      = 'noindex, nofollow, noarchive, nosnippet, noimageindex';
 $page_chrome      = 'minimal';

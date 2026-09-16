@@ -20,8 +20,8 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/bootstrap.php';
 require_once BRIX_INCLUDES . '/tutorials.php';
 
-$page_title       = 'Brix tutorials: Learn the app in 11 minutes of video';
-$page_description = 'Free step-by-step video tutorials for Brix on Shopify: the cart editor, Frequently Bought Together, bundle pages, Brix AI, coupon banners and analytics. Watch in order, tick each lesson off as you go.';
+$page_title       = 'Brix Video Tutorials: Learn Shopify Cart Upsells';
+$page_description = 'Free video tutorials for Brix on Shopify: cart editor, Frequently Bought Together, bundle pages, Brix AI, and coupon banners — 11 minutes total.';
 $page_canonical   = 'tutorials';
 $page_nav         = 'tutorials';
 $footer_col3      = 'tutorials';
