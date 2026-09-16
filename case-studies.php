@@ -13,8 +13,8 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/bootstrap.php';
 require_once BRIX_INCLUDES . '/posts.php';
 
-$page_title       = 'Case studies | Brix for Shopify';
-$page_description = 'Real Shopify stores, real AOV numbers. See how merchants lifted Average Order Value and cart revenue with Brix cart upsells, rewards progress bars, product combos and complete-look recommendations.';
+$page_title       = 'Brix Case Studies: Shopify AOV Results';
+$page_description = 'See how Shopify merchants increased average order value with Brix: cart upsells, reward progress bars, and product bundle results.';
 $page_canonical   = 'case-studies';
 $page_nav         = 'case-studies';
 $footer_col3      = 'case-studies';

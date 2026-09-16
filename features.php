@@ -4,8 +4,8 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/bootstrap.php';
 require_once BRIX_INCLUDES . '/posts.php';
 
-$page_title       = 'Features | Brix for Shopify';
-$page_description = 'Every Brix feature in detail: Smart Cart Editor, coupon sliders, Frequently Bought Together, Bundle Builder, analytics and Brix AI.';
+$page_title       = 'Brix Features: AI Cart Upsell Tools for Shopify';
+$page_description = "Explore Brix's Shopify cart features: AI upsells, Frequently Bought Together, Bundle Builder, coupon sliders, and reward progress bars.";
 $page_canonical   = 'features';
 $page_nav         = 'features';
 $footer_col3      = 'case-studies';

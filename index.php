@@ -4,8 +4,8 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/bootstrap.php';
 require_once BRIX_INCLUDES . '/posts.php';
 
-$page_title       = 'Brix | AI Cart Upsell & AOV Booster App for Shopify';
-$page_description = 'Increase Shopify AOV with Brix. Use AI cart upsells, Frequently Bought Together offers, rewards progress bars, coupon sliders and real-time AI analysis to grow cart revenue.';
+$page_title       = 'Brix – AI Cart Upsell App for Shopify Stores';
+$page_description = 'Brix is an AI-powered Shopify app that increases average order value with cart upsells, cross-sells, and Frequently Bought Together offers. Free plan available.';
 $page_canonical   = '';
 $page_nav         = NULL;
 $footer_col3      = 'case-studies';

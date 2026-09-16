@@ -9,8 +9,8 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/bootstrap.php';
 require_once BRIX_INCLUDES . '/posts.php';
 
-$page_title       = 'Blog: Bigger Shopify orders, one tactic at a time · Brix';
-$page_description = 'Practical playbooks for lifting Average Order Value on Shopify: cart upsells, product bundles, free-shipping thresholds, AI recommendations and the apps that make them work.';
+$page_title       = 'Shopify AOV Blog: Cart Upsell & Growth Tactics | Brix';
+$page_description = 'Practical tactics to increase average order value on Shopify: cart upsells, product bundles, free-shipping thresholds, and AI recommendations.';
 $page_canonical   = 'blog';
 $page_nav         = 'blog';
 $footer_col3      = 'blog';

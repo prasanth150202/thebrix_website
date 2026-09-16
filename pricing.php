@@ -4,8 +4,8 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/bootstrap.php';
 require_once BRIX_INCLUDES . '/posts.php';
 
-$page_title       = 'Pricing | Brix for Shopify';
-$page_description = 'Brix pricing: Free forever, Starter at $29/mo, Pro at $79/mo for high-revenue brands. Compare every feature across plans.';
+$page_title       = 'Brix Pricing: Free, $29 & $79 Plans for Shopify';
+$page_description = 'Brix pricing for Shopify: Free forever, Starter $29/mo, Pro $79/mo. Compare AI cart upsell features across every plan — no credit card required.';
 $page_canonical   = 'pricing';
 $page_nav         = 'pricing';
 $footer_col3      = 'case-studies';

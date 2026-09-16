@@ -25,8 +25,8 @@ require_once BRIX_INCLUDES . '/posts.php';
  */
 brix_session_start();
 
-$page_title       = 'Contact Brix: talk to us about your Shopify store';
-$page_description = 'Questions about Brix, your setup, pricing or a custom requirement? Send us a message and we will get back to you within one business day.';
+$page_title       = 'Contact Brix — Shopify Cart Upsell App Support';
+$page_description = 'Questions about Brix, setup, pricing, or a custom request? Message our Shopify app team — we reply within one business day.';
 $page_canonical   = 'contact';
 $page_nav         = null;
 $footer_col3      = 'case-studies';

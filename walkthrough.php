@@ -31,8 +31,8 @@ $lead = brix_lead_handle('walkthrough', [
     'orders' => 'Monthly orders',
 ]);
 
-$page_title       = 'See Brix work: a guided tour of the Shopify cart that sells';
-$page_description = 'Watch Brix work in seven short videos, then ask us to walk through your own cart. AI upsells, Frequently Bought Together, reward tiers and coupon banners inside your Shopify cart drawer.';
+$page_title       = 'Brix Walkthrough: See Your Shopify Cart Upsells';
+$page_description = 'Watch Brix in seven short videos: AI upsells, Frequently Bought Together, reward tiers, and coupon banners inside your Shopify cart drawer.';
 $page_canonical   = 'walkthrough';
 $page_robots      = 'noindex, nofollow, noarchive, nosnippet, noimageindex';
 $page_chrome      = 'minimal';
