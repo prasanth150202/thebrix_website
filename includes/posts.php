@@ -335,35 +335,97 @@ function bulk_editable_fields(): array
 }
 
 /**
- * Apply a batch of field-level edits to posts by slug, in one pass.
+ * Wrap the first plain-text occurrence of $anchor in $body as a
+ * markdown link to $url, skipping an occurrence that is already the
+ * text of a link (`[$anchor](...)`) or that falls inside a fenced
+ * code block. Matching is exact and case-sensitive, since the anchor
+ * has to be text that genuinely exists in the post already - this
+ * never rewrites or paraphrases anything.
+ *
+ * Returns [newBody, applied, note]. note is a short context snippet
+ * (~40 chars either side) when applied, or an explanation when not -
+ * "already linked elsewhere" or "anchor phrase not found" - so a
+ * caller can show why nothing happened rather than a silent no-op.
+ */
+function bx_insert_first_link(string $body, string $anchor, string $url): array
+{
+    if ($anchor === '' || $url === '') {
+        return [$body, false, 'Missing anchor or url.'];
+    }
+
+    if (str_contains($body, '[' . $anchor . '](')) {
+        return [$body, false, 'Already linked elsewhere in this post.'];
+    }
+
+    $searchFrom = 0;
+    while (($pos = strpos($body, $anchor, $searchFrom)) !== false) {
+        $before = substr($body, 0, $pos);
+        $after  = substr($body, $pos + strlen($anchor));
+
+        $alreadyLinkText = str_ends_with($before, '[') && str_starts_with($after, '](');
+        $inFencedBlock   = substr_count($before, '```') % 2 === 1;
+
+        if (!$alreadyLinkText && !$inFencedBlock) {
+            $newBody = $before . '[' . $anchor . '](' . $url . ')' . $after;
+            $context = trim(mb_substr($before, -40) . '⟦' . $anchor . '⟧' . mb_substr($after, 0, 40));
+
+            return [$newBody, true, $context];
+        }
+
+        $searchFrom = $pos + 1;
+    }
+
+    return [$body, false, 'Anchor phrase not found in this post.'];
+}
+
+/**
+ * Apply a batch of field-level edits, and/or in-body link insertions,
+ * to posts by slug, in one pass.
  *
  * Built for exactly the situation post-edit.php is tedious for: a
- * title/description refresh across a dozen posts at once, rather than
- * one post at a time. Only ever touches the fields explicitly passed
- * and only when the value actually differs from what's already there.
+ * title/description refresh across a dozen posts at once, or adding
+ * the same handful of internal links across a content cluster, rather
+ * than one post at a time. Only ever touches what's explicitly passed
+ * and only when it actually changes something.
+ *
+ * Each slug's entry may carry any of bulk_editable_fields() (replaced
+ * outright) and/or a "link_insertions" list of {anchor, url} pairs
+ * (each one wraps the first matching, not-already-linked occurrence -
+ * see bx_insert_first_link()). Deliberately not a blind body_md
+ * overwrite: every insertion is anchored to text that has to already
+ * exist, so there's nothing here that can silently replace a post's
+ * actual content.
  *
  * A published post with a pending, unpublished draft keeps a full
- * snapshot of every editable field in draft_payload (see
- * post_editable_fields()); if this only wrote the live column, the
- * next time that draft was published it would silently overwrite this
- * change with whatever stale value the draft still has. So any field
- * touched here is patched in draft_payload too, when one exists and
- * already carries that field.
+ * snapshot of every editable field - body_md included - in
+ * draft_payload (see post_editable_fields()); if this only wrote the
+ * live columns, the next time that draft was published it would
+ * silently overwrite this change with whatever stale value the draft
+ * still has. So every field touched here, and the same link
+ * insertions against the draft's own body_md, are patched into
+ * draft_payload too, when one exists and already carries that field.
  *
- * Returns one report row per requested slug, so a caller can show
- * what happened (or didn't) rather than a single pass/fail for the
- * whole batch.
+ * Returns one report row per requested slug: 'changed' for field
+ * diffs, 'links' for what happened with each requested insertion - so
+ * a caller can show what happened (or didn't) rather than a single
+ * pass/fail for the whole batch.
  */
 function bulk_apply_post_fields(array $updatesBySlug, bool $dryRun = false): array
 {
-    $allowed = array_flip(bulk_editable_fields());
-    $report  = [];
+    $allowedFields = array_flip(bulk_editable_fields());
+    $report        = [];
 
-    foreach ($updatesBySlug as $slug => $fields) {
-        $fields = is_array($fields) ? array_intersect_key($fields, $allowed) : [];
+    foreach ($updatesBySlug as $slug => $entry) {
+        if (!is_array($entry)) {
+            $report[$slug] = ['ok' => false, 'message' => 'Entry must be an object.', 'changed' => [], 'links' => []];
+            continue;
+        }
 
-        if ($fields === []) {
-            $report[$slug] = ['ok' => false, 'message' => 'No recognized fields in this entry.', 'changed' => []];
+        $fields         = array_intersect_key($entry, $allowedFields);
+        $linkRequests   = is_array($entry['link_insertions'] ?? null) ? $entry['link_insertions'] : [];
+
+        if ($fields === [] && $linkRequests === []) {
+            $report[$slug] = ['ok' => false, 'message' => 'No recognized fields or link_insertions in this entry.', 'changed' => [], 'links' => []];
             continue;
         }
 
@@ -372,7 +434,7 @@ function bulk_apply_post_fields(array $updatesBySlug, bool $dryRun = false): arr
         $post = $stmt->fetch();
 
         if ($post === false) {
-            $report[$slug] = ['ok' => false, 'message' => 'No post with this slug.', 'changed' => []];
+            $report[$slug] = ['ok' => false, 'message' => 'No post with this slug.', 'changed' => [], 'links' => []];
             continue;
         }
 
@@ -385,35 +447,71 @@ function bulk_apply_post_fields(array $updatesBySlug, bool $dryRun = false): arr
             }
         }
 
-        if ($changed === []) {
-            $report[$slug] = ['ok' => true, 'message' => 'Already up to date.', 'changed' => []];
+        $newBody   = (string) $post['body_md'];
+        $linkReport = [];
+        foreach ($linkRequests as $req) {
+            $anchor = trim((string) ($req['anchor'] ?? ''));
+            $url    = trim((string) ($req['url'] ?? ''));
+            [$newBody, $applied, $note] = bx_insert_first_link($newBody, $anchor, $url);
+            $linkReport[] = ['anchor' => $anchor, 'url' => $url, 'applied' => $applied, 'note' => $note];
+        }
+        $bodyChanged = $newBody !== (string) $post['body_md'];
+
+        if ($changed === [] && !$bodyChanged) {
+            $report[$slug] = ['ok' => true, 'message' => 'Already up to date.', 'changed' => [], 'links' => $linkReport];
             continue;
         }
 
         if ($dryRun) {
-            $report[$slug] = ['ok' => true, 'message' => count($changed) . ' field(s) would change.', 'changed' => $changed];
+            $parts = [];
+            if ($changed !== []) {
+                $parts[] = count($changed) . ' field(s)';
+            }
+            if ($bodyChanged) {
+                $parts[] = 'body links';
+            }
+            $report[$slug] = ['ok' => true, 'message' => 'Would update: ' . implode(', ', $parts) . '.', 'changed' => $changed, 'links' => $linkReport];
             continue;
         }
 
         $sets   = [];
         $params = [':id' => $post['id']];
         foreach ($changed as $field => $diff) {
-            $sets[]              = "`$field` = :$field";
+            $sets[]             = "`$field` = :$field";
             $params[":$field"] = $diff['after'];
+        }
+        if ($bodyChanged) {
+            $sets[]            = 'body_md = :body_md';
+            $params[':body_md'] = $newBody;
         }
 
         if (!empty($post['draft_payload'])) {
             $draft = json_decode((string) $post['draft_payload'], true);
             if (is_array($draft)) {
                 $draftTouched = false;
+
                 foreach ($changed as $field => $diff) {
                     if (array_key_exists($field, $draft) && $draft[$field] !== $diff['after']) {
                         $draft[$field] = $diff['after'];
                         $draftTouched  = true;
                     }
                 }
+
+                if ($bodyChanged && array_key_exists('body_md', $draft)) {
+                    $draftBody = (string) $draft['body_md'];
+                    foreach ($linkRequests as $req) {
+                        $anchor = trim((string) ($req['anchor'] ?? ''));
+                        $url    = trim((string) ($req['url'] ?? ''));
+                        [$draftBody, ,] = bx_insert_first_link($draftBody, $anchor, $url);
+                    }
+                    if ($draftBody !== $draft['body_md']) {
+                        $draft['body_md'] = $draftBody;
+                        $draftTouched     = true;
+                    }
+                }
+
                 if ($draftTouched) {
-                    $sets[]                    = 'draft_payload = :draft_payload';
+                    $sets[]                   = 'draft_payload = :draft_payload';
                     $params[':draft_payload'] = json_encode($draft);
                 }
             }
@@ -421,7 +519,14 @@ function bulk_apply_post_fields(array $updatesBySlug, bool $dryRun = false): arr
 
         db()->prepare('UPDATE posts SET ' . implode(', ', $sets) . ' WHERE id = :id')->execute($params);
 
-        $report[$slug] = ['ok' => true, 'message' => count($changed) . ' field(s) updated.', 'changed' => $changed];
+        $parts = [];
+        if ($changed !== []) {
+            $parts[] = count($changed) . ' field(s) updated';
+        }
+        if ($bodyChanged) {
+            $parts[] = 'body links inserted';
+        }
+        $report[$slug] = ['ok' => true, 'message' => implode(', ', $parts) . '.', 'changed' => $changed, 'links' => $linkReport];
     }
 
     return $report;

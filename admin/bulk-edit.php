@@ -1,17 +1,24 @@
 <?php
 /**
- * Bulk-edit short text fields across many posts at once.
+ * Bulk-edit short text fields, and/or insert internal links into the
+ * body, across many posts at once.
  *
  * post-edit.php is the right place for a single post; this is for the
  * other case - a title/description refresh across a dozen posts after
- * an SEO pass, or fixing the same stray excerpt bug on a few articles -
- * where opening each one individually is the slow part, not deciding
- * what to change.
+ * an SEO pass, or adding the same handful of internal links across a
+ * content cluster - where opening each one individually is the slow
+ * part, not deciding what to change.
  *
- * Paste is a JSON object: { "slug": { "field": "new value", ... }, ... }.
+ * Paste is a JSON object: { "slug": { "field": "new value", ... } }.
  * "slug" is the full stored slug (the type prefix included - e.g.
  * "blog-cart-upsell-examples", not the public "/blog/cart-upsell-examples"
  * address), since that is what the posts table actually keys on.
+ *
+ * A slug's entry can also carry "link_insertions": a list of
+ * {"anchor": "...", "url": "..."} pairs. Each one finds the first
+ * occurrence of that exact anchor text in the post's body that isn't
+ * already a link, and wraps it - never rewrites or invents text, so
+ * the anchor has to already exist in the post.
  *
  * Two-step by design: Preview never writes anything, only Apply does,
  * and Apply re-runs the exact same payload the preview showed rather
@@ -81,6 +88,14 @@ admin_head('Bulk Edit', $user, 'bulk-edit');
                     <div style="color:var(--green)">&plus; <?= e($diff['after']) ?></div>
                   </div>
                 <?php endforeach; ?>
+                <?php foreach ($row['links'] ?? [] as $link): ?>
+                  <div style="margin-bottom:8px">
+                    <strong>link &ldquo;<?= e($link['anchor']) ?>&rdquo; &rarr; <?= e($link['url']) ?>:</strong>
+                    <div<?= $link['applied'] ? ' style="color:var(--green)"' : ' class="ad-danger"' ?>>
+                      <?= $link['applied'] ? '&plus; ' : '' ?><?= e($link['note']) ?>
+                    </div>
+                  </div>
+                <?php endforeach; ?>
               </td>
             </tr>
           <?php endforeach; ?>
@@ -112,14 +127,20 @@ admin_head('Bulk Edit', $user, 'bulk-edit');
                     placeholder='{
   "blog-cart-upsell-examples": {
     "meta_title": "New title here",
-    "meta_description": "New description here"
+    "meta_description": "New description here",
+    "link_insertions": [
+      {"anchor": "Frequently Bought Together", "url": "/blog/frequently-bought-together-shopify"}
+    ]
   }
 }'><?= e($payload) ?></textarea>
           <span class="ad-hint">
             Keys are the full stored slug (type prefix included). Only
             fields you include are touched - anything not mentioned is
-            left exactly as it is. Nothing is written until you click
-            Apply on the next screen.
+            left exactly as it is. "link_insertions" wraps the first
+            not-already-linked occurrence of each anchor phrase as a
+            link - the phrase has to already exist word-for-word in
+            the post. Nothing is written until you click Apply on the
+            next screen.
           </span>
         </label>
         <button class="ad-btn ad-btn-primary" type="submit">Preview</button>
