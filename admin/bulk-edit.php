@@ -20,6 +20,12 @@
  * already a link, and wraps it - never rewrites or invents text, so
  * the anchor has to already exist in the post.
  *
+ * And/or "cta_insertions": a list of
+ * {"after": "...", "text": "...", "url": "...", "align": "center"}
+ * pairs. Each one drops a new install-CTA button right after the
+ * first paragraph matching "after" - again anchored to text that has
+ * to already exist, so nothing here invents surrounding content.
+ *
  * Two-step by design: Preview never writes anything, only Apply does,
  * and Apply re-runs the exact same payload the preview showed rather
  * than trusting that nothing changed in between.
@@ -96,6 +102,14 @@ admin_head('Bulk Edit', $user, 'bulk-edit');
                     </div>
                   </div>
                 <?php endforeach; ?>
+                <?php foreach ($row['ctas'] ?? [] as $cta): ?>
+                  <div style="margin-bottom:8px">
+                    <strong>CTA &ldquo;<?= e($cta['text']) ?>&rdquo; after &ldquo;<?= e(mb_substr($cta['after'], 0, 50)) ?>&hellip;&rdquo;:</strong>
+                    <div<?= $cta['applied'] ? ' style="color:var(--green)"' : ' class="ad-danger"' ?>>
+                      <?= $cta['applied'] ? '&plus; ' : '' ?><?= e($cta['note']) ?>
+                    </div>
+                  </div>
+                <?php endforeach; ?>
               </td>
             </tr>
           <?php endforeach; ?>
@@ -130,6 +144,9 @@ admin_head('Bulk Edit', $user, 'bulk-edit');
     "meta_description": "New description here",
     "link_insertions": [
       {"anchor": "Frequently Bought Together", "url": "/blog/frequently-bought-together-shopify"}
+    ],
+    "cta_insertions": [
+      {"after": "Exact existing sentence to insert after.", "text": "Install Brix free", "url": "https://apps.shopify.com/thebrix-io?...", "align": "center"}
     ]
   }
 }'><?= e($payload) ?></textarea>
@@ -138,9 +155,11 @@ admin_head('Bulk Edit', $user, 'bulk-edit');
             fields you include are touched - anything not mentioned is
             left exactly as it is. "link_insertions" wraps the first
             not-already-linked occurrence of each anchor phrase as a
-            link - the phrase has to already exist word-for-word in
-            the post. Nothing is written until you click Apply on the
-            next screen.
+            link. "cta_insertions" drops a new install button right
+            after the first paragraph matching "after". Both need the
+            anchor text to already exist word-for-word in the post.
+            Nothing is written until you click Apply on the next
+            screen.
           </span>
         </label>
         <button class="ad-btn ad-btn-primary" type="submit">Preview</button>
