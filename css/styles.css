@@ -2611,6 +2611,23 @@ body.has-preview-bar .cs-article h3[id] {
 .cs-article li { color: var(--ink-2); font-size: 1.02rem; line-height: 1.65; }
 .cs-article li::marker { color: var(--brand); }
 
+/* The site-wide `a { color: inherit; text-decoration: none; }` reset
+   means an in-body link is otherwise indistinguishable from the
+   surrounding paragraph - invisible to a reader, not just unstyled.
+   Internal cross-links between posts only do their job if a reader
+   can actually see them. */
+.cs-article p a, .cs-article li a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-decoration-color: var(--brand-soft);
+  text-underline-offset: 2px;
+}
+.cs-article p a:hover, .cs-article li a:hover,
+.cs-article p a:focus-visible, .cs-article li a:focus-visible {
+  color: var(--brand-deep);
+  text-decoration-color: currentColor;
+}
+
 .cs-table-wrap {
   overflow-x: auto;
   margin: 4px 0 28px;
