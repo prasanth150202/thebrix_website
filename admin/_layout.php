@@ -16,6 +16,7 @@ function admin_head(string $title, ?array $user = null, string $active = ''): vo
     $tabs = [
         'posts'       => ['href' => 'index.php',       'label' => 'Posts'],
         'submissions' => ['href' => 'submissions.php', 'label' => 'Submissions'],
+        'bulk-edit'   => ['href' => 'bulk-edit.php',   'label' => 'Bulk Edit'],
         'account'     => ['href' => 'account.php',     'label' => 'Account'],
     ];
     ?>

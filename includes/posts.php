@@ -320,3 +320,109 @@ function get_footer_links(string $type, int $limit = 4): array
 
     return $stmt->fetchAll();
 }
+
+/**
+ * Field-level fields safe to touch from the bulk editor: short text
+ * fields where a wrong value is easy to see and easy to undo. Deliberately
+ * excludes slug (has its own redirect machinery), body_md (needs its own
+ * insertion-based tool, not a blind overwrite) and the structural fields
+ * (type, dates, layout) that post-edit.php's form handles with its own
+ * validation.
+ */
+function bulk_editable_fields(): array
+{
+    return ['title', 'author', 'category', 'excerpt', 'meta_title', 'meta_description'];
+}
+
+/**
+ * Apply a batch of field-level edits to posts by slug, in one pass.
+ *
+ * Built for exactly the situation post-edit.php is tedious for: a
+ * title/description refresh across a dozen posts at once, rather than
+ * one post at a time. Only ever touches the fields explicitly passed
+ * and only when the value actually differs from what's already there.
+ *
+ * A published post with a pending, unpublished draft keeps a full
+ * snapshot of every editable field in draft_payload (see
+ * post_editable_fields()); if this only wrote the live column, the
+ * next time that draft was published it would silently overwrite this
+ * change with whatever stale value the draft still has. So any field
+ * touched here is patched in draft_payload too, when one exists and
+ * already carries that field.
+ *
+ * Returns one report row per requested slug, so a caller can show
+ * what happened (or didn't) rather than a single pass/fail for the
+ * whole batch.
+ */
+function bulk_apply_post_fields(array $updatesBySlug, bool $dryRun = false): array
+{
+    $allowed = array_flip(bulk_editable_fields());
+    $report  = [];
+
+    foreach ($updatesBySlug as $slug => $fields) {
+        $fields = is_array($fields) ? array_intersect_key($fields, $allowed) : [];
+
+        if ($fields === []) {
+            $report[$slug] = ['ok' => false, 'message' => 'No recognized fields in this entry.', 'changed' => []];
+            continue;
+        }
+
+        $stmt = db()->prepare('SELECT * FROM posts WHERE slug = :slug AND deleted_at IS NULL LIMIT 1');
+        $stmt->execute([':slug' => $slug]);
+        $post = $stmt->fetch();
+
+        if ($post === false) {
+            $report[$slug] = ['ok' => false, 'message' => 'No post with this slug.', 'changed' => []];
+            continue;
+        }
+
+        $changed = [];
+        foreach ($fields as $field => $value) {
+            $value  = (string) $value;
+            $before = (string) ($post[$field] ?? '');
+            if ($before !== $value) {
+                $changed[$field] = ['before' => $before, 'after' => $value];
+            }
+        }
+
+        if ($changed === []) {
+            $report[$slug] = ['ok' => true, 'message' => 'Already up to date.', 'changed' => []];
+            continue;
+        }
+
+        if ($dryRun) {
+            $report[$slug] = ['ok' => true, 'message' => count($changed) . ' field(s) would change.', 'changed' => $changed];
+            continue;
+        }
+
+        $sets   = [];
+        $params = [':id' => $post['id']];
+        foreach ($changed as $field => $diff) {
+            $sets[]              = "`$field` = :$field";
+            $params[":$field"] = $diff['after'];
+        }
+
+        if (!empty($post['draft_payload'])) {
+            $draft = json_decode((string) $post['draft_payload'], true);
+            if (is_array($draft)) {
+                $draftTouched = false;
+                foreach ($changed as $field => $diff) {
+                    if (array_key_exists($field, $draft) && $draft[$field] !== $diff['after']) {
+                        $draft[$field] = $diff['after'];
+                        $draftTouched  = true;
+                    }
+                }
+                if ($draftTouched) {
+                    $sets[]                    = 'draft_payload = :draft_payload';
+                    $params[':draft_payload'] = json_encode($draft);
+                }
+            }
+        }
+
+        db()->prepare('UPDATE posts SET ' . implode(', ', $sets) . ' WHERE id = :id')->execute($params);
+
+        $report[$slug] = ['ok' => true, 'message' => count($changed) . ' field(s) updated.', 'changed' => $changed];
+    }
+
+    return $report;
+}
