@@ -29,6 +29,32 @@ $page_nav         = $isCase ? 'case-studies' : 'blog';
 $footer_col3      = $isCase ? 'case-studies' : 'blog';
 $page_breadcrumb_current = $post['title'];
 
+// Held back until now: shipping this against the "Admin" byline every
+// post used to carry would have made the author field itself false.
+// account.php's backfill means $post['author'] is a real name.
+$page_schema = [[
+    '@context'         => 'https://schema.org',
+    '@type'            => 'BlogPosting',
+    'headline'         => $post['title'],
+    'description'      => $page_description,
+    'datePublished'    => $post['date_published'],
+    'dateModified'     => str_replace(' ', 'T', (string) $post['updated_at']),
+    'author'           => [
+        '@type' => 'Person',
+        'name'  => $post['author'] !== '' ? $post['author'] : 'Brix',
+    ],
+    'publisher'        => ['@id' => SITE_URL . '/#organization'],
+    'mainEntityOfPage' => [
+        '@type' => 'WebPage',
+        '@id'   => SITE_URL . '/' . ltrim($page_canonical, '/'),
+    ],
+]];
+
+$heroImageForSchema = safe_asset_path($post['hero_image'] ?? '');
+if ($heroImageForSchema !== '') {
+    $page_schema[0]['image'] = SITE_URL . '/' . $heroImageForSchema;
+}
+
 if (($preview_banner ?? false) === true) {
     $page_robots     = 'noindex, nofollow';
     $page_body_class = 'has-preview-bar';
