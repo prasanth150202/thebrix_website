@@ -379,8 +379,97 @@ function bx_insert_first_link(string $body, string $anchor, string $url): array
 }
 
 /**
- * Apply a batch of field-level edits, and/or in-body link insertions,
- * to posts by slug, in one pass.
+ * The [cta text="..." url="..." align="..."] shortcode
+ * render_body_ctas() (see includes/markdown.php) turns into the
+ * button every post already uses for its mid-article install
+ * prompts. Kept in one place so the attribute syntax has a single
+ * source of truth instead of being retyped at every call site.
+ *
+ * Quotes are stripped rather than escaped: the shortcode's own parser
+ * splits on the first unescaped `"`, so a literal quote in CTA copy
+ * would truncate the attribute instead of rendering - safer to just
+ * not allow one in text this short.
+ */
+function bx_cta_shortcode(string $text, string $url, string $align = 'center'): string
+{
+    $text  = str_replace('"', '', $text);
+    $url   = str_replace('"', '', $url);
+    $align = in_array($align, ['left', 'center', 'right'], true) ? $align : 'center';
+
+    return '[cta text="' . $text . '" url="' . $url . '" align="' . $align . '"]';
+}
+
+/**
+ * Insert $insertMarkdown as its own paragraph immediately after the
+ * first occurrence of $afterText in $body. Skips if $afterText can't
+ * be found, or if $insertMarkdown already appears shortly after that
+ * anchor - so re-applying the same batch is a no-op, not a second
+ * copy of the same CTA stacked under the first.
+ *
+ * Returns [newBody, applied, note].
+ */
+function bx_insert_after(string $body, string $afterText, string $insertMarkdown): array
+{
+    if ($afterText === '' || $insertMarkdown === '') {
+        return [$body, false, 'Missing anchor text or content to insert.'];
+    }
+
+    $pos = strpos($body, $afterText);
+    if ($pos === false) {
+        return [$body, false, 'Anchor paragraph not found in this post.'];
+    }
+
+    $insertAt  = $pos + strlen($afterText);
+    $lookahead = substr($body, $insertAt, 400);
+
+    if (str_contains($lookahead, trim($insertMarkdown))) {
+        return [$body, false, 'Already present after this anchor.'];
+    }
+
+    $before  = substr($body, 0, $insertAt);
+    $after   = substr($body, $insertAt);
+    $newBody = rtrim($before) . "\n\n" . trim($insertMarkdown) . "\n\n" . ltrim($after);
+    $context = trim(mb_substr($before, -60)) . ' ⟦NEW: ' . trim($insertMarkdown) . '⟧';
+
+    return [$newBody, true, $context];
+}
+
+/**
+ * Run every requested body_md change - link insertions and CTA
+ * insertions alike - against one body string in a single pass, so
+ * the live column and a pending draft's own copy are transformed
+ * identically by calling this once for each.
+ *
+ * Returns [newBody, linkReport, ctaReport].
+ */
+function bx_apply_body_operations(string $body, array $linkRequests, array $ctaRequests): array
+{
+    $linkReport = [];
+    foreach ($linkRequests as $req) {
+        $anchor = trim((string) ($req['anchor'] ?? ''));
+        $url    = trim((string) ($req['url'] ?? ''));
+        [$body, $applied, $note] = bx_insert_first_link($body, $anchor, $url);
+        $linkReport[] = ['anchor' => $anchor, 'url' => $url, 'applied' => $applied, 'note' => $note];
+    }
+
+    $ctaReport = [];
+    foreach ($ctaRequests as $req) {
+        $after = trim((string) ($req['after'] ?? ''));
+        $text  = trim((string) ($req['text'] ?? ''));
+        $url   = trim((string) ($req['url'] ?? ''));
+        $align = trim((string) ($req['align'] ?? 'center'));
+
+        $shortcode = ($text !== '' && $url !== '') ? bx_cta_shortcode($text, $url, $align) : '';
+        [$body, $applied, $note] = bx_insert_after($body, $after, $shortcode);
+        $ctaReport[] = ['after' => $after, 'text' => $text, 'url' => $url, 'applied' => $applied, 'note' => $note];
+    }
+
+    return [$body, $linkReport, $ctaReport];
+}
+
+/**
+ * Apply a batch of field-level edits, in-body link insertions, and/or
+ * mid-article CTA insertions, to posts by slug, in one pass.
  *
  * Built for exactly the situation post-edit.php is tedious for: a
  * title/description refresh across a dozen posts at once, or adding
@@ -389,26 +478,29 @@ function bx_insert_first_link(string $body, string $anchor, string $url): array
  * and only when it actually changes something.
  *
  * Each slug's entry may carry any of bulk_editable_fields() (replaced
- * outright) and/or a "link_insertions" list of {anchor, url} pairs
- * (each one wraps the first matching, not-already-linked occurrence -
- * see bx_insert_first_link()). Deliberately not a blind body_md
- * overwrite: every insertion is anchored to text that has to already
- * exist, so there's nothing here that can silently replace a post's
- * actual content.
+ * outright), a "link_insertions" list of {anchor, url} pairs (each one
+ * wraps the first matching, not-already-linked occurrence - see
+ * bx_insert_first_link()), and/or a "cta_insertions" list of
+ * {after, text, url, align} pairs (each one drops a new
+ * [cta ...]-shortcode paragraph right after the first matching
+ * existing paragraph - see bx_insert_after()). Deliberately not a
+ * blind body_md overwrite: every insertion is anchored to text that
+ * has to already exist, so there's nothing here that can silently
+ * replace a post's actual content.
  *
  * A published post with a pending, unpublished draft keeps a full
  * snapshot of every editable field - body_md included - in
  * draft_payload (see post_editable_fields()); if this only wrote the
  * live columns, the next time that draft was published it would
  * silently overwrite this change with whatever stale value the draft
- * still has. So every field touched here, and the same link
+ * still has. So every field touched here, and the same body
  * insertions against the draft's own body_md, are patched into
  * draft_payload too, when one exists and already carries that field.
  *
  * Returns one report row per requested slug: 'changed' for field
- * diffs, 'links' for what happened with each requested insertion - so
- * a caller can show what happened (or didn't) rather than a single
- * pass/fail for the whole batch.
+ * diffs, 'links' and 'ctas' for what happened with each requested
+ * insertion - so a caller can show what happened (or didn't) rather
+ * than a single pass/fail for the whole batch.
  */
 function bulk_apply_post_fields(array $updatesBySlug, bool $dryRun = false): array
 {
@@ -417,15 +509,16 @@ function bulk_apply_post_fields(array $updatesBySlug, bool $dryRun = false): arr
 
     foreach ($updatesBySlug as $slug => $entry) {
         if (!is_array($entry)) {
-            $report[$slug] = ['ok' => false, 'message' => 'Entry must be an object.', 'changed' => [], 'links' => []];
+            $report[$slug] = ['ok' => false, 'message' => 'Entry must be an object.', 'changed' => [], 'links' => [], 'ctas' => []];
             continue;
         }
 
-        $fields         = array_intersect_key($entry, $allowedFields);
-        $linkRequests   = is_array($entry['link_insertions'] ?? null) ? $entry['link_insertions'] : [];
+        $fields       = array_intersect_key($entry, $allowedFields);
+        $linkRequests = is_array($entry['link_insertions'] ?? null) ? $entry['link_insertions'] : [];
+        $ctaRequests  = is_array($entry['cta_insertions'] ?? null) ? $entry['cta_insertions'] : [];
 
-        if ($fields === [] && $linkRequests === []) {
-            $report[$slug] = ['ok' => false, 'message' => 'No recognized fields or link_insertions in this entry.', 'changed' => [], 'links' => []];
+        if ($fields === [] && $linkRequests === [] && $ctaRequests === []) {
+            $report[$slug] = ['ok' => false, 'message' => 'No recognized fields, link_insertions or cta_insertions in this entry.', 'changed' => [], 'links' => [], 'ctas' => []];
             continue;
         }
 
@@ -434,7 +527,7 @@ function bulk_apply_post_fields(array $updatesBySlug, bool $dryRun = false): arr
         $post = $stmt->fetch();
 
         if ($post === false) {
-            $report[$slug] = ['ok' => false, 'message' => 'No post with this slug.', 'changed' => [], 'links' => []];
+            $report[$slug] = ['ok' => false, 'message' => 'No post with this slug.', 'changed' => [], 'links' => [], 'ctas' => []];
             continue;
         }
 
@@ -447,18 +540,11 @@ function bulk_apply_post_fields(array $updatesBySlug, bool $dryRun = false): arr
             }
         }
 
-        $newBody   = (string) $post['body_md'];
-        $linkReport = [];
-        foreach ($linkRequests as $req) {
-            $anchor = trim((string) ($req['anchor'] ?? ''));
-            $url    = trim((string) ($req['url'] ?? ''));
-            [$newBody, $applied, $note] = bx_insert_first_link($newBody, $anchor, $url);
-            $linkReport[] = ['anchor' => $anchor, 'url' => $url, 'applied' => $applied, 'note' => $note];
-        }
+        [$newBody, $linkReport, $ctaReport] = bx_apply_body_operations((string) $post['body_md'], $linkRequests, $ctaRequests);
         $bodyChanged = $newBody !== (string) $post['body_md'];
 
         if ($changed === [] && !$bodyChanged) {
-            $report[$slug] = ['ok' => true, 'message' => 'Already up to date.', 'changed' => [], 'links' => $linkReport];
+            $report[$slug] = ['ok' => true, 'message' => 'Already up to date.', 'changed' => [], 'links' => $linkReport, 'ctas' => $ctaReport];
             continue;
         }
 
@@ -468,9 +554,9 @@ function bulk_apply_post_fields(array $updatesBySlug, bool $dryRun = false): arr
                 $parts[] = count($changed) . ' field(s)';
             }
             if ($bodyChanged) {
-                $parts[] = 'body links';
+                $parts[] = 'body changes';
             }
-            $report[$slug] = ['ok' => true, 'message' => 'Would update: ' . implode(', ', $parts) . '.', 'changed' => $changed, 'links' => $linkReport];
+            $report[$slug] = ['ok' => true, 'message' => 'Would update: ' . implode(', ', $parts) . '.', 'changed' => $changed, 'links' => $linkReport, 'ctas' => $ctaReport];
             continue;
         }
 
@@ -498,12 +584,7 @@ function bulk_apply_post_fields(array $updatesBySlug, bool $dryRun = false): arr
                 }
 
                 if ($bodyChanged && array_key_exists('body_md', $draft)) {
-                    $draftBody = (string) $draft['body_md'];
-                    foreach ($linkRequests as $req) {
-                        $anchor = trim((string) ($req['anchor'] ?? ''));
-                        $url    = trim((string) ($req['url'] ?? ''));
-                        [$draftBody, ,] = bx_insert_first_link($draftBody, $anchor, $url);
-                    }
+                    [$draftBody, ,] = bx_apply_body_operations((string) $draft['body_md'], $linkRequests, $ctaRequests);
                     if ($draftBody !== $draft['body_md']) {
                         $draft['body_md'] = $draftBody;
                         $draftTouched     = true;
@@ -524,9 +605,9 @@ function bulk_apply_post_fields(array $updatesBySlug, bool $dryRun = false): arr
             $parts[] = count($changed) . ' field(s) updated';
         }
         if ($bodyChanged) {
-            $parts[] = 'body links inserted';
+            $parts[] = 'body updated';
         }
-        $report[$slug] = ['ok' => true, 'message' => implode(', ', $parts) . '.', 'changed' => $changed, 'links' => $linkReport];
+        $report[$slug] = ['ok' => true, 'message' => implode(', ', $parts) . '.', 'changed' => $changed, 'links' => $linkReport, 'ctas' => $ctaReport];
     }
 
     return $report;
