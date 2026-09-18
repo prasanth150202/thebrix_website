@@ -93,6 +93,17 @@ DirectoryIndex index.php
   <FilesMatch "\.(?i:md)$">
     Header set X-Robots-Tag "noindex"
   </FilesMatch>
+
+  # Baseline security headers the SEO audit found missing everywhere.
+  # `always` so they still land on 4xx/5xx responses, not just 2xx.
+  # The site is fully HTTPS-only via Cloudflare, so HSTS is safe to set;
+  # `preload` is deliberately omitted since submitting to browsers'
+  # preload lists is a separate, hard-to-reverse decision, not something
+  # to opt into from a header alone.
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
 </IfModule>
 
 # The credentials file is never served.
