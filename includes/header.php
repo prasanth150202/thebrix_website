@@ -153,7 +153,7 @@ $nav_caret = '<svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="cur
     gtag('js', new Date());
     gtag('config', 'G-23RTZ99F2K');
   </script>
-  <script src="/js/utm.js?v=<?= ASSET_UTM_VER ?>"></script>
+  <script defer src="/js/utm.js?v=<?= ASSET_UTM_VER ?>"></script>
   <!-- Microsoft Clarity -->
   <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
