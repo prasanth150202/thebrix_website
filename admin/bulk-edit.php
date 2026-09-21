@@ -26,6 +26,12 @@
  * first paragraph matching "after" - again anchored to text that has
  * to already exist, so nothing here invents surrounding content.
  *
+ * And/or "text_replacements": a list of {"find": "...", "replace": "..."}
+ * pairs, for correcting a passage already in the post - a stray figure,
+ * a typo, a stale claim. Each one swaps the first verbatim occurrence
+ * of "find". Re-running a batch that already succeeded is a safe no-op:
+ * if "find" is gone but "replace" is already there, nothing happens.
+ *
  * Two-step by design: Preview never writes anything, only Apply does,
  * and Apply re-runs the exact same payload the preview showed rather
  * than trusting that nothing changed in between.
@@ -110,6 +116,14 @@ admin_head('Bulk Edit', $user, 'bulk-edit');
                     </div>
                   </div>
                 <?php endforeach; ?>
+                <?php foreach ($row['texts'] ?? [] as $text): ?>
+                  <div style="margin-bottom:8px">
+                    <strong>replace &ldquo;<?= e(mb_substr($text['find'], 0, 50)) ?>&hellip;&rdquo;:</strong>
+                    <div<?= $text['applied'] ? ' style="color:var(--green)"' : ' class="ad-danger"' ?>>
+                      <?= $text['applied'] ? '&plus; ' : '' ?><?= e($text['note']) ?>
+                    </div>
+                  </div>
+                <?php endforeach; ?>
               </td>
             </tr>
           <?php endforeach; ?>
@@ -147,6 +161,9 @@ admin_head('Bulk Edit', $user, 'bulk-edit');
     ],
     "cta_insertions": [
       {"after": "Exact existing sentence to insert after.", "text": "Install Brix free", "url": "https://apps.shopify.com/thebrix-io?...", "align": "center"}
+    ],
+    "text_replacements": [
+      {"find": "Exact existing passage to correct.", "replace": "Corrected passage."}
     ]
   }
 }'><?= e($payload) ?></textarea>
@@ -156,8 +173,10 @@ admin_head('Bulk Edit', $user, 'bulk-edit');
             left exactly as it is. "link_insertions" wraps the first
             not-already-linked occurrence of each anchor phrase as a
             link. "cta_insertions" drops a new install button right
-            after the first paragraph matching "after". Both need the
-            anchor text to already exist word-for-word in the post.
+            after the first paragraph matching "after". "text_replacements"
+            swaps the first verbatim occurrence of "find" with "replace" -
+            for correcting a stray figure, typo or stale claim. All three
+            need the given text to already exist word-for-word in the post.
             Nothing is written until you click Apply on the next
             screen.
           </span>
