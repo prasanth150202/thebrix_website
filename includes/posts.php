@@ -331,7 +331,7 @@ function get_footer_links(string $type, int $limit = 4): array
  */
 function bulk_editable_fields(): array
 {
-    return ['title', 'author', 'category', 'excerpt', 'meta_title', 'meta_description'];
+    return ['title', 'author', 'category', 'excerpt', 'hero_subtitle', 'meta_title', 'meta_description'];
 }
 
 /**
