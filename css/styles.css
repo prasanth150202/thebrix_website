@@ -3211,6 +3211,19 @@ body.has-preview-bar .cs-article h3[id] {
 /* GSAP runs its own float + scroll-drift tweens on the chips */
 body.gsap-on .hero-chip { animation: none; }
 
+/* The hero is the LCP candidate on every page that has one, so it can't
+   sit at opacity:0 waiting on GSAP (or even just on main.js) to load and
+   run before it paints. main.js already treats this exact selector set
+   as "the hero" (see heroText/heroVisual in its reveal init) - here it
+   just starts visible instead of fading in, while everything else below
+   the fold still reveals on scroll as before. */
+.hero-copy .reveal,
+.page-hero .reveal,
+.hero-visual {
+  opacity: 1;
+  transform: none;
+}
+
 /* ---------- legal / policy pages ---------- */
 
 .legal-switch {
