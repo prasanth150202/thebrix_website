@@ -576,6 +576,16 @@ body.has-preview-bar .cs-article h3[id] {
   align-items: center;
 }
 
+/* /book-a-demo only: the right column plays a live animation, so its
+   height shifts by a few pixels frame to frame no matter how tightly
+   the animation itself is built. align-items:center on the shared
+   .hero-grid would re-centre the WHOLE row on every one of those
+   shifts, dragging the left copy up and down with it, the actual
+   cause of the left side "moving" during the animation, not the
+   animation itself. Top-aligning both columns here means only the
+   right column's own content can move; the left one is pinned. */
+.hero-grid-top { align-items: start; }
+
 .hero-rating {
   display: inline-flex;
   align-items: center;
@@ -849,6 +859,575 @@ body.has-preview-bar .cs-article h3[id] {
   height: 100%;
   pointer-events: none;
   z-index: 5;
+}
+
+/* ---------- AOV / revenue calculator (hero) ---------- */
+
+.calc-card {
+  position: relative;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+  padding: 26px;
+  max-width: 420px;
+  margin-inline: auto;
+  border: 1px solid rgba(231, 225, 245, .8);
+}
+
+.calc-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: .74rem;
+  font-weight: 700;
+  color: var(--brand);
+  background: var(--brand-soft);
+  padding: 4px 11px;
+  border-radius: 100px;
+  margin-bottom: 12px;
+}
+
+.calc-head h3 {
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.calc-sub {
+  font-size: .86rem;
+  color: var(--ink-2);
+  line-height: 1.55;
+  margin-bottom: 20px;
+}
+
+.calc-field { margin-bottom: 14px; }
+.calc-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.calc-field label span { font-weight: 500; color: var(--ink-3); font-size: .76rem; }
+
+.calc-input {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--line);
+  border-radius: 11px;
+  padding: 0 14px;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.calc-input:focus-within {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, .14);
+}
+.calc-input span { color: var(--ink-3); font-weight: 600; margin-right: 4px; }
+.calc-input input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  padding: 11px 0;
+  font-family: var(--font-body);
+  font-size: .95rem;
+  color: var(--ink);
+  background: transparent;
+}
+.calc-input input:focus { outline: none; }
+
+.calc-select {
+  width: 100%;
+  padding: 11px 38px 11px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 11px;
+  background-color: var(--paper);
+  font-family: var(--font-body);
+  font-size: .95rem;
+  color: var(--ink);
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238B819C' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+  background-size: 16px;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.calc-select:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, .14);
+}
+
+.calc-btn { width: 100%; margin-top: 10px; }
+
+/* Green marks a result going up, per docs/brand-palette.md: this is
+   the one figure on the page reporting a gain rather than a feature. */
+.calc-result {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+.calc-result-label { font-size: .82rem; color: var(--ink-2); margin-bottom: 4px; }
+.calc-result-fig {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2.1rem;
+  color: var(--green-deep);
+  margin-bottom: 14px;
+}
+.calc-result-fig small { font-size: .95rem; font-weight: 600; color: var(--ink-3); margin-left: 4px; }
+.calc-result-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: .86rem;
+  color: var(--ink-2);
+  padding: 7px 0;
+}
+.calc-result-row + .calc-result-row { border-top: 1px dashed var(--line); }
+.calc-result-row b { color: var(--ink); }
+.calc-result-note {
+  margin-top: 12px;
+  font-size: .78rem;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+.calc-result.calc-pop { animation: calcpop .4s ease; }
+@keyframes calcpop {
+  0% { transform: scale(.97); opacity: .5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 680px) {
+  .calc-card { padding: 20px; }
+  .calc-result-fig { font-size: 1.7rem; }
+}
+
+/* ---------- AOV calculator wizard (step-by-step, /book-a-demo) ---------- */
+
+.wiz-card {
+  position: relative;
+  background: #fff;
+  border: 1px solid rgba(231, 225, 245, .8);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+  padding: 32px;
+  max-width: 480px;
+  margin-inline: auto;
+}
+
+.wiz-progress {
+  height: 6px;
+  border-radius: 100px;
+  background: var(--paper-soft);
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+.wiz-progress-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: var(--reward-grad);
+  width: 20%;
+  transition: width .35s cubic-bezier(.3, .9, .35, 1);
+}
+
+.wiz-count {
+  display: block;
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+}
+
+.wiz-step { display: none; }
+.wiz-step.is-active { display: block; animation: wizin .35s ease; }
+@keyframes wizin {
+  from { opacity: 0; transform: translateX(14px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.wiz-q {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--ink);
+  margin-bottom: 16px;
+  line-height: 1.35;
+}
+.wiz-q span { font-weight: 500; color: var(--ink-3); font-size: .8rem; }
+
+.wiz-err {
+  min-height: 1.2em;
+  margin-top: 10px;
+  font-size: .82rem;
+  color: #A02B2B;
+}
+
+.wiz-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 22px;
+}
+.wiz-nav .btn-ghost { margin-right: auto; }
+/* .btn's own `display: inline-flex` otherwise beats the browser's
+   default [hidden] rule at equal specificity, since author styles
+   always win over the UA stylesheet regardless of source order. */
+.wiz-nav .btn[hidden] { display: none; }
+
+.wiz-result-cta { width: 100%; margin-top: 18px; }
+
+@media (max-width: 560px) {
+  .wiz-card { padding: 24px 20px; }
+}
+
+/* ---------- hero AI demo: prompt in, cart changes out (/book-a-demo) ----------
+   A light-themed sibling of the dark .chat-mock on /features#ai-chat: same
+   idea (typed prompt, thinking dots, AI reply) but readable on the hero's
+   paper-soft background, and wired to the cart below it on one shared
+   timeline instead of two independent loops. See js/hero-ai-demo.js. */
+
+.ai-demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  max-width: 400px;
+  margin-inline: auto;
+  /* Breathing room now that .hero-grid-top no longer vertically centres
+     this column against the copy beside it, otherwise the card sat
+     flush with the hero badge at the very top of the row. */
+  padding: 18px 0 28px;
+}
+
+.ai-demo-card {
+  width: 100%;
+  background: #fff;
+  border: 1px solid rgba(231, 225, 245, .8);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  padding: 16px 18px;
+}
+
+.ai-demo-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.ai-demo-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--brand), var(--grad-b));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.ai-demo-head b { font-family: var(--font-display); font-size: .86rem; }
+.ai-demo-live {
+  margin-left: auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, .18);
+}
+
+.ai-demo-line {
+  min-height: 1.4em;
+  padding: 10px 13px;
+  background: var(--paper-soft);
+  border-radius: 10px;
+  font-size: .86rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.ai-demo-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--brand);
+  vertical-align: -2px;
+  margin-left: 2px;
+  animation: caret 1s steps(2) infinite;
+}
+
+/* Typing dots and the reply share one reserved slot, stacked via
+   position:absolute, so whichever is showing never changes the card's
+   height: the two are never visible at once, so nothing overlaps. */
+.ai-demo-status {
+  position: relative;
+  min-height: 2.6em;
+  margin-top: 10px;
+}
+
+.ai-demo-typing {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  display: flex;
+  gap: 5px;
+  padding: 8px 13px;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+.ai-demo-typing.show { opacity: 1; }
+.ai-demo-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-3);
+  animation: typing 1.1s ease-in-out infinite;
+}
+.ai-demo-typing span:nth-child(2) { animation-delay: .18s; }
+.ai-demo-typing span:nth-child(3) { animation-delay: .36s; }
+
+.ai-demo-reply {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-size: .82rem;
+  color: var(--ink-2);
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .4s ease, transform .4s ease;
+}
+.ai-demo-reply.show { opacity: 1; transform: translateY(0); }
+
+.ai-demo-arrow {
+  color: var(--ink-3);
+  margin: -2px 0;
+}
+
+.ai-demo-result {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .84rem;
+  font-weight: 700;
+  color: var(--green-deep);
+  background: rgba(34, 197, 94, .1);
+  border: 1px solid rgba(34, 197, 94, .3);
+  padding: 9px 16px;
+  border-radius: 100px;
+  margin-top: 10px;
+  opacity: 0;
+  transform: scale(.85);
+  transition: opacity .35s cubic-bezier(.3, 1.5, .5, 1), transform .35s cubic-bezier(.3, 1.5, .5, 1);
+}
+.ai-demo-result.show { opacity: 1; transform: scale(1); }
+
+/* ---------- realistic cart drawer recreation (/book-a-demo) ----------
+   Reuses .ui-mock/.ui-bar (the browser-chrome mockup already used on
+   /how-to) as the frame, then rebuilds what the real Brix Cart Editor
+   preview actually renders inside it: a dark shipping band, an urgency
+   timer, the rewards bar, two coupon cards, real item rows and a black
+   checkout button. Every dynamic value below changes colour, fill or
+   text only, never size, for the reason documented above .ai-demo-status:
+   nothing here may change this card's height while it plays. */
+
+.rc-mock { max-width: 400px; margin-inline: auto; }
+.rc-mock .ui-bar span { flex: 1; text-align: center; color: var(--ink-3); }
+
+.rc-cart { position: relative; }
+
+.rc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.rc-head b { font-family: var(--font-display); font-size: .96rem; }
+.rc-x { color: var(--ink-3); font-size: 1.15rem; line-height: 1; }
+
+.rc-band {
+  margin: 0;
+  padding: 10px 18px;
+  background: var(--navy);
+  color: #fff;
+  text-align: center;
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+/* The same "cost/loss red" used on the why-AOV panel, reused here for
+   the same reason: it is a loss/urgency framing, not a brand colour. */
+.rc-timer {
+  margin: 0;
+  padding: 8px 18px;
+  background: rgba(194, 65, 12, .08);
+  color: #C2410C;
+  text-align: center;
+  font-size: .76rem;
+  font-weight: 600;
+}
+.rc-timer b { font-variant-numeric: tabular-nums; }
+
+.rc-body { padding: 16px 18px 18px; }
+
+.rc-goal { margin-bottom: 18px; }
+/* min-height covers two lines: the "away from" and "unlocked" strings
+   are different lengths, and on a narrow phone one of them wraps while
+   the other doesn't, which was quietly changing the card's height. */
+.rc-goal-msg {
+  font-size: .84rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--green-deep);
+  margin-bottom: 10px;
+  min-height: 2.8em;
+}
+
+.rc-track {
+  position: relative;
+  height: 10px;
+  background: var(--paper-soft);
+  border-radius: 100px;
+  margin-bottom: 6px;
+}
+.rc-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 100px;
+  background: var(--reward-grad);
+  transition: width 1s cubic-bezier(.3, .9, .35, 1);
+  min-width: 10px;
+}
+.rc-node {
+  position: absolute;
+  top: 50%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--line);
+  color: var(--ink-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .3s ease, border-color .3s ease, color .3s ease;
+  z-index: 2;
+}
+.rc-node.is-unlocked {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+  animation: nodepop .45s cubic-bezier(.3, 1.6, .5, 1);
+}
+.rc-tiers { display: flex; justify-content: space-between; font-size: .66rem; font-weight: 600; color: var(--ink-3); }
+
+.rc-coupon-h { font-size: .84rem; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+.rc-coupons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+
+/* Column layout, not row: the button sits below the text on its own
+   line, so its width can never eat into the text's and change how many
+   lines it wraps to. */
+.rc-coupon {
+  padding: 12px;
+  border-radius: 12px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.rc-coupon-a { background: linear-gradient(135deg, var(--brand), var(--grad-b)); }
+.rc-coupon-b { background: linear-gradient(135deg, var(--green), #16A34A); }
+.rc-coupon-ic { width: 20px; height: 20px; margin-bottom: 4px; opacity: .9; }
+.rc-coupon b { font-family: var(--font-display); font-size: .82rem; letter-spacing: .01em; }
+.rc-coupon small {
+  display: block;
+  font-size: .68rem;
+  opacity: .85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rc-coupon-btn {
+  align-self: flex-start;
+  margin-top: 8px;
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: #fff;
+  padding: 5px 12px;
+  border-radius: 7px;
+  transition: transform .15s ease;
+}
+.rc-coupon-b.is-added { box-shadow: 0 0 0 2px rgba(255, 255, 255, .55) inset; }
+.rc-coupon-b.is-added .rc-coupon-btn { color: var(--green-deep); }
+.rc-coupon-btn.pressed { transform: scale(.94); }
+
+.rc-items-h {
+  display: flex;
+  justify-content: space-between;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+}
+
+.rc-items { display: flex; flex-direction: column; }
+.rc-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--paper-soft);
+}
+.rc-item-info { flex: 1; min-width: 0; line-height: 1.3; }
+.rc-item-info b {
+  display: block;
+  font-size: .86rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rc-item-info small { color: var(--ink-3); font-size: .74rem; }
+
+.rc-qty {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 4px 9px;
+}
+.rc-qty button { width: 14px; color: var(--ink-3); font-weight: 700; font-size: .82rem; }
+.rc-qty span { font-size: .82rem; font-weight: 600; min-width: 10px; text-align: center; }
+
+.rc-foot { padding: 14px 0 4px; border-top: 1px solid var(--line); margin-top: 4px; }
+.rc-row { display: flex; justify-content: space-between; font-size: .84rem; color: var(--ink-2); padding: 3px 0; }
+.rc-row-total { font-weight: 700; color: var(--ink); font-size: .94rem; }
+.rc-row-total b { font-family: var(--font-display); }
+
+.rc-checkout {
+  width: 100%;
+  margin-top: 10px;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+  font-size: .92rem;
+  padding: 13px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.rc-fine { margin-top: 8px; text-align: center; font-size: .68rem; color: var(--ink-3); }
+
+@media (max-width: 480px) {
+  .rc-body { padding: 14px 16px 16px; }
+  .rc-coupon { padding: 10px; }
 }
 
 /* ---------- logos strip ---------- */

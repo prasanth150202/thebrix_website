@@ -15,7 +15,7 @@ define('BRIX_INCLUDES', __DIR__);
 // Asset cache-busting versions. These match what the static pages were
 // already using, so converting a page to PHP does not silently change
 // which cached copy a returning visitor gets.
-define('ASSET_CSS_VER', '44');
+define('ASSET_CSS_VER', '45');
 define('ASSET_JS_VER', '17');
 define('ASSET_UTM_VER', '3');
 // Only /tutorials loads this one, so it carries its own version and
@@ -25,6 +25,12 @@ define('ASSET_TUTORIALS_VER', '2');
 define('ASSET_LANDING_VER', '3');
 // The long landing page at /walkthrough carries its own GSAP timeline.
 define('ASSET_WALKTHROUGH_VER', '2');
+// The AOV/revenue calculator on /revenue-calculator carries its own.
+define('ASSET_CALC_VER', '1');
+// The step-by-step calculator wizard on /book-a-demo carries its own.
+define('ASSET_WIZARD_VER', '1');
+// The hero prompt-to-cart demo on /book-a-demo carries its own.
+define('ASSET_HERO_AI_VER', '1');
 
 /**
  * The floating "Ask Brix AI" launcher. Three settings:
