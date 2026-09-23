@@ -586,6 +586,12 @@ body.has-preview-bar .cs-article h3[id] {
    right column's own content can move; the left one is pinned. */
 .hero-grid-top { align-items: start; }
 
+/* Same page: the chat card and cart sit side by side in the right
+   column (see .ai-demo-row), which needs more than the usual .94fr to
+   avoid wrapping them back to stacked before the grid's own 1020px
+   breakpoint does. */
+.hero-grid-wide { grid-template-columns: .85fr 1.15fr; }
+
 .hero-rating {
   display: inline-flex;
   align-items: center;
@@ -1093,8 +1099,8 @@ body.has-preview-bar .cs-article h3[id] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  max-width: 400px;
+  gap: 14px;
+  max-width: 640px;
   margin-inline: auto;
   /* Breathing room now that .hero-grid-top no longer vertically centres
      this column against the copy beside it, otherwise the card sat
@@ -1102,8 +1108,23 @@ body.has-preview-bar .cs-article h3[id] {
   padding: 18px 0 28px;
 }
 
-.ai-demo-card {
+/* Chat and cart side by side, not stacked with an arrow between them:
+   stacking made this the tallest thing on the page by far, mostly
+   empty space next to the much shorter headline. flex-wrap, not a
+   breakpoint, is what folds the cart under the chat card on a narrow
+   screen, so there is no width to hand-tune here. */
+.ai-demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
   width: 100%;
+}
+
+.ai-demo-card {
+  flex: 1 1 200px;
+  max-width: 240px;
   background: #fff;
   border: 1px solid rgba(231, 225, 245, .8);
   border-radius: var(--radius-lg);
@@ -1156,7 +1177,7 @@ body.has-preview-bar .cs-article h3[id] {
    height: the two are never visible at once, so nothing overlaps. */
 .ai-demo-status {
   position: relative;
-  min-height: 2.6em;
+  min-height: 3.9em;
   margin-top: 10px;
 }
 
@@ -1195,11 +1216,6 @@ body.has-preview-bar .cs-article h3[id] {
 }
 .ai-demo-reply.show { opacity: 1; transform: translateY(0); }
 
-.ai-demo-arrow {
-  color: var(--ink-3);
-  margin: -2px 0;
-}
-
 .ai-demo-result {
   display: inline-flex;
   align-items: center;
@@ -1227,7 +1243,7 @@ body.has-preview-bar .cs-article h3[id] {
    text only, never size, for the reason documented above .ai-demo-status:
    nothing here may change this card's height while it plays. */
 
-.rc-mock { max-width: 400px; margin-inline: auto; }
+.rc-mock { flex: 1 1 300px; max-width: 340px; }
 .rc-mock .ui-bar span { flex: 1; text-align: center; color: var(--ink-3); }
 
 .rc-cart { position: relative; }

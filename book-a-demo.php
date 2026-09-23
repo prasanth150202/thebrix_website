@@ -56,7 +56,7 @@ require BRIX_INCLUDES . '/header.php';
 <!-- ============ HERO ============ -->
 <section class="hero lp-hero">
   <div class="hero-glow" aria-hidden="true"></div>
-  <div class="container hero-grid hero-grid-top">
+  <div class="container hero-grid hero-grid-top hero-grid-wide">
     <div class="hero-copy">
       <a class="hero-badge reveal" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener" style="--d:.02s">
         <span class="hero-badge-stars">★★★★★</span> <b>4.9</b> on the Shopify App Store
@@ -81,6 +81,7 @@ require BRIX_INCLUDES . '/header.php';
          demos main.js already drives on other pages. -->
     <div class="hero-visual reveal" style="--d:.2s">
       <div class="ai-demo" id="aiDemo">
+       <div class="ai-demo-row">
         <div class="ai-demo-card">
           <div class="ai-demo-head">
             <span class="ai-demo-avatar" aria-hidden="true">
@@ -94,13 +95,9 @@ require BRIX_INCLUDES . '/header.php';
           </div>
           <div class="ai-demo-status">
             <div class="ai-demo-typing" id="aiTyping"><span></span><span></span><span></span></div>
-            <p class="ai-demo-reply" id="aiReply">Done. I turned on your rewards bar and added a Frequently Bought Together pick.</p>
+            <p class="ai-demo-reply" id="aiReply">Turned on your rewards bar and added an FBT pick.</p>
           </div>
         </div>
-
-        <span class="ba-pict-arrow ai-demo-arrow" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
-        </span>
 
         <div class="ui-mock rc-mock">
           <div class="ui-bar"><i></i><i></i><i></i><span>yourstore.com</span></div>
@@ -171,6 +168,7 @@ require BRIX_INCLUDES . '/header.php';
             <canvas class="confetti-canvas" id="aiCmConfetti" aria-hidden="true"></canvas>
           </div>
         </div>
+       </div>
 
         <div class="ai-demo-result" id="aiResult">
           <span aria-hidden="true">✓</span> AOV up <b>+32%</b> this month
