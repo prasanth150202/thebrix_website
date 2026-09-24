@@ -1079,20 +1079,29 @@ body.has-preview-bar .cs-article h3[id] {
    the pitch on its own, so nothing needs to sit beside it making the
    same case in words. */
 
-.ai-hero { text-align: center; }
+/* The demo is already the tallest hero on the site; .hero's usual 64px
+   plus .section's usual 76px stacked on top of it read as a dead gap
+   before the calculator, so both are trimmed for this page only. */
+.ai-hero { text-align: center; padding-bottom: 12px; }
+.section-tight-top { padding-top: 36px; }
 .ai-hero-in {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 22px;
+  gap: 16px;
 }
 .ai-hero-h1 { max-width: 18ch; }
+/* .hero-badge carries its own 18px margin-bottom from the two-column
+   hero it was designed for; here the flex gap above already spaces it,
+   so the two were stacking into a much bigger gap under the badge than
+   above it. */
+.ai-hero-in .hero-badge { margin-bottom: 0; }
 
-/* ---------- hero AI demo: prompt in, cart changes out ----------
+/* ---------- hero AI demo: one screen, chat cross-fading into cart ----------
    A light-themed sibling of the dark .chat-mock on /features#ai-chat: same
-   idea (typed prompt, thinking dots, AI reply) but readable on the hero's
-   paper-soft background, and wired to the cart below it on one shared
-   timeline instead of two independent loops. See js/hero-ai-demo.js. */
+   idea (typed prompt, thinking dots, AI reply), but here the same box then
+   turns into the cart Brix AI was working on in the background, rather
+   than sitting next to it. See js/hero-ai-demo.js. */
 
 .ai-demo {
   display: flex;
@@ -1100,34 +1109,40 @@ body.has-preview-bar .cs-article h3[id] {
   align-items: center;
   gap: 14px;
   width: 100%;
-  max-width: 960px;
+  max-width: 480px;
   margin-inline: auto;
   padding-top: 8px;
 }
 
-/* Chat and cart side by side, not stacked with an arrow between them:
-   stacking made this the tallest thing on the page by far, mostly
-   empty space next to the much shorter headline. flex-wrap, not a
-   breakpoint, is what folds the cart under the chat card on a narrow
-   screen, so there is no width to hand-tune here. */
-.ai-demo-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 24px;
-  width: 100%;
-}
+/* The single "app window" frame, reusing .ui-mock/.ui-bar. */
+.ai-single { width: 100%; text-align: left; }
+.ai-single .ui-bar span { flex: 1; text-align: center; color: var(--ink-3); }
 
-.ai-demo-card {
-  flex: 1 1 320px;
-  max-width: 400px;
-  background: #fff;
-  border: 1px solid rgba(231, 225, 245, .8);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-2);
+/* Both phases occupy the same grid cell, so the stage's height is always
+   the taller of the two (the cart) and never changes when the active one
+   swaps — no measured/guessed pixel height to keep in sync with content. */
+.ai-stage { position: relative; display: grid; }
+.ai-phase {
+  grid-area: 1 / 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .6s ease;
+}
+.ai-phase.is-active { opacity: 1; pointer-events: auto; }
+
+/* A brief dim right before the loop resets, so the swap back to the
+   chat phase reads as a beat rather than a jump-cut. */
+.ai-demo.is-resetting .ai-stage { transition: opacity .35s ease; opacity: .4; }
+
+/* Centered, not top-aligned: the stage is as tall as the cart phase, far
+   taller than a two-message thread needs, and a top-aligned thread would
+   leave a dead gap below the composer instead of reading as a fresh chat
+   waiting for the next message. */
+.ai-phase-chat {
   padding: 22px 24px;
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .ai-demo-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
@@ -1291,9 +1306,6 @@ body.has-preview-bar .cs-article h3[id] {
    checkout button. Every dynamic value below changes colour, fill or
    text only, never size, for the reason documented above .ai-demo-status:
    nothing here may change this card's height while it plays. */
-
-.rc-mock { flex: 1 1 380px; max-width: 420px; text-align: left; }
-.rc-mock .ui-bar span { flex: 1; text-align: center; color: var(--ink-3); }
 
 .rc-cart { position: relative; }
 

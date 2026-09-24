@@ -60,130 +60,142 @@ require BRIX_INCLUDES . '/header.php';
 <section class="hero lp-hero ai-hero">
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="container ai-hero-in">
+    <a class="hero-badge reveal" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">
+      <span class="hero-badge-stars">★★★★★</span> <b>4.9</b> on the Shopify App Store
+    </a>
     <h1 class="ai-hero-h1 reveal">Increase your AOV in seconds with Brix AI</h1>
     <a class="btn btn-primary btn-lg reveal" style="--d:.08s" href="#get-in-touch">Book a free demo</a>
 
-    <!-- Signature: type a goal into Brix AI, watch it act on the cart.
-         The cart itself is a recreation of the real Brix Cart Editor
-         preview, not an illustration of one: the .ui-mock browser
-         chrome already used on /how-to frames it, and .rc-* below
-         rebuilds the shipping band, timer, rewards bar, coupon cards,
-         item rows and checkout button it actually renders. Single
-         synchronized timeline in js/hero-ai-demo.js, guarded on
-         #aiDemo so it never touches the unrelated #heroCart / #aiChat
-         demos main.js already drives on other pages. -->
+    <!-- Signature: one screen, not two side by side. It opens on Brix AI
+         chatting, and once the AI has replied, that same screen
+         transitions into the cart it just worked on, already carrying
+         the rewards bar and the upsell it added, the way a background
+         job finishes while you were reading the reply rather than
+         something you watch happen line by line. The cart itself is a
+         recreation of the real Brix Cart Editor preview: the .ui-mock
+         browser chrome already used on /how-to frames the whole thing,
+         and .rc-* rebuilds what it actually renders. Single synchronized
+         timeline in js/hero-ai-demo.js, guarded on #aiDemo so it never
+         touches the unrelated #heroCart / #aiChat demos main.js already
+         drives on other pages. -->
     <div class="ai-demo reveal" id="aiDemo" style="--d:.16s">
-       <div class="ai-demo-row">
-        <div class="ai-demo-card">
-          <div class="ai-demo-head">
-            <span class="ai-demo-avatar" aria-hidden="true">
-              <img src="assets/brix-mark-light.png" alt="" width="16" height="16">
-            </span>
-            <b>Brix AI</b>
-            <span class="ai-demo-live" aria-hidden="true"></span>
+      <div class="ui-mock ai-single">
+        <div class="ui-bar"><i></i><i></i><i></i><span>yourstore.com</span></div>
+
+        <!-- Both phases are pinned to a fixed-height stage and cross-fade
+             in place, so which one is showing never changes this box's
+             size, and the page around it never moves. -->
+        <div class="ai-stage" id="aiStage">
+          <div class="ai-phase ai-phase-chat is-active" id="aiPhaseChat">
+            <div class="ai-demo-head">
+              <span class="ai-demo-avatar" aria-hidden="true">
+                <img src="assets/brix-mark-light.png" alt="" width="16" height="16">
+              </span>
+              <b>Brix AI</b>
+              <span class="ai-demo-live" aria-hidden="true"></span>
+            </div>
+
+            <div class="ai-demo-thread">
+              <div class="ai-demo-bubble ai-demo-bubble-user">
+                <span id="aiPromptText"></span><span class="ai-demo-caret" id="aiPromptCaret"></span>
+              </div>
+              <div class="ai-demo-status">
+                <div class="ai-demo-typing" id="aiTyping"><span></span><span></span><span></span></div>
+                <div class="ai-demo-bubble ai-demo-bubble-ai" id="aiReply">Done! Added a progress bar and upsells to your cart.</div>
+              </div>
+            </div>
+
+            <!-- Decorative only: what makes this read as a chat rather
+                 than a single input, an empty composer waiting for the
+                 next message, the way the thread above already looks
+                 answered. -->
+            <div class="ai-demo-composer" aria-hidden="true">
+              <span>Message Brix AI</span>
+              <span class="ai-demo-send">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+              </span>
+            </div>
           </div>
 
-          <div class="ai-demo-thread">
-            <div class="ai-demo-bubble ai-demo-bubble-user">
-              <span id="aiPromptText"></span><span class="ai-demo-caret" id="aiPromptCaret"></span>
-            </div>
-            <div class="ai-demo-status">
-              <div class="ai-demo-typing" id="aiTyping"><span></span><span></span><span></span></div>
-              <div class="ai-demo-bubble ai-demo-bubble-ai" id="aiReply">Done! Added a progress bar and upsells to your cart.</div>
-            </div>
-          </div>
+          <!-- The cart Brix AI was "working on" while phase one played:
+               it only ever appears already carrying the rewards bar and
+               the added upsell, never a before state of its own, since
+               that before/after is what the chat phase already told. -->
+          <div class="ai-phase ai-phase-cart" id="aiPhaseCart">
+            <div class="rc-cart" id="aiCart">
+              <div class="rc-head">
+                <b>Your Cart (3)</b>
+                <span class="rc-x" aria-hidden="true">&times;</span>
+              </div>
+              <p class="rc-band">Free shipping on orders over $100!</p>
+              <p class="rc-timer">Offer expires in <b>14:42</b> &middot; Use code <b>FLASH20</b></p>
 
-          <!-- Decorative only: what makes this read as a chat rather than a
-               single input, an empty composer waiting for the next
-               message, the way the thread above already looks answered. -->
-          <div class="ai-demo-composer" aria-hidden="true">
-            <span>Message Brix AI</span>
-            <span class="ai-demo-send">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-            </span>
-          </div>
-        </div>
+              <div class="rc-body">
+                <div class="rc-goal">
+                  <p class="rc-goal-msg"><b>Free shipping unlocked!</b> Nice work.</p>
+                  <div class="rc-track">
+                    <div class="rc-fill" style="width:88%"></div>
+                    <div class="rc-node is-unlocked" id="aiNodeShip" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                    </div>
+                  </div>
+                  <div class="rc-tiers"><span>$100</span><span>Free Shipping</span></div>
+                </div>
 
-        <div class="ui-mock rc-mock">
-          <div class="ui-bar"><i></i><i></i><i></i><span>yourstore.com</span></div>
-
-          <!-- Both items already in the cart from the start, and the
-               SAVE20 coupon is decorative throughout (a real feature,
-               not part of this story). Everything Brix AI touches
-               changes colour, fill or text only, never size. -->
-          <div class="rc-cart" id="aiCart">
-            <div class="rc-head">
-              <b>Your Cart (<span id="aiCmCount">2</span>)</b>
-              <span class="rc-x" aria-hidden="true">&times;</span>
-            </div>
-            <p class="rc-band">Free shipping on orders over $100!</p>
-            <p class="rc-timer">Offer expires in <b>14:42</b> &middot; Use code <b>FLASH20</b></p>
-
-            <div class="rc-body">
-              <div class="rc-goal">
-                <p class="rc-goal-msg" id="aiCmMsg">You’re <b>$18.00</b> away from unlocking <b>Free Shipping</b>!</p>
-                <div class="rc-track">
-                  <div class="rc-fill" id="aiCmFill" style="width:55%"></div>
-                  <div class="rc-node" id="aiNodeShip" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                <p class="rc-coupon-h">Apply Coupon</p>
+                <div class="rc-coupons">
+                  <div class="rc-coupon rc-coupon-a">
+                    <span class="rc-coupon-ic" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                    </span>
+                    <b>SAVE20</b><small>20% off your order</small>
+                    <button class="rc-coupon-btn" type="button" tabindex="-1">Apply</button>
+                  </div>
+                  <div class="rc-coupon rc-coupon-b is-added">
+                    <span class="rc-coupon-ic" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                    </span>
+                    <b>FBT PICK</b><small>Camp mug set &middot; $42</small>
+                    <button class="rc-coupon-btn" type="button" tabindex="-1">Added</button>
                   </div>
                 </div>
-                <div class="rc-tiers"><span>$100</span><span>Free Shipping</span></div>
-              </div>
 
-              <p class="rc-coupon-h">Apply Coupon</p>
-              <div class="rc-coupons">
-                <div class="rc-coupon rc-coupon-a">
-                  <span class="rc-coupon-ic" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-                  </span>
-                  <b>SAVE20</b><small>20% off your order</small>
-                  <button class="rc-coupon-btn" type="button" tabindex="-1">Apply</button>
+                <div class="rc-items-h"><span>Items included</span><span>3 ITEMS</span></div>
+                <ul class="rc-items">
+                  <li class="rc-item">
+                    <span class="cm-thumb th-a" aria-hidden="true"></span>
+                    <span class="rc-item-info"><b>Alpine hoodie</b><small>$48.00 (1 &times; $48.00)</small></span>
+                    <span class="rc-qty" aria-hidden="true"><button type="button" tabindex="-1">&minus;</button><span>1</span><button type="button" tabindex="-1">+</button></span>
+                  </li>
+                  <li class="rc-item">
+                    <span class="cm-thumb th-b" aria-hidden="true"></span>
+                    <span class="rc-item-info"><b>Trail beanie</b><small>$34.00 (1 &times; $34.00)</small></span>
+                    <span class="rc-qty" aria-hidden="true"><button type="button" tabindex="-1">&minus;</button><span>1</span><button type="button" tabindex="-1">+</button></span>
+                  </li>
+                </ul>
+
+                <div class="rc-foot">
+                  <div class="rc-row"><span>Subtotal</span><b>$124.00</b></div>
+                  <div class="rc-row rc-row-total"><span>Total</span><b>$124.00</b></div>
                 </div>
-                <div class="rc-coupon rc-coupon-b" id="aiCmUpsell">
-                  <span class="rc-coupon-ic" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-                  </span>
-                  <b>FBT PICK</b><small>Camp mug set &middot; $42</small>
-                  <button class="rc-coupon-btn" id="aiCmAdd" type="button" tabindex="-1">Add</button>
-                </div>
+                <button class="rc-checkout" type="button" tabindex="-1">Checkout Now <span aria-hidden="true">&rarr;</span></button>
+                <p class="rc-fine">Shipping and taxes calculated at checkout</p>
               </div>
-
-              <div class="rc-items-h"><span>Items included</span><span id="aiItemsCount">2 ITEMS</span></div>
-              <ul class="rc-items">
-                <li class="rc-item">
-                  <span class="cm-thumb th-a" aria-hidden="true"></span>
-                  <span class="rc-item-info"><b>Alpine hoodie</b><small>$48.00 (1 &times; $48.00)</small></span>
-                  <span class="rc-qty" aria-hidden="true"><button type="button" tabindex="-1">&minus;</button><span>1</span><button type="button" tabindex="-1">+</button></span>
-                </li>
-                <li class="rc-item">
-                  <span class="cm-thumb th-b" aria-hidden="true"></span>
-                  <span class="rc-item-info"><b>Trail beanie</b><small>$34.00 (1 &times; $34.00)</small></span>
-                  <span class="rc-qty" aria-hidden="true"><button type="button" tabindex="-1">&minus;</button><span>1</span><button type="button" tabindex="-1">+</button></span>
-                </li>
-              </ul>
-
-              <div class="rc-foot">
-                <div class="rc-row"><span>Subtotal</span><b id="aiCmSubtotal">$82.00</b></div>
-                <div class="rc-row rc-row-total"><span>Total</span><b id="aiCmTotal">$82.00</b></div>
-              </div>
-              <button class="rc-checkout" type="button" tabindex="-1">Checkout Now <span aria-hidden="true">&rarr;</span></button>
-              <p class="rc-fine">Shipping and taxes calculated at checkout</p>
+              <canvas class="confetti-canvas" id="aiCmConfetti" aria-hidden="true"></canvas>
             </div>
-            <canvas class="confetti-canvas" id="aiCmConfetti" aria-hidden="true"></canvas>
           </div>
         </div>
-       </div>
+      </div>
 
-        <div class="ai-demo-result" id="aiResult">
-          <span aria-hidden="true">✓</span> AOV up <b>+32%</b> this month
-        </div>
+      <div class="ai-demo-result" id="aiResult">
+        <span aria-hidden="true">✓</span> AOV up <b>+32%</b> this month
       </div>
     </div>
+  </div>
 </section>
 
 <!-- ============ AOV CALCULATOR (STEP BY STEP) ============ -->
-<section class="section section-soft">
+<section class="section section-soft section-tight-top">
   <div class="container container-narrow">
     <div class="section-head reveal">
       <p class="eyebrow">Free calculator</p>

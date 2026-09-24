@@ -1,30 +1,31 @@
 /**
- * Hero AI demo on /book-a-demo: one prompt, one cart, one shared timeline.
+ * Hero AI demo on /book-a-demo: one screen, chat cross-fading into cart.
  *
  * main.js already ships two separate demos that this borrows the look of:
  * heroCart() (the live cart drawer) and chatDemo() (the dark #aiChat typing
  * loop on /features). Those run as two independent loops with no
  * relationship to each other. The whole point here is causality: the
- * visitor should see typing INTO Brix AI cause the cart to change, so this
- * is one merged cycle instead, on its own ids (#aiDemo, #aiCart, ...) so it
- * never collides with either of those existing demos if they ever share a
- * page.
+ * visitor types into Brix AI, reads the reply, and that same box then
+ * turns into the cart it was working on in the background — already
+ * carrying the rewards bar and the upsell it added — rather than a second
+ * panel appearing next to the first. This is one merged cycle on its own
+ * ids (#aiDemo, #aiStage, ...) so it never collides with either of those
+ * existing demos if they ever share a page.
  *
- * The cart itself (.rc-*, in css/styles.css) is a recreation of the real
- * Brix Cart Editor preview: shipping band, timer, rewards bar, two coupon
- * cards, item rows and a checkout button. Every element the cycle touches
- * is already the size it will ever be. Nothing here ever toggles `display`
- * or collapses a height, only fill width, colour, text and small icon
- * states, specifically so the page around this card never shifts while it
- * plays.
+ * The cart phase (.rc-*, in css/styles.css) is a recreation of the real
+ * Brix Cart Editor preview, but it only ever renders its finished state —
+ * there is no before/after inside the cart itself, since the chat phase
+ * already told that story. .ai-phase-chat and .ai-phase-cart share one
+ * grid cell (.ai-stage) and simply cross-fade; the stage's height is
+ * always the taller of the two, so swapping the active phase never moves
+ * anything around it.
  *
  * Relies on `burstConfetti` and `REDUCED`, both defined at the top level of
  * main.js, which loads before this file.
  */
 (function heroAiDemo() {
   const wrap = document.getElementById('aiDemo');
-  const cart = document.getElementById('aiCart');
-  if (!wrap || !cart) return;
+  if (!wrap) return;
 
   const el = id => document.getElementById(id);
   const promptText = el('aiPromptText');
@@ -32,24 +33,12 @@
   const typing = el('aiTyping');
   const reply = el('aiReply');
   const result = el('aiResult');
-
-  const msg = el('aiCmMsg'), fill = el('aiCmFill'), nodeShip = el('aiNodeShip');
-  const subtotal = el('aiCmSubtotal'), total = el('aiCmTotal');
-  const count = el('aiCmCount'), itemsCount = el('aiItemsCount');
-  const upsell = el('aiCmUpsell'), addBtn = el('aiCmAdd'), canvas = el('aiCmConfetti');
+  const phaseChat = el('aiPhaseChat');
+  const phaseCart = el('aiPhaseCart');
+  const nodeShip = el('aiNodeShip');
+  const canvas = el('aiCmConfetti');
 
   const PROMPT = 'Add a progress bar and upsells to my cart';
-  const START_MSG = 'You’re <b>$18.00</b> away from unlocking <b>Free Shipping</b>!';
-  const UNLOCK_MSG = '<b>Free shipping unlocked!</b> Nice work.';
-  const START_FILL = '55%';
-  const END_FILL = '88%';
-
-  const setMsg = html => {
-    msg.innerHTML = html;
-    msg.classList.remove('msg-pop');
-    void msg.offsetWidth;
-    msg.classList.add('msg-pop');
-  };
 
   const nodeBurst = (node, n, power) => {
     const cr = canvas.getBoundingClientRect();
@@ -61,15 +50,8 @@
     promptText.textContent = PROMPT;
     caret.style.display = 'none';
     reply.classList.add('show');
-    upsell.classList.add('is-added');
-    addBtn.textContent = 'Added';
-    nodeShip.classList.add('is-unlocked');
-    fill.style.width = END_FILL;
-    subtotal.textContent = '$124.00';
-    total.textContent = '$124.00';
-    count.textContent = '3';
-    itemsCount.textContent = '3 ITEMS';
-    msg.innerHTML = UNLOCK_MSG;
+    phaseChat.classList.remove('is-active');
+    phaseCart.classList.add('is-active');
     result.classList.add('show');
   };
 
@@ -79,21 +61,13 @@
   const at = (ms, fn) => timers.push(setTimeout(fn, ms));
 
   const reset = () => {
+    phaseCart.classList.remove('is-active');
+    phaseChat.classList.add('is-active');
+    result.classList.remove('show');
     promptText.textContent = '';
     caret.style.display = '';
     typing.classList.remove('show');
     reply.classList.remove('show');
-    result.classList.remove('show');
-    upsell.classList.remove('is-added');
-    addBtn.classList.remove('pressed');
-    addBtn.textContent = 'Add';
-    nodeShip.classList.remove('is-unlocked');
-    fill.style.width = START_FILL;
-    subtotal.textContent = '$82.00';
-    total.textContent = '$82.00';
-    count.textContent = '2';
-    itemsCount.textContent = '2 ITEMS';
-    msg.innerHTML = START_MSG;
   };
 
   const cycle = () => {
@@ -116,31 +90,21 @@
       reply.classList.add('show');
     });
 
-    // Brix AI acts on the cart: adds the Frequently Bought Together pick,
-    // which is what pushes the subtotal past the shipping tier
-    at(replyAt + 200, () => addBtn.classList.add('pressed'));
-    at(replyAt + 600, () => {
-      addBtn.classList.remove('pressed');
-      upsell.classList.add('is-added');
-      addBtn.textContent = 'Added';
-      subtotal.textContent = '$124.00';
-      total.textContent = '$124.00';
-      count.textContent = '3';
-      itemsCount.textContent = '3 ITEMS';
-      fill.style.width = END_FILL;
-    });
-    at(replyAt + 1700, () => {
-      nodeShip.classList.add('is-unlocked');
+    // Brix AI works in the background while the reply sits on screen,
+    // then the whole box turns into the cart it just finished.
+    const flipAt = replyAt + 1400;
+    at(flipAt, () => {
+      phaseChat.classList.remove('is-active');
+      phaseCart.classList.add('is-active');
       nodeBurst(nodeShip, 34, 0.9);
-      setMsg(UNLOCK_MSG);
     });
-    at(replyAt + 2200, () => result.classList.add('show'));
+    at(flipAt + 500, () => result.classList.add('show'));
 
-    const resetAt = replyAt + 4600;
-    at(resetAt, () => cart.classList.add('is-resetting'));
+    const resetAt = flipAt + 4200;
+    at(resetAt, () => wrap.classList.add('is-resetting'));
     at(resetAt + 400, () => {
       reset();
-      cart.classList.remove('is-resetting');
+      wrap.classList.remove('is-resetting');
     });
     at(resetAt + 900, cycle);
   };
