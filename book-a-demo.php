@@ -6,11 +6,12 @@
  * only ways off the page are the two CTAs, both pointing at the same
  * form:
  *
- *   1. Hero: the pitch, left, and a real recreation of the Brix cart
- *      drawer, right, driven by one synchronized timeline in
- *      js/hero-ai-demo.js. See the CSS block above .rc-mock in
- *      css/styles.css for how it stays exactly the same size while it
- *      plays.
+ *   1. Hero: one screen that opens on a Brix AI chat exchange, then
+ *      cross-fades into the real cart drawer that chat was working on
+ *      in the background, already carrying the upsell it added. One
+ *      synchronized timeline in js/hero-ai-demo.js. See the .ai-stage
+ *      block in css/styles.css for how both phases share one CSS Grid
+ *      cell so the box never changes size while it plays.
  *   2. AOV calculator, asked one question at a time (currency, AOV,
  *      monthly revenue, ad spend) rather than as a single form. See
  *      js/wizard.js for the step logic and the math.
