@@ -38,7 +38,7 @@
   const count = el('aiCmCount'), itemsCount = el('aiItemsCount');
   const upsell = el('aiCmUpsell'), addBtn = el('aiCmAdd'), canvas = el('aiCmConfetti');
 
-  const PROMPT = 'Increase my AOV';
+  const PROMPT = 'Add a progress bar and upsells to my cart';
   const START_MSG = 'You’re <b>$18.00</b> away from unlocking <b>Free Shipping</b>!';
   const UNLOCK_MSG = '<b>Free shipping unlocked!</b> Nice work.';
   const START_FILL = '55%';
@@ -101,9 +101,9 @@
 
     // type the prompt into Brix AI
     PROMPT.split('').forEach((ch, i) => {
-      at(300 + i * 45, () => { promptText.textContent += ch; });
+      at(300 + i * 32, () => { promptText.textContent += ch; });
     });
-    const doneTyping = 300 + PROMPT.length * 45;
+    const doneTyping = 300 + PROMPT.length * 32;
 
     at(doneTyping + 300, () => {
       caret.style.display = 'none';

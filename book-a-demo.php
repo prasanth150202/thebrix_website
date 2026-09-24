@@ -54,21 +54,14 @@ require BRIX_INCLUDES . '/header.php';
 ?>
 
 <!-- ============ HERO ============ -->
-<section class="hero lp-hero">
+<!-- One text overlay (the headline) above a full-width, full-size demo,
+     rather than the usual two-column hero: the visual is the pitch here,
+     not a supporting image next to a paragraph making the case in words. -->
+<section class="hero lp-hero ai-hero">
   <div class="hero-glow" aria-hidden="true"></div>
-  <div class="container hero-grid hero-grid-top hero-grid-wide">
-    <div class="hero-copy">
-      <a class="hero-badge reveal" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener" style="--d:.02s">
-        <span class="hero-badge-stars">★★★★★</span> <b>4.9</b> on the Shopify App Store
-      </a>
-      <p class="eyebrow reveal" style="--d:.04s">Introducing Brix AI</p>
-      <h1 class="reveal" style="--d:.08s">Increase your AOV in seconds with Brix AI</h1>
-      <p class="hero-sub reveal" style="--d:.16s">Tell Brix AI what you want: more upsells, a better reward tier, a higher AOV. It plans the changes, ships them straight to your cart, and reports back. No developer, no guesswork.</p>
-      <div class="hero-ctas reveal" style="--d:.24s">
-        <a class="btn btn-primary btn-lg" href="#get-in-touch">Book a free demo</a>
-      </div>
-      <p class="hero-note reveal" style="--d:.32s">Free plan available · No credit card · Changes go live in seconds</p>
-    </div>
+  <div class="container ai-hero-in">
+    <h1 class="ai-hero-h1 reveal">Increase your AOV in seconds with Brix AI</h1>
+    <a class="btn btn-primary btn-lg reveal" style="--d:.08s" href="#get-in-touch">Book a free demo</a>
 
     <!-- Signature: type a goal into Brix AI, watch it act on the cart.
          The cart itself is a recreation of the real Brix Cart Editor
@@ -79,8 +72,7 @@ require BRIX_INCLUDES . '/header.php';
          synchronized timeline in js/hero-ai-demo.js, guarded on
          #aiDemo so it never touches the unrelated #heroCart / #aiChat
          demos main.js already drives on other pages. -->
-    <div class="hero-visual reveal" style="--d:.2s">
-      <div class="ai-demo" id="aiDemo">
+    <div class="ai-demo reveal" id="aiDemo" style="--d:.16s">
        <div class="ai-demo-row">
         <div class="ai-demo-card">
           <div class="ai-demo-head">
@@ -90,12 +82,25 @@ require BRIX_INCLUDES . '/header.php';
             <b>Brix AI</b>
             <span class="ai-demo-live" aria-hidden="true"></span>
           </div>
-          <div class="ai-demo-line">
-            <span id="aiPromptText"></span><span class="ai-demo-caret" id="aiPromptCaret"></span>
+
+          <div class="ai-demo-thread">
+            <div class="ai-demo-bubble ai-demo-bubble-user">
+              <span id="aiPromptText"></span><span class="ai-demo-caret" id="aiPromptCaret"></span>
+            </div>
+            <div class="ai-demo-status">
+              <div class="ai-demo-typing" id="aiTyping"><span></span><span></span><span></span></div>
+              <div class="ai-demo-bubble ai-demo-bubble-ai" id="aiReply">Done! Added a progress bar and upsells to your cart.</div>
+            </div>
           </div>
-          <div class="ai-demo-status">
-            <div class="ai-demo-typing" id="aiTyping"><span></span><span></span><span></span></div>
-            <p class="ai-demo-reply" id="aiReply">Turned on your rewards bar and added an FBT pick.</p>
+
+          <!-- Decorative only: what makes this read as a chat rather than a
+               single input, an empty composer waiting for the next
+               message, the way the thread above already looks answered. -->
+          <div class="ai-demo-composer" aria-hidden="true">
+            <span>Message Brix AI</span>
+            <span class="ai-demo-send">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </span>
           </div>
         </div>
 
@@ -175,7 +180,6 @@ require BRIX_INCLUDES . '/header.php';
         </div>
       </div>
     </div>
-  </div>
 </section>
 
 <!-- ============ AOV CALCULATOR (STEP BY STEP) ============ -->

@@ -576,22 +576,6 @@ body.has-preview-bar .cs-article h3[id] {
   align-items: center;
 }
 
-/* /book-a-demo only: the right column plays a live animation, so its
-   height shifts by a few pixels frame to frame no matter how tightly
-   the animation itself is built. align-items:center on the shared
-   .hero-grid would re-centre the WHOLE row on every one of those
-   shifts, dragging the left copy up and down with it, the actual
-   cause of the left side "moving" during the animation, not the
-   animation itself. Top-aligning both columns here means only the
-   right column's own content can move; the left one is pinned. */
-.hero-grid-top { align-items: start; }
-
-/* Same page: the chat card and cart sit side by side in the right
-   column (see .ai-demo-row), which needs more than the usual .94fr to
-   avoid wrapping them back to stacked before the grid's own 1020px
-   breakpoint does. */
-.hero-grid-wide { grid-template-columns: .85fr 1.15fr; }
-
 .hero-rating {
   display: inline-flex;
   align-items: center;
@@ -1089,7 +1073,22 @@ body.has-preview-bar .cs-article h3[id] {
   .wiz-card { padding: 24px 20px; }
 }
 
-/* ---------- hero AI demo: prompt in, cart changes out (/book-a-demo) ----------
+/* ---------- full-width AI hero (/book-a-demo) ----------
+   One text overlay (the headline) above a large, full-width demo,
+   rather than the usual text-left/visual-right hero: the demo carries
+   the pitch on its own, so nothing needs to sit beside it making the
+   same case in words. */
+
+.ai-hero { text-align: center; }
+.ai-hero-in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+.ai-hero-h1 { max-width: 18ch; }
+
+/* ---------- hero AI demo: prompt in, cart changes out ----------
    A light-themed sibling of the dark .chat-mock on /features#ai-chat: same
    idea (typed prompt, thinking dots, AI reply) but readable on the hero's
    paper-soft background, and wired to the cart below it on one shared
@@ -1100,12 +1099,10 @@ body.has-preview-bar .cs-article h3[id] {
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  max-width: 640px;
+  width: 100%;
+  max-width: 960px;
   margin-inline: auto;
-  /* Breathing room now that .hero-grid-top no longer vertically centres
-     this column against the copy beside it, otherwise the card sat
-     flush with the hero badge at the very top of the row. */
-  padding: 18px 0 28px;
+  padding-top: 8px;
 }
 
 /* Chat and cart side by side, not stacked with an arrow between them:
@@ -1118,21 +1115,22 @@ body.has-preview-bar .cs-article h3[id] {
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: center;
-  gap: 20px;
+  gap: 24px;
   width: 100%;
 }
 
 .ai-demo-card {
-  flex: 1 1 200px;
-  max-width: 240px;
+  flex: 1 1 320px;
+  max-width: 400px;
   background: #fff;
   border: 1px solid rgba(231, 225, 245, .8);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-1);
-  padding: 16px 18px;
+  box-shadow: var(--shadow-2);
+  padding: 22px 24px;
+  text-align: left;
 }
 
-.ai-demo-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.ai-demo-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
 .ai-demo-avatar {
   width: 26px;
   height: 26px;
@@ -1153,41 +1151,65 @@ body.has-preview-bar .cs-article h3[id] {
   box-shadow: 0 0 0 3px rgba(34, 197, 94, .18);
 }
 
-.ai-demo-line {
-  min-height: 1.4em;
-  padding: 10px 13px;
-  background: var(--paper-soft);
-  border-radius: 10px;
-  font-size: .86rem;
+/* The prompt and reply as an actual chat thread, not one input line:
+   a user bubble, then an AI bubble underneath it, the way the real
+   Brix AI launcher (and /features#ai-chat) both read. */
+.ai-demo-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.ai-demo-bubble {
+  padding: 11px 15px;
+  border-radius: 16px;
+  font-size: .92rem;
   font-weight: 600;
-  color: var(--ink);
+  line-height: 1.45;
+  max-width: 88%;
+  width: fit-content;
+}
+/* min-height covers two lines: the prompt types in a character at a
+   time, and once it is long enough to wrap the bubble would otherwise
+   grow taller mid-type, moving the reply and composer below it. */
+.ai-demo-bubble-user {
+  align-self: flex-end;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background: var(--brand);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+  min-height: 4.4em;
+  min-width: 28px;
 }
 .ai-demo-caret {
   display: inline-block;
   width: 2px;
   height: 1em;
-  background: var(--brand);
+  background: #fff;
   vertical-align: -2px;
   margin-left: 2px;
   animation: caret 1s steps(2) infinite;
 }
 
-/* Typing dots and the reply share one reserved slot, stacked via
+/* Typing dots and the reply bubble share one reserved slot, stacked via
    position:absolute, so whichever is showing never changes the card's
    height: the two are never visible at once, so nothing overlaps. */
-.ai-demo-status {
-  position: relative;
-  min-height: 3.9em;
-  margin-top: 10px;
-}
+.ai-demo-status { position: relative; min-height: 3.4em; }
 
 .ai-demo-typing {
   position: absolute;
-  top: 2px;
+  top: 0;
   left: 0;
   display: flex;
   gap: 5px;
-  padding: 8px 13px;
+  padding: 13px 16px;
+  background: var(--paper-soft);
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+  width: fit-content;
   opacity: 0;
   transition: opacity .2s ease;
 }
@@ -1202,19 +1224,46 @@ body.has-preview-bar .cs-article h3[id] {
 .ai-demo-typing span:nth-child(2) { animation-delay: .18s; }
 .ai-demo-typing span:nth-child(3) { animation-delay: .36s; }
 
-.ai-demo-reply {
+.ai-demo-bubble-ai {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  font-size: .82rem;
-  color: var(--ink-2);
-  line-height: 1.5;
+  font-weight: 500;
+  background: var(--paper-soft);
+  color: var(--ink);
+  border-bottom-left-radius: 4px;
   opacity: 0;
   transform: translateY(6px);
   transition: opacity .4s ease, transform .4s ease;
 }
-.ai-demo-reply.show { opacity: 1; transform: translateY(0); }
+.ai-demo-bubble-ai.show { opacity: 1; transform: translateY(0); }
+
+/* Decorative composer: never wired to anything, it is what tells the
+   eye this is a chat rather than a single input that got answered
+   once, an empty box ready for the next message. */
+.ai-demo-composer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 14px 13px 18px;
+  background: var(--paper-soft);
+  border: 1.5px solid var(--line);
+  border-radius: 100px;
+  font-size: .88rem;
+  color: var(--ink-3);
+}
+.ai-demo-send {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .ai-demo-result {
   display: inline-flex;
@@ -1243,7 +1292,7 @@ body.has-preview-bar .cs-article h3[id] {
    text only, never size, for the reason documented above .ai-demo-status:
    nothing here may change this card's height while it plays. */
 
-.rc-mock { flex: 1 1 300px; max-width: 340px; }
+.rc-mock { flex: 1 1 380px; max-width: 420px; text-align: left; }
 .rc-mock .ui-bar span { flex: 1; text-align: center; color: var(--ink-3); }
 
 .rc-cart { position: relative; }
