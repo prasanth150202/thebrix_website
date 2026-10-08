@@ -128,7 +128,7 @@ if ($page_chrome !== 'minimal' && $footer_col3 === 'tutorials') {
   </div>
   <div class="container footer-base">
     <span>&copy; <?= date('Y') ?> Brix. Built for Shopify.</span>
-    <span class="footer-legal"><a href="/contact">Contact us</a> &middot; <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms &amp; Conditions</a></span>
+    <span class="footer-legal"><a href="/contact">Contact us</a> &middot; <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms &amp; Conditions</a> &middot; <a href="/cod-data-policy">COD Data Policy</a></span>
   </div>
 </footer>
 <?php endif; ?>

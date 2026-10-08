@@ -29,6 +29,7 @@ $static = [
     ['loc' => 'contact',          'freq' => 'yearly',  'pri' => '0.5'],
     ['loc' => 'terms',            'freq' => 'yearly',  'pri' => '0.3'],
     ['loc' => 'privacy',          'freq' => 'yearly',  'pri' => '0.3'],
+    ['loc' => 'cod-data-policy',  'freq' => 'yearly',  'pri' => '0.3'],
 ];
 
 $blog = $cases = [];
