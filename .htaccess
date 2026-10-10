@@ -74,6 +74,14 @@ DirectoryIndex index.php
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
+  # /digital is the demo landing page that every blog "Book a Demo"
+  # button points at. It lives in a separate folder that is not in this
+  # repository, so a deploy can remove it. The rule above serves that
+  # folder whenever it exists; only when it is missing does this send
+  # the visitor straight to the Calendly booking page instead of a 404.
+  # The original query string (the UTM parameters) is carried across.
+  RewriteRule ^digital/?$ https://calendly.com/d/d3rx-t58-th3/brix-product-demo-website [R=302,L]
+
   # ----- 3. internal routing -----
 
   # Articles come out of the posts table, keyed by the slug stored there,
