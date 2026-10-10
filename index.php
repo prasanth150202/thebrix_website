@@ -5,7 +5,7 @@ require_once __DIR__ . '/includes/bootstrap.php';
 require_once BRIX_INCLUDES . '/posts.php';
 
 $page_title       = 'Brix – AI Cart Upsell App for Shopify Stores';
-$page_description = 'Brix is an AI-powered Shopify app that increases average order value with cart upsells, cross-sells, and Frequently Bought Together offers. Free plan available.';
+$page_description = 'Brix is an AI-powered Shopify app that raises average order value with cart upsells, cross-sells and Frequently Bought Together. Free plan available.';
 $page_canonical   = '';
 $page_nav         = NULL;
 $footer_col3      = 'case-studies';
@@ -352,8 +352,8 @@ require BRIX_INCLUDES . '/header.php';
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">Core features</p>
-      <h2>Everything you need to increase Shopify AOV</h2>
-      <p class="section-sub">Brix brings together the most important cart optimization features in one powerful Shopify app.</p>
+      <h2>Everything you need to increase Shopify average order value</h2>
+      <p class="section-sub">Brix brings together cart upsells, a rewards progress bar, a coupon slider and a bundle builder in one powerful Shopify app.</p>
     </div>
     <div class="feature-grid">
 
@@ -581,6 +581,52 @@ require BRIX_INCLUDES . '/header.php';
     </div>
   </div>
 </section>
+
+<!-- ============ LATEST FROM THE BLOG ============ -->
+<?php
+// Newest three published posts, so the homepage links straight to them.
+// A database hiccup must not break the homepage, so fail to no block.
+$home_posts = [];
+try {
+    $home_posts = get_published_posts('blog', 3);
+} catch (Throwable) {
+    $home_posts = [];
+}
+?>
+<?php if ($home_posts): ?>
+<section class="section" id="latest-blog">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">From the blog</p>
+      <h2>Latest guides on raising Shopify average order value</h2>
+      <p class="section-sub">Practical, no-fluff tactics for cart upsells, bundles, reward thresholds and AI recommendations.</p>
+    </div>
+    <div class="blog-grid">
+<?php foreach ($home_posts as $i => $p): ?>
+      <a class="blog-card reveal"<?= $i > 0 ? ' style="--d:.' . str_pad((string) ($i * 6), 2, '0', STR_PAD_LEFT) . 's"' : '' ?> href="<?= e(post_url($p)) ?>">
+        <div class="blog-shot <?= e($p['card_gradient']) ?>">
+<?php if ($p['category'] !== ''): ?>
+          <span class="blog-cat"><?= e($p['category']) ?></span>
+<?php endif; ?>
+          <span class="blog-glyph" aria-hidden="true"><?= card_icon_svg($p['card_icon']) ?></span>
+        </div>
+        <div class="blog-body">
+          <h3 class="blog-title"><?= e($p['title']) ?></h3>
+          <p class="blog-excerpt"><?= e((string) $p['excerpt']) ?></p>
+          <div class="blog-meta">
+            <span><?= e(date('M j, Y', strtotime((string) $p['date_published']))) ?></span>
+            <span class="blog-dot"></span>
+            <span><?= (int) $p['read_minutes'] ?> min read</span>
+          </div>
+          <span class="blog-more">Read article &rarr;</span>
+        </div>
+      </a>
+<?php endforeach; ?>
+    </div>
+    <p class="reveal" style="text-align:center;margin-top:36px"><a class="btn btn-primary" href="blog">View all articles &rarr;</a></p>
+  </div>
+</section>
+<?php endif; ?>
 
 <!-- ============ FINAL CTA ============ -->
 <section class="cta-final" id="install">

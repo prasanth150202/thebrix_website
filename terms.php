@@ -23,6 +23,7 @@ require BRIX_INCLUDES . '/header.php';
     <div class="legal-switch reveal" style="--d:.18s" role="tablist" aria-label="Legal documents">
       <a href="terms" class="is-active" aria-current="page">Terms &amp; Conditions</a>
       <a href="privacy">Privacy Policy</a>
+      <a href="cod-data-policy">COD Data Policy</a>
     </div>
     <div class="legal-meta reveal" style="--d:.24s">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>

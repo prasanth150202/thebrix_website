@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /memo
+Disallow: /newsletter-subscribe.php
 
 Sitemap: https://thebrix.io/sitemap.xml

@@ -168,6 +168,21 @@ $nav_caret = '<svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="cur
   <link rel="canonical" href="<?= e(SITE_URL . '/' . ltrim($page_canonical, '/')) ?>">
   <title><?= e($page_title) ?></title>
   <meta name="description" content="<?= e($page_description) ?>">
+<?php /* Open Graph and Twitter Card: controls the title, description and
+         image shown when a page is shared on LinkedIn, X, WhatsApp, Slack
+         and Product Hunt. A page can override $page_og_image / $page_og_type. */ ?>
+  <meta property="og:site_name" content="Brix">
+  <meta property="og:type" content="<?= e($page_og_type ?? 'website') ?>">
+  <meta property="og:title" content="<?= e($page_title) ?>">
+  <meta property="og:description" content="<?= e($page_description) ?>">
+  <meta property="og:url" content="<?= e(SITE_URL . '/' . ltrim($page_canonical, '/')) ?>">
+  <meta property="og:image" content="<?= e($page_og_image ?? SITE_URL . '/assets/og-brix.png') ?>">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<?= e($page_title) ?>">
+  <meta name="twitter:description" content="<?= e($page_description) ?>">
+  <meta name="twitter:image" content="<?= e($page_og_image ?? SITE_URL . '/assets/og-brix.png') ?>">
 <?php if ($page_robots !== null): ?>
   <meta name="robots" content="<?= e($page_robots) ?>">
 <?php endif; ?>
