@@ -451,7 +451,7 @@ require BRIX_INCLUDES . '/header.php';
         <div class="fc-visual">
           <div class="mini-chat">
             <div class="mc-head">
-              <span class="mc-ava"><img src="assets/brix-mark-light.png" alt=""></span>
+              <span class="mc-ava"><img src="assets/brix-mark-light.png" alt="Brix logo"></span>
               <span class="mc-name">Brix AI</span>
               <span class="mc-dot" aria-hidden="true"></span>
             </div>
