@@ -297,7 +297,7 @@ require BRIX_INCLUDES . '/header.php';
       <div class="chat-mock" id="aiChat">
         <div class="chat-head">
           <span class="chat-avatar" aria-hidden="true">
-            <img src="assets/brix-mark-light.png" alt="" style="width:19px;height:auto;">
+            <img src="assets/brix-mark-light.png" alt="Brix logo" style="width:19px;height:auto;">
           </span>
           <span><b>Brix AI</b><small>Optimizing your store</small></span>
         </div>

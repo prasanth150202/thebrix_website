@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
+Disallow: /cdn-cgi/
 Disallow: /memo
 Disallow: /newsletter-subscribe.php
 
