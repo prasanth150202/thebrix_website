@@ -5,7 +5,7 @@ require_once __DIR__ . '/includes/bootstrap.php';
 require_once BRIX_INCLUDES . '/posts.php';
 
 $page_title       = 'Brix Features: AI Cart Upsell Tools for Shopify';
-$page_description = "Explore Brix's Shopify cart features: AI upsells, Frequently Bought Together, Bundle Builder, coupon sliders, and reward progress bars.";
+$page_description = "Explore Brix's Shopify cart features: AI upsells, Frequently Bought Together, Bundle Builder, quantity Packs, Cash on Delivery checkout, coupon sliders, and reward progress bars.";
 $page_canonical   = 'features';
 $page_nav         = 'features';
 $footer_col3      = 'case-studies';
@@ -18,7 +18,7 @@ require BRIX_INCLUDES . '/header.php';
   <div class="container">
     <p class="eyebrow reveal">Features</p>
     <h1 class="reveal" style="--d:.06s">Every nudge, <em>explained</em></h1>
-    <p class="hero-sub reveal" style="--d:.12s" >Six tools that each lift your average order value, designed to work together and get sharper as Brix AI learns your store.</p>
+    <p class="hero-sub reveal" style="--d:.12s" >Eight tools that each lift your average order value, designed to work together and get sharper as Brix AI learns your store.</p>
   </div>
 </section>
 
@@ -184,11 +184,104 @@ require BRIX_INCLUDES . '/header.php';
   </div>
 </section>
 
-<!-- 5. Analytics -->
+<!-- 5. Packs -->
+<section class="f-section" id="packs">
+  <div class="container f-grid">
+    <div class="f-copy">
+      <p class="eyebrow reveal">05 · Brix Packs</p>
+      <h2 class="reveal">“Buy 2, save 5%” where shoppers actually decide</h2>
+      <p class="reveal">Show quantity offers as simple cards right on the product page. A shopper picks a pack, chooses the size or colour for each item, and adds it to the cart. The saving is applied at checkout on its own, so there’s no code to remember and nothing to type.</p>
+      <ul class="f-points reveal">
+        <li><b>Up to six offers per product</b>: pick the quantity, a percentage or fixed saving, and a badge like “Popular” or “Best value”.</li>
+        <li><b>Mix and match</b>: shoppers can choose a different size or colour for every item in the pack, or stick with one.</li>
+        <li><b>Three layouts</b>: a row of cards, a photo grid, or image rows. Colours, text and buttons are yours to style.</li>
+        <li><b>Always the right price</b>: offers follow your live Shopify prices, so you never have to edit them by hand.</li>
+        <li><b>Only promises what checkout delivers</b>: a pack is shown only once the discount is confirmed to work, so no one is offered a saving they won’t get.</li>
+        <li><b>Try it before it’s live</b>: save a draft and preview it on your own store first.</li>
+      </ul>
+      <p class="reveal" style="--d:.06s">Shoppers can also hit “Buy now” to check out just the pack, without disturbing what’s already in their cart. Packs go live on the Starter and Pro plans, and on Free you can build drafts and preview them.</p>
+    </div>
+    <div class="f-visual reveal" style="--d:.1s">
+      <div class="pk-mock">
+        <p class="pk-title">Alpine hoodie <small>· choose your pack</small></p>
+        <div class="pk-tiers">
+          <div class="pk-tier">
+            <b>Buy 1</b>
+            <span class="pk-price">$48</span>
+          </div>
+          <div class="pk-tier is-on">
+            <span class="pk-badge">Popular</span>
+            <b>Buy 2</b>
+            <small>Save 5%</small>
+            <span class="pk-price"><s>$96</s> $91.20</span>
+          </div>
+          <div class="pk-tier">
+            <span class="pk-badge">Best value</span>
+            <b>Buy 3</b>
+            <small>Save 10%</small>
+            <span class="pk-price"><s>$144</s> $129.60</span>
+          </div>
+        </div>
+        <div class="pk-slots">
+          <div class="pk-slot"><span>Item 1</span><span class="pk-sel">Moss · M</span></div>
+          <div class="pk-slot"><span>Item 2</span><span class="pk-sel">Charcoal · L</span></div>
+        </div>
+        <button class="pk-add" tabindex="-1">Add pack to cart · $91.20</button>
+        <p class="pk-save">✓ You save $4.80 at checkout</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. COD Checkout -->
+<section class="f-section" id="cod-checkout">
+  <div class="container f-grid f-grid-flip">
+    <div class="f-copy">
+      <p class="eyebrow reveal">06 · COD Checkout</p>
+      <h2 class="reveal">Cash on Delivery, minus the drop-off</h2>
+      <p class="reveal">Plenty of shoppers in India would rather pay when the parcel arrives. Brix adds a Cash on Delivery button to your cart, product pages and combo pages. A short popup takes them from phone number to placed order in a few taps. Anyone who wants to pay online carries on to your normal checkout, exactly as before.</p>
+      <ul class="f-points reveal">
+        <li><b>A quick, familiar flow</b>: phone number and OTP, then address, then a clear review of the total before they confirm.</li>
+        <li><b>Show it where it helps</b>: switch it on in the cart drawer, on product pages or on combo pages, each one separately, and style the button to match your store.</li>
+        <li><b>Fewer fake orders</b>: OTP checks, a daily order limit per phone number, blocked PIN codes, and minimum and maximum order values.</li>
+        <li><b>Your rules on price</b>: add a COD fee, set shipping and a free-shipping level, and keep chosen products off COD.</li>
+        <li><b>Nudge shoppers to pay online</b>: offer “Pay online” and “Cash on delivery” side by side on the product page, with an optional prepaid discount like “Save 5%”.</li>
+        <li><b>Coupons and discounts still work</b>: shoppers can apply a code in the popup, and the totals always come straight from Shopify.</li>
+        <li><b>Your ad numbers stay honest</b>: COD orders skip normal checkout, so Brix reports them to Google Analytics and Meta for you.</li>
+      </ul>
+      <p class="reveal" style="--d:.06s">Every COD order lands in Shopify tagged and ready to fulfil, and your Brix dashboard follows it from placed to shipped, delivered, paid or returned. Carts that contain a pack or a free reward gift use your normal checkout instead. COD Checkout is live on Starter and Pro, with a preview on Free.</p>
+    </div>
+    <div class="f-visual reveal" style="--d:.1s">
+      <div class="cod-mock">
+        <div class="cod-pay">
+          <div class="cod-opt"><b>Pay online</b><small>Save 5% · ₹1,424</small></div>
+          <div class="cod-opt is-on"><b>Cash on delivery</b><small>Pay when it arrives</small></div>
+        </div>
+        <div class="cod-sheet">
+          <div class="cod-steps">
+            <span class="is-done">✓ Phone</span>
+            <span class="is-done">✓ Address</span>
+            <span class="is-now">3 Review</span>
+          </div>
+          <ul class="cod-lines">
+            <li><span>Alpine hoodie × 1</span><b>₹1,499</b></li>
+            <li><span>Delivery</span><b>₹49</b></li>
+            <li><span>COD fee</span><b>₹30</b></li>
+            <li class="cod-total"><span>Total</span><b>₹1,578</b></li>
+          </ul>
+          <button class="cod-place" tabindex="-1">Place COD order</button>
+          <p class="cod-foot">Secured &amp; powered by BRIX</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Analytics -->
 <section class="f-section section-soft" id="analytics">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow">05 · Analytics &amp; AI Insights</p>
+      <p class="eyebrow">07 · Analytics &amp; AI Insights</p>
       <h2>Attribution down to the nudge</h2>
       <p class="section-sub">Most apps show you a dashboard. Brix shows you cause and effect: which tier, which upsell, which bundle earned each extra dollar, and what the data says you should change next.</p>
     </div>
@@ -279,12 +372,12 @@ require BRIX_INCLUDES . '/header.php';
   </div>
 </section>
 
-<!-- 6. Brix AI -->
+<!-- 8. Brix AI -->
 <section class="f-section section-dark" id="ai-chat">
   <div class="ai-gradient" aria-hidden="true"></div>
   <div class="container f-grid f-grid-flip" style="position:relative;">
     <div class="f-copy">
-      <p class="eyebrow eyebrow-warm reveal">06 · Brix AI Chat</p>
+      <p class="eyebrow eyebrow-warm reveal">08 · Brix AI Chat</p>
       <h2 class="reveal">The employee who never clocks out</h2>
       <p class="reveal" style="color:rgba(255,255,255,.72);">Every feature above can be managed by hand, or you can just tell Brix AI what you want in plain English. It plans the changes, ships them, watches the results daily, and rolls back anything that underperforms. It is the AI upsell Shopify brands rely on to stay ahead.</p>
       <ul class="ai-points reveal">
@@ -322,7 +415,7 @@ require BRIX_INCLUDES . '/header.php';
     <div class="section-head reveal">
       <p class="eyebrow">And the rest</p>
       <h2>Everything else in the box</h2>
-      <p class="section-sub">Smaller tools that round out the big six, with no extra apps needed.</p>
+      <p class="section-sub">Smaller tools that round out the big eight, with no extra apps needed.</p>
     </div>
     <div class="xtra-grid">
       <div class="xtra reveal"><b>Auto-open cart</b><span>The drawer slides open the moment something is added.</span></div>
@@ -346,7 +439,7 @@ require BRIX_INCLUDES . '/header.php';
   <div class="cta-gradient" aria-hidden="true"></div>
   <div class="container cta-in">
     <h2 class="reveal">See them working in your store</h2>
-    <p class="reveal" style="--d:.08s">All six features, live on your theme in five minutes.</p>
+    <p class="reveal" style="--d:.08s">All eight features, live on your theme in five minutes.</p>
     <a class="btn btn-white btn-lg reveal" style="--d:.16s" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener" id="ctaInstall">Install on Shopify for free</a>
     <p class="cta-note reveal" style="--d:.24s">Free plan available · No credit card</p>
   </div>
