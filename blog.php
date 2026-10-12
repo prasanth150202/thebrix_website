@@ -10,7 +10,7 @@ require_once __DIR__ . '/includes/bootstrap.php';
 require_once BRIX_INCLUDES . '/posts.php';
 
 $page_title       = 'Shopify AOV Blog: Cart Upsell & Growth Tactics | Brix';
-$page_description = 'Practical tactics to increase average order value on Shopify: cart upsells, product bundles, free-shipping thresholds, and AI recommendations.';
+$page_description = 'Practical, no-fluff tactics to increase average order value on Shopify: cart upsells, bundles, free-shipping thresholds, rewards and AI recommendations.';
 $page_canonical   = 'blog';
 $page_nav         = 'blog';
 $footer_col3      = 'blog';
@@ -28,6 +28,28 @@ try {
     http_response_code(503);
     header('Retry-After: 600');
 }
+
+// Blog structured data: the index page and its newest posts, so search
+// and AI engines can read it as a blog rather than a plain page. Built
+// from the same list the grid uses, so it stays in step with publishing.
+$page_schema = [[
+    '@context'    => 'https://schema.org',
+    '@type'       => 'Blog',
+    '@id'         => SITE_URL . '/blog#blog',
+    'url'         => SITE_URL . '/blog',
+    'name'        => 'The Brix blog',
+    'description' => $page_description,
+    'publisher'   => ['@id' => SITE_URL . '/#organization'],
+    'blogPost'    => array_map(
+        static fn (array $p): array => [
+            '@type'         => 'BlogPosting',
+            'headline'      => (string) $p['title'],
+            'url'           => SITE_URL . post_url($p),
+            'datePublished' => date('c', strtotime((string) $p['date_published'])),
+        ],
+        array_slice($posts, 0, 10)
+    ),
+]];
 
 require BRIX_INCLUDES . '/header.php';
 ?>
