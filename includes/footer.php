@@ -62,7 +62,7 @@ if ($page_chrome !== 'minimal' && $footer_col3 === 'tutorials') {
   <div class="container footer-grid">
     <div class="footer-brand">
       <a class="logo logo-light" href="/">
-        <img class="logo-img" src="/assets/brix-logo-light.png" alt="Brix">
+        <img class="logo-img" src="/assets/brix-logo-light.png" alt="Brix" width="2304" height="666">
       </a>
       <p>Bigger orders for Shopify stores, on autopilot.</p>
       <a class="footer-shopify" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener" aria-label="View Brix on the Shopify App Store">

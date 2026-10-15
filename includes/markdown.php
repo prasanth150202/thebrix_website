@@ -288,3 +288,88 @@ function harden_links(string $html): string
         $html
     ) ?? $html;
 }
+
+/**
+ * Plain text from one line of markdown, for FAQ question and answer
+ * markup: links keep their text, emphasis and code marks are dropped,
+ * and backslash escapes (the "1\." in "### 1\. Question?") are undone.
+ */
+function faq_plain_text(string $line): string
+{
+    $line = preg_replace('/!\[[^\]]*\]\([^)]*\)/', '', $line) ?? $line;
+    $line = preg_replace('/\[([^\]]+)\]\([^)]*\)/', '$1', $line) ?? $line;
+    $line = preg_replace('/[*`]+/', '', $line) ?? $line;
+    $line = preg_replace('/\\([^\w\s])/', '$1', $line) ?? $line;
+
+    return trim(preg_replace('/\s+/', ' ', $line) ?? $line);
+}
+
+/**
+ * Question and answer pairs from an article's FAQ section, for FAQPage
+ * structured data. Only text that is already visible on the page is
+ * returned, which is what the markup is required to mirror.
+ *
+ * The FAQ section is the "## Frequently Asked Questions" or "## FAQs"
+ * heading up to the next "##" heading. Inside it a question is either
+ * a "### Question?" heading (optionally numbered) or a line written as
+ * "**Question?**", and its answer is the text that follows. Fewer than
+ * two complete pairs means no markup at all.
+ *
+ * @return list<array{q: string, a: string}>
+ */
+function extract_faq_pairs(string $markdown): array
+{
+    $lines = preg_split('/\R/', $markdown) ?: [];
+    $inFaq = false;
+    $pairs = [];
+    $question = null;
+    $answer = [];
+
+    $flush = static function () use (&$pairs, &$question, &$answer): void {
+        if ($question !== null && $question !== '') {
+            $text = trim(implode(' ', $answer));
+            if ($text !== '') {
+                $pairs[] = ['q' => $question, 'a' => $text];
+            }
+        }
+        $question = null;
+        $answer = [];
+    };
+
+    foreach ($lines as $line) {
+        $line = trim($line);
+
+        if (preg_match('/^##\s+(.+)$/', $line, $m) === 1) {
+            if ($inFaq) {
+                $flush();
+                break;
+            }
+            $inFaq = preg_match('/^(frequently asked questions|faqs?)\b/i', trim($m[1])) === 1;
+            continue;
+        }
+
+        if (!$inFaq || $line === '') {
+            continue;
+        }
+
+        // A call-to-action shortcode ends the last answer.
+        if (str_starts_with($line, '[cta')) {
+            $flush();
+            continue;
+        }
+
+        if (preg_match('/^###\s+(?:\d+\\?\.\s*)?(.+)$/', $line, $m) === 1
+            || preg_match('/^\*\*(.+\?)\*\*$/', $line, $m) === 1) {
+            $flush();
+            $question = faq_plain_text($m[1]);
+            continue;
+        }
+
+        if ($question !== null) {
+            $answer[] = faq_plain_text($line);
+        }
+    }
+    $flush();
+
+    return count($pairs) >= 2 ? array_slice($pairs, 0, 20) : [];
+}
