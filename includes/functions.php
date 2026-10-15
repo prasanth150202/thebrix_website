@@ -565,3 +565,36 @@ function card_icon_svg(?string $key): string
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
         . 'stroke-linecap="round" stroke-linejoin="round">' . $icon['svg'] . '</svg>';
 }
+
+/**
+ * Authors who have a profile page, keyed by the slug in /author/<slug>.
+ *
+ * 'name' must match the author field on their posts exactly (case
+ * aside), because that is how a byline is tied to a profile. Add the
+ * person's real details here; do not publish credentials that are not
+ * true. 'sameAs' takes full URLs of their own public profiles.
+ *
+ * @return array<string, array{name: string, bio: string, sameAs: list<string>}>
+ */
+function author_profiles(): array
+{
+    return [
+        'irshaad' => [
+            'name'   => 'Irshaad',
+            'bio'    => 'Irshaad writes the Brix blog: practical guides on cart upsells, bundles, rewards and average order value for Shopify merchants and agencies.',
+            'sameAs' => [],
+        ],
+    ];
+}
+
+/** The profile address for an author's display name, or null if none. */
+function author_profile_url(string $name): ?string
+{
+    foreach (author_profiles() as $slug => $profile) {
+        if (strcasecmp($profile['name'], $name) === 0) {
+            return '/author/' . $slug;
+        }
+    }
+
+    return null;
+}

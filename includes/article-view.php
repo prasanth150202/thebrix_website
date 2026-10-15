@@ -39,10 +39,13 @@ $page_schema = [[
     'description'      => $page_description,
     'datePublished'    => $post['date_published'],
     'dateModified'     => str_replace(' ', 'T', (string) $post['updated_at']),
-    'author'           => [
+    'author'           => array_filter([
         '@type' => 'Person',
         'name'  => $post['author'] !== '' ? $post['author'] : 'Brix',
-    ],
+        'url'   => ($authorUrl = author_profile_url((string) $post['author'])) !== null
+            ? SITE_URL . $authorUrl
+            : null,
+    ]),
     'publisher'        => ['@id' => SITE_URL . '/#organization'],
     'mainEntityOfPage' => [
         '@type' => 'WebPage',
@@ -141,7 +144,7 @@ $ctaSub = $post['cta_sub'] !== ''
           <?php if ($post['author'] !== ''): ?>
             <div class="post-fact">
               <span class="post-fact-k">Written by</span>
-              <span class="post-fact-v"><?= e($post['author']) ?></span>
+              <span class="post-fact-v"><?php if ($authorUrl !== null): ?><a href="<?= e($authorUrl) ?>"><?= e($post['author']) ?></a><?php else: ?><?= e($post['author']) ?><?php endif; ?></span>
             </div>
           <?php endif; ?>
 
