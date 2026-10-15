@@ -5,7 +5,7 @@ require_once __DIR__ . '/includes/bootstrap.php';
 require_once BRIX_INCLUDES . '/posts.php';
 
 $page_title       = 'Privacy Policy | Brix for Shopify';
-$page_description = 'How The Brix collects, uses, and safeguards your data across our website and Shopify app: what we collect, how we use it, sharing, cookies, security and your rights.';
+$page_description = 'How Brix collects, uses and protects your data on our website and Shopify app: what we collect, how we use it, sharing, cookies, security and your rights.';
 $page_canonical   = 'privacy';
 $page_nav         = NULL;
 $page_robots      = 'index, follow';

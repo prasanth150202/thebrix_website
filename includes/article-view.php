@@ -55,6 +55,24 @@ if ($heroImageForSchema !== '') {
     $page_schema[0]['image'] = SITE_URL . '/' . $heroImageForSchema;
 }
 
+// FAQ markup for posts that have a visible FAQ section. The pairs come
+// from the same body the reader sees, so the markup matches the page.
+$faqPairs = extract_faq_pairs((string) ($post['body_md'] ?? ''));
+if ($faqPairs !== []) {
+    $page_schema[] = [
+        '@context'   => 'https://schema.org',
+        '@type'      => 'FAQPage',
+        'mainEntity' => array_map(
+            static fn (array $p): array => [
+                '@type'          => 'Question',
+                'name'           => $p['q'],
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => $p['a']],
+            ],
+            $faqPairs
+        ),
+    ];
+}
+
 if (($preview_banner ?? false) === true) {
     $page_robots     = 'noindex, nofollow';
     $page_body_class = 'has-preview-bar';
