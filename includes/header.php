@@ -247,7 +247,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="nav<?= $page_chrome === 'minimal' ? ' nav-lite' : '' ?>" id="nav">
   <div class="container nav-in">
     <a class="logo" href="/" aria-label="Brix home">
-      <img class="logo-img" src="/assets/brix-logo-dark.png" alt="Brix">
+      <img class="logo-img" src="/assets/brix-logo-dark.png" alt="Brix" width="2304" height="666">
     </a>
 <?php if ($page_chrome === 'minimal'): ?>
     <div class="nav-actions">

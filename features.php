@@ -5,7 +5,7 @@ require_once __DIR__ . '/includes/bootstrap.php';
 require_once BRIX_INCLUDES . '/posts.php';
 
 $page_title       = 'Brix Features: AI Cart Upsell Tools for Shopify';
-$page_description = "Explore Brix's Shopify cart features: AI upsells, Frequently Bought Together, Bundle Builder, quantity Packs, Cash on Delivery checkout, coupon sliders, and reward progress bars.";
+$page_description = "Explore Brix cart features for Shopify: AI upsells, Frequently Bought Together, bundles, quantity packs, COD checkout, coupon sliders and reward bars.";
 $page_canonical   = 'features';
 $page_nav         = 'features';
 $footer_col3      = 'case-studies';
@@ -390,7 +390,7 @@ require BRIX_INCLUDES . '/header.php';
       <div class="chat-mock" id="aiChat">
         <div class="chat-head">
           <span class="chat-avatar" aria-hidden="true">
-            <img src="assets/brix-mark-light.png" alt="Brix logo" style="width:19px;height:auto;">
+            <img src="assets/brix-mark-light.png" alt="Brix logo" width="487" height="524" style="width:19px;height:auto;">
           </span>
           <span><b>Brix AI</b><small>Optimizing your store</small></span>
         </div>

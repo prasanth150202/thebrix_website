@@ -62,7 +62,7 @@ if ($page_chrome !== 'minimal' && $footer_col3 === 'tutorials') {
   <div class="container footer-grid">
     <div class="footer-brand">
       <a class="logo logo-light" href="/">
-        <img class="logo-img" src="/assets/brix-logo-light.png" alt="Brix">
+        <img class="logo-img" src="/assets/brix-logo-light.png" alt="Brix" width="2304" height="666">
       </a>
       <p>Bigger orders for Shopify stores, on autopilot.</p>
       <a class="footer-shopify" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener" aria-label="View Brix on the Shopify App Store">
@@ -128,7 +128,7 @@ if ($page_chrome !== 'minimal' && $footer_col3 === 'tutorials') {
   </div>
   <div class="container footer-base">
     <span>&copy; <?= date('Y') ?> Brix. Built for Shopify.</span>
-    <span class="footer-legal"><a href="/contact">Contact us</a> &middot; <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms &amp; Conditions</a> &middot; <a href="/cod-data-policy">COD Data Policy</a></span>
+    <span class="footer-legal"><a href="/about">About</a> &middot; <a href="/contact">Contact us</a> &middot; <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms &amp; Conditions</a> &middot; <a href="/cod-data-policy">COD Data Policy</a></span>
   </div>
 </footer>
 <?php endif; ?>

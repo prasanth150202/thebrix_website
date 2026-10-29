@@ -39,10 +39,13 @@ $page_schema = [[
     'description'      => $page_description,
     'datePublished'    => $post['date_published'],
     'dateModified'     => str_replace(' ', 'T', (string) $post['updated_at']),
-    'author'           => [
+    'author'           => array_filter([
         '@type' => 'Person',
         'name'  => $post['author'] !== '' ? $post['author'] : 'Brix',
-    ],
+        'url'   => ($authorUrl = author_profile_url((string) $post['author'])) !== null
+            ? SITE_URL . $authorUrl
+            : null,
+    ]),
     'publisher'        => ['@id' => SITE_URL . '/#organization'],
     'mainEntityOfPage' => [
         '@type' => 'WebPage',
@@ -53,6 +56,24 @@ $page_schema = [[
 $heroImageForSchema = safe_asset_path($post['hero_image'] ?? '');
 if ($heroImageForSchema !== '') {
     $page_schema[0]['image'] = SITE_URL . '/' . $heroImageForSchema;
+}
+
+// FAQ markup for posts that have a visible FAQ section. The pairs come
+// from the same body the reader sees, so the markup matches the page.
+$faqPairs = extract_faq_pairs((string) ($post['body_md'] ?? ''));
+if ($faqPairs !== []) {
+    $page_schema[] = [
+        '@context'   => 'https://schema.org',
+        '@type'      => 'FAQPage',
+        'mainEntity' => array_map(
+            static fn (array $p): array => [
+                '@type'          => 'Question',
+                'name'           => $p['q'],
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => $p['a']],
+            ],
+            $faqPairs
+        ),
+    ];
 }
 
 if (($preview_banner ?? false) === true) {
@@ -123,7 +144,7 @@ $ctaSub = $post['cta_sub'] !== ''
           <?php if ($post['author'] !== ''): ?>
             <div class="post-fact">
               <span class="post-fact-k">Written by</span>
-              <span class="post-fact-v"><?= e($post['author']) ?></span>
+              <span class="post-fact-v"><?php if ($authorUrl !== null): ?><a href="<?= e($authorUrl) ?>"><?= e($post['author']) ?></a><?php else: ?><?= e($post['author']) ?><?php endif; ?></span>
             </div>
           <?php endif; ?>
 

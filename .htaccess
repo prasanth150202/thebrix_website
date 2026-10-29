@@ -90,6 +90,7 @@ DirectoryIndex index.php
   # together as the slug blog-cart-upsell-examples before the lookup.
   RewriteRule ^blog/([a-z0-9-]+)/?$ article.php?slug=blog-$1 [L,QSA]
   RewriteRule ^case-study/([a-z0-9-]+)/?$ article.php?slug=case-study-$1 [L,QSA]
+  RewriteRule ^author/([a-z0-9-]+)/?$ author.php?slug=$1 [L,QSA]
 
   # Ordinary pages: /pricing -> pricing.php, but only when that file
   # actually exists, so a genuinely missing page still 404s.
