@@ -1,6 +1,6 @@
 # Cart Upsell & Frequently Bought Together
 
-Starter and above to publish live (previewable on Free).
+Included on every plan, Free too.
 
 ## Cart Upsell Products
 

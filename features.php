@@ -199,7 +199,7 @@ require BRIX_INCLUDES . '/header.php';
         <li><b>Only promises what checkout delivers</b>: a pack is shown only once the discount is confirmed to work, so no one is offered a saving they won’t get.</li>
         <li><b>Try it before it’s live</b>: save a draft and preview it on your own store first.</li>
       </ul>
-      <p class="reveal" style="--d:.06s">Shoppers can also hit “Buy now” to check out just the pack, without disturbing what’s already in their cart. Packs go live on the Starter and Pro plans, and on Free you can build drafts and preview them.</p>
+      <p class="reveal" style="--d:.06s">Shoppers can also hit “Buy now” to check out just the pack, without disturbing what’s already in their cart. Packs are included on every plan, Free too.</p>
     </div>
     <div class="f-visual reveal" style="--d:.1s">
       <div class="pk-mock">
@@ -249,7 +249,7 @@ require BRIX_INCLUDES . '/header.php';
         <li><b>Coupons and discounts still work</b>: shoppers can apply a code in the popup, and the totals always come straight from Shopify.</li>
         <li><b>Your ad numbers stay honest</b>: COD orders skip normal checkout, so Brix reports them to Google Analytics and Meta for you.</li>
       </ul>
-      <p class="reveal" style="--d:.06s">Every COD order lands in Shopify tagged and ready to fulfil, and your Brix dashboard follows it from placed to shipped, delivered, paid or returned. Carts that contain a pack or a free reward gift use your normal checkout instead. COD Checkout is live on Starter and Pro, with a preview on Free.</p>
+      <p class="reveal" style="--d:.06s">Every COD order lands in Shopify tagged and ready to fulfil, and your Brix dashboard follows it from placed to shipped, delivered, paid or returned. Carts that contain a pack or a free reward gift use your normal checkout instead. COD Checkout is included on every plan, Free too.</p>
     </div>
     <div class="f-visual reveal" style="--d:.1s">
       <div class="cod-mock">
@@ -428,8 +428,8 @@ require BRIX_INCLUDES . '/header.php';
       <div class="xtra reveal" style="--d:.12s"><b>Swipe-to-checkout</b><span>A mobile gesture that takes shoppers straight to payment.</span></div>
       <div class="xtra reveal"><b>Custom CSS editor</b><span>Full control for the pixel-perfect brands.</span></div>
       <div class="xtra reveal" style="--d:.04s"><b>Funnels &amp; attribution</b><span>See the path from nudge to checkout, dollar by dollar.</span></div>
-      <div class="xtra reveal" style="--d:.08s"><b>Multi-store support</b><span>Run every storefront from one Brix account on Pro.</span></div>
-      <div class="xtra reveal" style="--d:.12s"><b>Branding removal</b><span>Remove the “Powered by BRIX” watermark on Pro.</span></div>
+      <div class="xtra reveal" style="--d:.08s"><b>Multi-store support</b><span>Run every storefront from one Brix account, on any plan.</span></div>
+      <div class="xtra reveal" style="--d:.12s"><b>Branding removal</b><span>Remove the “Powered by BRIX” watermark, on any plan.</span></div>
     </div>
   </div>
 </section>

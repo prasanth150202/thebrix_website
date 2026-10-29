@@ -28,8 +28,11 @@ $page_schema = [[
     'publisher'              => ['@id' => SITE_URL . '/#organization'],
     'offers'                 => [
         ['@type' => 'Offer', 'url' => SITE_URL . '/pricing', 'name' => 'Free', 'price' => '0', 'priceCurrency' => 'USD', 'category' => 'SaaS subscription'],
+        ['@type' => 'Offer', 'url' => SITE_URL . '/pricing', 'name' => 'Lite', 'price' => '9', 'priceCurrency' => 'USD', 'billingIncrement' => 'P1M', 'category' => 'SaaS subscription'],
         ['@type' => 'Offer', 'url' => SITE_URL . '/pricing', 'name' => 'Starter', 'price' => '29', 'priceCurrency' => 'USD', 'billingIncrement' => 'P1M', 'category' => 'SaaS subscription'],
+        ['@type' => 'Offer', 'url' => SITE_URL . '/pricing', 'name' => 'Growth', 'price' => '59', 'priceCurrency' => 'USD', 'billingIncrement' => 'P1M', 'category' => 'SaaS subscription'],
         ['@type' => 'Offer', 'url' => SITE_URL . '/pricing', 'name' => 'Pro', 'price' => '79', 'priceCurrency' => 'USD', 'billingIncrement' => 'P1M', 'category' => 'SaaS subscription'],
+        ['@type' => 'Offer', 'url' => SITE_URL . '/pricing', 'name' => 'Enterprise', 'price' => '99', 'priceCurrency' => 'USD', 'billingIncrement' => 'P1M', 'category' => 'SaaS subscription'],
     ],
 ]];
 
@@ -475,7 +478,7 @@ require BRIX_INCLUDES . '/header.php';
     <div class="section-head reveal">
       <p class="eyebrow">Pricing</p>
       <h2>Starts free. Scales when you do.</h2>
-      <p class="section-sub">Free is free forever. Starter and Pro are billed monthly. Cancel anytime.</p>
+      <p class="section-sub">Every plan includes every feature. Free is free forever. Paid plans are billed monthly. Cancel anytime.</p>
     </div>
     <div class="price-grid">
       <div class="price-card reveal">
@@ -484,41 +487,75 @@ require BRIX_INCLUDES . '/header.php';
         <p class="price"><b>$0</b><span>/month</span></p>
         <p class="price-note">Launch and learn: 50 orders/month</p>
         <ul class="price-list">
-          <li>Cart Drawer, Announcement Bar &amp; Empty Cart Customization</li>
-          <li>AI BRIX: 10 credits/month, then $0.09/credit</li>
-          <li>Frequently Bought Together &amp; Progress Bar: preview only</li>
-          <li>Basic analytics (revenue, AOV, clicks)</li>
+          <li>All features included</li>
+          <li>10 AI prompt credits to try Brix AI</li>
         </ul>
         <a class="btn btn-outline price-cta" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener">Install free ↗</a>
       </div>
-      <div class="price-card price-card-hot reveal" style="--d:.06s">
-        <span class="price-flag">Most popular</span>
-        <h3>Starter</h3>
-        <p class="price"><b>$29</b><span>/month</span></p>
-        <p class="price-note">Grow your AOV: 500 orders/month</p>
+      <div class="price-card reveal" style="--d:.06s">
+        <h3>Lite</h3>
+        <p class="price"><b>$9</b><span>/month</span></p>
+        <p class="price-note">Start growing: 100–200 orders/month</p>
         <ul class="price-list">
-          <li>AI Cart Upsell &amp; Frequently Bought Together, fully unlocked</li>
-          <li>Build a Combo: up to 3 templates</li>
-          <li>Analytics: Overview &amp; Build a Combo only</li>
-          <li>AI BRIX: 30 credits/month, then $0.03/credit</li>
-          <li>Priority email &amp; 24/7 AI support</li>
-          <li>Removes the “Powered by BRIX” watermark</li>
-        </ul>
-        <a class="btn btn-primary price-cta" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener">Start free trial ↗</a>
-      </div>
-      <div class="price-card reveal" style="--d:.12s">
-        <span class="price-flag price-flag-ghost">Best value</span>
-        <h3>Pro</h3>
-        <p class="price"><b>$79</b><span>/month</span></p>
-        <p class="price-note">High-revenue brands: unlimited orders</p>
-        <ul class="price-list">
-          <li>Unlimited Build a Combo templates</li>
-          <li>AI Analytics, Advanced AI Analytics &amp; Unlimited AI Agents</li>
-          <li>AI BRIX: 90 credits/month, then $0.01/credit</li>
-          <li>Removes the “Powered by BRIX” watermark</li>
+          <li>All features included</li>
+          <li>20 AI prompt credits for light tuning</li>
         </ul>
         <a class="btn btn-outline price-cta" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener">Start free trial ↗</a>
       </div>
+      <div class="price-card price-card-hot reveal" style="--d:.12s">
+        <span class="price-flag">Most popular</span>
+        <h3>Starter</h3>
+        <p class="price"><b>$29</b><span>/month</span></p>
+        <p class="price-note">Grow your AOV: 200–500 orders/month</p>
+        <ul class="price-list">
+          <li>All features included</li>
+          <li>30 AI prompt credits for regular tweaks</li>
+        </ul>
+        <a class="btn btn-primary price-cta" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener">Start free trial ↗</a>
+      </div>
+      <div class="price-card reveal" style="--d:.18s">
+        <h3>Growth</h3>
+        <p class="price"><b>$59</b><span>/month</span></p>
+        <p class="price-note">Scale your AOV: 500–1,000 orders/month</p>
+        <ul class="price-list">
+          <li>All features included</li>
+          <li>60 AI prompt credits for frequent edits</li>
+        </ul>
+        <a class="btn btn-outline price-cta" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener">Start free trial ↗</a>
+      </div>
+      <div class="price-card reveal" style="--d:.24s">
+        <span class="price-flag price-flag-ghost">Best value</span>
+        <h3>Pro</h3>
+        <p class="price"><b>$79</b><span>/month</span></p>
+        <p class="price-note">High-volume brands: 1,000–2,000 orders/month</p>
+        <ul class="price-list">
+          <li>All features included</li>
+          <li>90 AI prompt credits for heavy AI use</li>
+        </ul>
+        <a class="btn btn-outline price-cta" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener">Start free trial ↗</a>
+      </div>
+      <div class="price-card reveal" style="--d:.3s">
+        <h3>Enterprise</h3>
+        <p class="price"><b>$99</b><span>/month</span></p>
+        <p class="price-note">For the biggest stores: Unlimited orders/month</p>
+        <ul class="price-list">
+          <li>All features included</li>
+          <li>Unlimited AI prompt credits</li>
+        </ul>
+        <a class="btn btn-outline price-cta" href="https://apps.shopify.com/thebrix-io?utm_source=Brix-Website&amp;utm_medium=Organic&amp;utm_campaign=Website_Tracking&amp;utm_id=Website" target="_blank" rel="noopener">Start free trial ↗</a>
+      </div>
+    </div>
+    <div class="price-includes reveal" style="--d:.1s">
+      <h3>Every plan includes</h3>
+      <ul class="price-list">
+        <li>AI Cart Upsell</li>
+        <li>FBT, AI Suggestion, Smart Recommendations</li>
+        <li>Rewards Progress Bar</li>
+        <li>Coupon Slider, Countdown Timer</li>
+        <li>Bundle Builder, Packs</li>
+        <li>COD Button + Prepaid Discount</li>
+        <li>Mobile Swipe Checkout, AI Insights</li>
+      </ul>
     </div>
     <p class="price-compare reveal"><a href="pricing">Compare every feature across plans →</a></p>
   </div>

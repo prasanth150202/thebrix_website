@@ -11,8 +11,8 @@ of these four. They are worth checking in this order.
    BRIX and still do nothing on the storefront until the embed is enabled.
 2. **The theme is not an Online Store 2.0 theme.** Legacy pre-2.0 themes are not
    supported, so BRIX cannot appear on them.
-3. **The feature requires a paid plan.** On the Free plan most features can be fully
-   configured and previewed, but they do not publish to the live store.
+3. **The feature is not switched on or published.** Every feature is available on every
+   plan, so the plan is not the cause. Check that the feature is enabled and saved in BRIX.
 4. **The change was not saved, or you are looking at the preview.** Save in BRIX, then
    check the live storefront rather than the theme editor preview.
 
@@ -28,9 +28,9 @@ correctly in BRIX and still not appear until the embed is enabled.
 
 ## A feature works in the preview but not on the live store
 
-Check whether the feature requires a paid plan (see the Features/Pricing documentation).
-Features on the Free plan can be fully configured and previewed, but only publish live on
-Starter and above.
+Every feature is live on every plan, including Free, so the plan is not the cause. Check
+that the app embed is on, that the feature is enabled, and that you saved in BRIX, then look
+at the live storefront rather than the theme editor preview.
 
 ## My coupon isn't showing in the Coupon Slider
 
@@ -44,11 +44,11 @@ that specific tier (each tier has its own product picker).
 
 ## Brix AI says I'm out of credits
 
-You've used your plan's monthly AI credit allowance. Continued use is billed automatically
-at your plan's per-credit overage rate. No action is needed unless you want to upgrade for
-a larger included allowance.
+You've used your plan's monthly AI credit allowance (10 on Free, 20 on Lite, 30 on Starter,
+60 on Growth, 90 on Pro; Enterprise has unlimited credits). To get a larger allowance,
+upgrade your plan from the Billing dashboard.
 
 ## My analytics numbers look locked or blurred
 
-Full analytics detail requires the Starter plan or above; the Free plan shows only headline
-totals.
+Full analytics detail is available on every plan. If your numbers still look locked or
+blurred, email support@thebrix.io.

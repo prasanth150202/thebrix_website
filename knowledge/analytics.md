@@ -2,13 +2,12 @@
 
 ## Analytics Dashboard
 
-Full detail on Starter+; AI insights on Pro.
+Full detail and AI insights on every plan.
 
 A real-time dashboard covering revenue, order count, average order value, conversion rate,
 checkout rate, cart-drawer and upsell-driven revenue, bundle revenue and order count,
 coupon applications, and click-through on checkout/coupon/upsell elements, with
-day-over-day comparison and trend charts. On the Free plan, headline numbers are visible
-but detailed values and charts are blurred/locked until you upgrade.
+day-over-day comparison and trend charts.
 
 Analytics are viewable in-dashboard with date-range filtering and comparison views.
 
@@ -24,7 +23,7 @@ covering setup and revenue-boosting workflows.
 A dedicated reporting page with a date-range picker, headline KPI cards (each with a trend
 sparkline and a vs.-previous-period comparison badge), and deeper charts and tables for
 revenue over time, top products, top collections, and the funnel from cart creation through
-checkout. On Free, most values and charts appear locked; upgrading unlocks them.
+checkout.
 
 ## Billing Dashboard
 
@@ -44,5 +43,5 @@ creation and checkout, and adjust upsell/coupon placement accordingly.
 
 ## Troubleshooting
 
-**My analytics numbers look locked or blurred:** Full analytics detail requires the Starter
-plan or above; the Free plan shows only headline totals.
+**My analytics numbers look locked or blurred:** Full analytics detail is available on
+every plan. If your numbers still look locked or blurred, email support@thebrix.io.

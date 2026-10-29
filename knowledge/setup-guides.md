@@ -6,7 +6,7 @@ Recommend related products right inside the cart drawer.
 
 1. **Open FBT** — From the Brix dashboard, go to FBT in the left navigation.
 2. **Pick a template** — Choose one of three layouts: a compact horizontal row, a card grid, or a featured single-product layout.
-3. **Choose how recommendations are built** — Manual (pick products yourself), Automatic (let Brix suggest related items), or AI-Powered (smarter personalized picks on supported plans).
+3. **Choose how recommendations are built** — Manual (pick products yourself), Automatic (let Brix suggest related items), or AI-Powered (smarter personalized picks).
 4. **Customize the block** — Set the section title, button text, price visibility, maximum products, and display limit, then click Save.
 5. **Enable it in your theme** — Click "Enable in theme editor". In Shopify's Theme Editor, open App Embeds, turn on the FBT Widget from Brix, and click Save.
 6. **Confirm it's live** — Return to Brix and refresh to check the widget status.
@@ -49,7 +49,7 @@ Design your cart drawer with a live preview.
 5. **Turn on body features** — Enable announcements, progress bar, coupon slider, upsell products, and empty-cart recommendations.
 6. **Footer & save** — Customize the checkout button, footer text, colors, and advanced options like custom CSS. Click Save.
 
-Note: Some advanced features are plan-specific (Starter or Pro required).
+Note: Every feature is available on every plan.
 
 ---
 

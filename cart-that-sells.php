@@ -448,7 +448,7 @@ require BRIX_INCLUDES . '/header.php';
     <div class="section-head reveal">
       <p class="eyebrow">Pricing</p>
       <h2>Start on free. Pay when it has already paid off.</h2>
-      <p class="section-sub">Free is free forever, so you can see your first lift before you spend anything. Starter and Pro bill through Shopify, and you cancel from your Shopify admin.</p>
+      <p class="section-sub">Every plan includes every feature, and Free is free forever, so you can see your first lift before you spend anything. Paid plans bill through Shopify, and you cancel from your Shopify admin.</p>
     </div>
     <div class="lp-price-grid">
       <div class="lp-price reveal">
@@ -456,36 +456,74 @@ require BRIX_INCLUDES . '/header.php';
         <p class="lp-price-fig"><b>$0</b><span>/month</span></p>
         <p class="lp-price-for">Up to 50 orders a month</p>
         <ul class="lp-price-list">
-          <li>Cart drawer, announcement bar and empty cart</li>
-          <li>10 AI credits a month</li>
-          <li>Basic analytics: revenue, AOV, clicks</li>
+          <li>All features included</li>
+          <li>10 AI prompt credits to try Brix AI</li>
         </ul>
         <a class="btn btn-ghost lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Install free</a>
       </div>
-      <div class="lp-price lp-price-hot reveal" style="--d:.07s">
-        <span class="lp-price-flag">Most merchants start here</span>
-        <h3>Starter</h3>
-        <p class="lp-price-fig"><b>$29</b><span>/month</span></p>
-        <p class="lp-price-for">Up to 500 orders a month</p>
+      <div class="lp-price reveal" style="--d:.06s">
+        <h3>Lite</h3>
+        <p class="lp-price-fig"><b>$9</b><span>/month</span></p>
+        <p class="lp-price-for">100–200 orders a month</p>
         <ul class="lp-price-list">
-          <li>AI Cart Upsell and Frequently Bought Together, unlocked</li>
-          <li>Build a Combo, up to 3 templates</li>
-          <li>30 AI credits a month</li>
-          <li>No &ldquo;Powered by BRIX&rdquo; watermark</li>
-        </ul>
-        <a class="btn btn-primary lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Start free trial</a>
-      </div>
-      <div class="lp-price reveal" style="--d:.14s">
-        <h3>Pro</h3>
-        <p class="lp-price-fig"><b>$79</b><span>/month</span></p>
-        <p class="lp-price-for">Unlimited orders</p>
-        <ul class="lp-price-list">
-          <li>Unlimited Build a Combo templates</li>
-          <li>Advanced AI analytics and unlimited AI agents</li>
-          <li>90 AI credits a month</li>
+          <li>All features included</li>
+          <li>20 AI prompt credits for light tuning</li>
         </ul>
         <a class="btn btn-ghost lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Start free trial</a>
       </div>
+      <div class="lp-price lp-price-hot reveal" style="--d:.12s">
+        <span class="lp-price-flag">Most popular</span>
+        <h3>Starter</h3>
+        <p class="lp-price-fig"><b>$29</b><span>/month</span></p>
+        <p class="lp-price-for">200–500 orders a month</p>
+        <ul class="lp-price-list">
+          <li>All features included</li>
+          <li>30 AI prompt credits for regular tweaks</li>
+        </ul>
+        <a class="btn btn-primary lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Start free trial</a>
+      </div>
+      <div class="lp-price reveal" style="--d:.18s">
+        <h3>Growth</h3>
+        <p class="lp-price-fig"><b>$59</b><span>/month</span></p>
+        <p class="lp-price-for">500–1,000 orders a month</p>
+        <ul class="lp-price-list">
+          <li>All features included</li>
+          <li>60 AI prompt credits for frequent edits</li>
+        </ul>
+        <a class="btn btn-ghost lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Start free trial</a>
+      </div>
+      <div class="lp-price reveal" style="--d:.24s">
+        <h3>Pro</h3>
+        <p class="lp-price-fig"><b>$79</b><span>/month</span></p>
+        <p class="lp-price-for">1,000–2,000 orders a month</p>
+        <ul class="lp-price-list">
+          <li>All features included</li>
+          <li>90 AI prompt credits for heavy AI use</li>
+        </ul>
+        <a class="btn btn-ghost lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Start free trial</a>
+      </div>
+      <div class="lp-price reveal" style="--d:.3s">
+        <h3>Enterprise</h3>
+        <p class="lp-price-fig"><b>$99</b><span>/month</span></p>
+        <p class="lp-price-for">Unlimited orders</p>
+        <ul class="lp-price-list">
+          <li>All features included</li>
+          <li>Unlimited AI prompt credits</li>
+        </ul>
+        <a class="btn btn-ghost lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Start free trial</a>
+      </div>
+    </div>
+    <div class="price-includes reveal" style="--d:.1s">
+      <h3>Every plan includes</h3>
+      <ul class="price-list">
+        <li>AI Cart Upsell</li>
+        <li>FBT, AI Suggestion, Smart Recommendations</li>
+        <li>Rewards Progress Bar</li>
+        <li>Coupon Slider, Countdown Timer</li>
+        <li>Bundle Builder, Packs</li>
+        <li>COD Button + Prepaid Discount</li>
+        <li>Mobile Swipe Checkout, AI Insights</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -512,7 +550,7 @@ require BRIX_INCLUDES . '/header.php';
       </details>
       <details class="faq-item">
         <summary>Do I have to pay to find out if it works?<span class="faq-ic"></span></summary>
-        <p>No. Free includes the analytics, so you can watch the revenue and AOV numbers move before you spend anything. Starter and Pro add a 14-day free trial on top of that.</p>
+        <p>No. Free includes the analytics, so you can watch the revenue and AOV numbers move before you spend anything. Every paid plan adds a 14-day free trial on top of that.</p>
       </details>
       <details class="faq-item">
         <summary>How do I cancel?<span class="faq-ic"></span></summary>

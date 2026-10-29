@@ -1,6 +1,6 @@
 # Coupon Slider & Coupon Banner
 
-Starter and above to publish live (previewable on Free).
+Included on every plan, Free too.
 
 Rather than making shoppers hunt for a discount code, BRIX surfaces your active Shopify
 discount codes directly in the shopping experience. **The Coupon Slider does not create

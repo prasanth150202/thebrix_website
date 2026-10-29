@@ -325,10 +325,10 @@ h1,h2,h3,p{margin:0}
     <div style="display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center">
       <span style="font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#1597E5">Pricing</span>
       <h2 style="font-size:clamp(32px,4vw,48px);line-height:1.08;letter-spacing:-0.03em;font-weight:800">Starts free. Scales when you do.</h2>
-      <p style="font-size:18px;color:#4A5560">Free is free forever. Starter and Pro are billed monthly. Cancel anytime.</p>
+      <p style="font-size:18px;color:#4A5560">Every plan includes every feature. Free is free forever. Paid plans are billed monthly. Cancel anytime.</p>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;align-items:stretch">
-      <sc-for list="{{ plans }}" as="p" hint-placeholder-count="3">
+      <sc-for list="{{ plans }}" as="p" hint-placeholder-count="6">
         <div style="border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:22px;background:{{ p.bg }};color:{{ p.fg }};border:1px solid {{ p.border }}">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
             <h3 style="font-size:20px;font-weight:700">{{ p.name }}</h3>
@@ -347,6 +347,18 @@ h1,h2,h3,p{margin:0}
           <a href="https://apps.shopify.com/thebrix-io" style="text-align:center;padding:15px;border-radius:999px;font-weight:700;background:{{ p.ctaBg }};color:{{ p.ctaFg }}">{{ p.cta }}</a>
         </div>
       </sc-for>
+    </div>
+    <div style="width:100%;max-width:820px;margin:0 auto;background:#FFFFFF;border:1px solid #E7ECEF;border-radius:24px;padding:28px 34px 30px">
+      <h3 style="font-size:18px;font-weight:700;text-align:center;margin-bottom:18px">Every plan includes</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px 40px">
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">AI Cart Upsell</span></div>
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">FBT, AI Suggestion, Smart Recommendations</span></div>
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">Rewards Progress Bar</span></div>
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">Coupon Slider, Countdown Timer</span></div>
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">Bundle Builder, Packs</span></div>
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">COD Button + Prepaid Discount</span></div>
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">Mobile Swipe Checkout, AI Insights</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -774,14 +786,23 @@ class Component extends DCLogic {
       ],
       plans: [
         { name: 'Free', tag: 'Free forever', price: '$0', sub: 'Launch and learn: 50 orders/month', cta: 'Install free ↗',
-          items: ['Cart Drawer, Announcement Bar & Empty Cart Customization', 'AI BRIX: 10 credits/month', 'Frequently Bought Together & Progress Bar: preview', 'Basic analytics (revenue, AOV, clicks)'],
+          items: ['All features included', '10 AI prompt credits to try Brix AI'],
           bg: '#FFFFFF', fg: '#0B0F14', border: '#E7ECEF', tagBg: '#F1F4F6', tagFg: '#4A5560', ctaBg: '#F1F4F6', ctaFg: '#0B0F14' },
-        { name: 'Starter', tag: 'Most popular', price: '$29', sub: 'Grow your AOV: 500 orders/month', cta: 'Start 14-day free trial ↗',
-          items: ['AI Cart Upsell & Frequently Bought Together, fully unlocked', 'Build a Combo: up to 3 templates', 'AI BRIX: 30 credits/month', 'Priority email & 24/7 AI support', 'Removes the “Powered by BRIX” watermark'],
+        { name: 'Lite', tag: '14-day trial', price: '$9', sub: 'Start growing: 100–200 orders/month', cta: 'Start 14-day free trial ↗',
+          items: ['All features included', '20 AI prompt credits for light tuning'],
+          bg: '#FFFFFF', fg: '#0B0F14', border: '#E7ECEF', tagBg: '#F1F4F6', tagFg: '#4A5560', ctaBg: '#F1F4F6', ctaFg: '#0B0F14' },
+        { name: 'Starter', tag: 'Most popular', price: '$29', sub: 'Grow your AOV: 200–500 orders/month', cta: 'Start 14-day free trial ↗',
+          items: ['All features included', '30 AI prompt credits for regular tweaks'],
           bg: '#0B0F14', fg: '#FFFFFF', border: '#0B0F14', tagBg: '#1DBF73', tagFg: '#0B0F14', ctaBg: '#FFFFFF', ctaFg: '#0B0F14' },
-        { name: 'Pro', tag: 'Best value', price: '$79', sub: 'High-revenue brands: unlimited orders', cta: 'Start 14-day free trial ↗',
-          items: ['Unlimited Build a Combo templates', 'AI Analytics, Advanced AI Analytics & Unlimited AI Agents', 'AI BRIX: 90 credits/month', 'Removes the “Powered by BRIX” watermark'],
-          bg: '#FFFFFF', fg: '#0B0F14', border: '#E7ECEF', tagBg: '#EAF5FD', tagFg: '#0C6FAE', ctaBg: '#0B0F14', ctaFg: '#FFFFFF' }
+        { name: 'Growth', tag: '14-day trial', price: '$59', sub: 'Scale your AOV: 500–1,000 orders/month', cta: 'Start 14-day free trial ↗',
+          items: ['All features included', '60 AI prompt credits for frequent edits'],
+          bg: '#FFFFFF', fg: '#0B0F14', border: '#E7ECEF', tagBg: '#F1F4F6', tagFg: '#4A5560', ctaBg: '#F1F4F6', ctaFg: '#0B0F14' },
+        { name: 'Pro', tag: 'Best value', price: '$79', sub: 'High-volume brands: 1,000–2,000 orders/month', cta: 'Start 14-day free trial ↗',
+          items: ['All features included', '90 AI prompt credits for heavy AI use'],
+          bg: '#FFFFFF', fg: '#0B0F14', border: '#E7ECEF', tagBg: '#EAF5FD', tagFg: '#0C6FAE', ctaBg: '#0B0F14', ctaFg: '#FFFFFF' },
+        { name: 'Enterprise', tag: '14-day trial', price: '$99', sub: 'For the biggest stores: unlimited orders', cta: 'Start 14-day free trial ↗',
+          items: ['All features included', 'Unlimited AI prompt credits'],
+          bg: '#FFFFFF', fg: '#0B0F14', border: '#E7ECEF', tagBg: '#F1F4F6', tagFg: '#4A5560', ctaBg: '#F1F4F6', ctaFg: '#0B0F14' }
       ],
       reviews: [
         { quote: 'We use it to show related products and combo-style recommendations. For breakfast products like chocos, pancakes, and snacks, this makes sense because customers can discover more products while they are already ready to buy.', store: 'Coreeat', meta: 'India · 3 months using Brix' },

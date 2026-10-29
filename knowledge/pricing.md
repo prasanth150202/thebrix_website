@@ -1,55 +1,72 @@
 # Pricing Plans
 
-All plans include the Cart Drawer, Announcement Bar, Empty Cart customization, and Brix AI.
-Higher plans unlock more features live on your storefront, plus larger usage allowances.
+Every plan includes the same features:
+
+- AI Cart Upsell
+- FBT, AI Suggestion, Smart Recommendations
+- Rewards Progress Bar
+- Coupon Slider, Countdown Timer
+- Bundle Builder, Packs
+- COD Button + Prepaid Discount
+- Mobile Swipe Checkout, AI Insights
+
+The plans differ only in the monthly allowance of store orders and AI prompt credits.
+
 Upgrade or downgrade at any time from the Billing dashboard. There is no free trial needed
-for Free; it is free indefinitely, within its limitations. Starter and Pro both start with
-a 14-day free trial, billed monthly through Shopify afterwards. Cancel anytime.
+for Free; it is free indefinitely. Every paid plan (Lite, Starter, Growth, Pro and
+Enterprise) starts with a 14-day free trial, billed monthly through Shopify afterwards.
+Cancel anytime.
 
 ## Free: "Launch & learn" ($0/mo)
 
-- 50 orders/mo included, then $0.10 per additional order
-- 10 Brix AI credits/mo, then $0.01 per additional credit
-- Combo Forge locked (0 bundles)
-- Watermark always shown
-- Most premium features: preview only, not published live
+- 50 orders/mo
+- 10 AI prompt credits to try Brix AI
+- All the features above
 
-## Starter: "Grow your AOV" (Most Popular, $29/mo or $290/yr)
+## Lite: "Start growing" ($9/mo)
 
-- 500 orders/mo included, then $0.30 per additional order
-- 30 Brix AI credits/mo, then $0.03 per additional credit
-- Up to 3 Combo Forge bundles
-- Watermark removable
-- Full analytics, FBT, Coupon Banner, Progress Bar, Cart Upsell, Confetti, Mobile Swipe
-  Checkout, Custom CSS, Countdown Timer all live
-- Priority email support & 24/7 AI support
+- 100–200 orders/mo
+- 20 AI prompt credits for light tuning
+- All the features above
 
-## Pro: "High-volume brands" ($79/mo or $790/yr)
+## Starter: "Grow your AOV" (Most Popular, $29/mo)
 
-- Unlimited orders, no overage charges
-- 90 Brix AI credits/mo, then $0.09 per additional credit
-- Unlimited Combo Forge bundles
-- Everything in Starter, plus: AI Analytics & Advanced AI Analytics
-- Unlimited Brix AI usage across your team
+- 200–500 orders/mo
+- 30 AI prompt credits for regular tweaks
+- All the features above
 
-## How Usage Billing Works
+## Growth: "Scale your AOV" ($59/mo)
 
-Each plan includes a monthly allowance of store orders and of Brix AI credits. If a
-merchant goes over either allowance in a given month, the extra usage is billed
-automatically at the plan's per-unit overage rate through Shopify's standard billing.
-There's nothing to set up manually, and the app is never blocked from being used.
+- 500–1,000 orders/mo
+- 60 AI prompt credits for frequent edits
+- All the features above
+
+## Pro: "High-volume brands" ($79/mo)
+
+- 1,000–2,000 orders/mo
+- 90 AI prompt credits for heavy AI use
+- All the features above
+
+## Enterprise: "For the biggest stores" ($99/mo)
+
+- Unlimited orders
+- Unlimited AI prompt credits
+- All the features above
+
+## How Usage Works
+
+Each plan includes a monthly allowance of store orders and of Brix AI prompt credits. If a
+merchant goes over their order allowance, the app is never blocked from being used. BRIX
+emails the merchant to suggest the next plan, and never switches a plan or charges for one
+without the merchant's say-so. Enterprise has no order limit and no credit limit. For a
+larger monthly credit allowance on any other plan, move to a higher plan.
 
 ## Limitations
 
-- **Preview vs. live.** Several features can be fully configured and saved on the Free plan
-  but will not render for shoppers on the storefront until upgrading; this is intentional
-  so merchants can evaluate every feature before paying.
-- **Order allowance.** 50/mo on Free, 500/mo on Starter, unlimited on Pro. Going over
-  triggers automatic overage billing rather than blocking the app.
-- **Brix AI credits.** 10/30/90 per month. Extra usage is billed per credit rather than
-  blocked.
-- **Bundle count.** Combo Forge is locked entirely on Free, capped at 3 published bundles
-  on Starter, and unlimited on Pro.
+- **Order allowance.** 50/mo on Free, 100–200/mo on Lite, 200–500/mo on Starter,
+  500–1,000/mo on Growth, 1,000–2,000/mo on Pro, unlimited on Enterprise.
+- **AI prompt credits.** 10/20/30/60/90 per month on Free through Pro, in that order;
+  unlimited on Enterprise.
 - **Theme compatibility.** BRIX requires an Online Store 2.0 theme with app embeds enabled;
   legacy (pre-2.0) themes are not supported.
 - **Coupon Slider shows existing codes only.** It does not generate discount logic itself;

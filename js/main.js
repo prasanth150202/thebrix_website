@@ -853,7 +853,7 @@ document.getElementById('newsForm')?.addEventListener('submit', async e => {
     { q: 'Does it work with subscription or currency apps?',
       a: 'Yes. Brix supports Shopify Markets, multi-currency and major subscription apps. Reward tiers convert to each shopper’s local currency automatically.' },
     { q: 'Can I try the paid features first?',
-      a: 'Starter and Pro both start with a 14-day free trial, billed monthly through Shopify afterwards. Cancel anytime. Free is free forever, no trial needed.' },
+      a: 'Every plan includes every feature, so Free lets you try all of them, forever, with no trial needed. Paid plans add more orders and AI credits and start with a 14-day free trial, billed monthly through Shopify afterwards. Cancel anytime.' },
     { q: 'What happens if I uninstall?',
       a: 'Brix removes itself cleanly with no leftover code in your theme. Export your discounts and analytics first, and your store is exactly as it was.' }
   ];

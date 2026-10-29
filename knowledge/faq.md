@@ -12,10 +12,9 @@ experience and don't require replacing your theme.
 A: BRIX works through the Shopify app embed system, which is supported by all Online Store
 2.0 themes. Legacy (pre-2.0) themes are not supported.
 
-**Q: What happens to a feature I configure on the Free plan but haven't paid to unlock?**
-A: You can fully design and save it. The settings and live preview inside BRIX work
-normally, but it won't be shown to shoppers on your live storefront until you upgrade to a
-plan that includes it.
+**Q: Does the Free plan include every feature?**
+A: Yes. Every feature is live on every plan, including Free. The plans differ only in the
+monthly allowance of store orders and Brix AI credits.
 
 **Q: Does the Coupon Slider create discount codes for me?**
 A: No. It displays discount codes you've already created in Shopify. Brix AI can create
@@ -27,19 +26,21 @@ on the product page being viewed; Combo Forge's AI suggestions help shoppers com
 bundle. Each can run in AI mode or manual-rules mode independently.
 
 **Q: Can I remove the "Powered by BRIX" watermark?**
-A: Yes, on the Starter and Pro plans. It's always shown on the Free plan.
+A: Yes, on any plan.
 
 **Q: How many bundle pages can I build?**
-A: Zero on Free (locked), three on Starter, and unlimited on Pro.
+A: Combo Forge is included on every plan, Free too, so your plan doesn't change which bundle
+features you get. For a specific bundle volume, email support@thebrix.io.
 
 **Q: What are "AI BRIX credits"?**
 A: Each plan includes a monthly allowance of Brix AI actions (writing copy, creating a
-rule, answering a question, etc.): 10 on Free, 30 on Starter, 90 on Pro. Extra usage is
-billed per credit rather than blocked.
+rule, answering a question, etc.): 10 on Free, 20 on Lite, 30 on Starter, 60 on Growth, 90
+on Pro, and unlimited on Enterprise. For a larger allowance, move up a plan from the
+Billing dashboard.
 
 **Q: Is there a free trial?**
-A: The Free plan itself has no time limit; it's free indefinitely, with the limitations
-described in the pricing documentation. Starter and Pro both start with a 14-day free
+A: The Free plan itself has no time limit; it's free indefinitely, within its monthly
+allowances of 50 orders and 10 Brix AI credits. Every paid plan starts with a 14-day free
 trial.
 
 **Q: Can I switch plans later?**

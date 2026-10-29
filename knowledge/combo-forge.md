@@ -1,7 +1,6 @@
 # Combo Forge: Bundle Builder
 
-Starter and above to publish (locked entirely on Free). 3 bundles on Starter, unlimited on
-Pro.
+Included on every plan, Free too.
 
 Combo Forge is a dedicated page builder for multi-product bundles. Think "build your own
 gift box" or "complete the routine" pages that live outside the standard product page. You
