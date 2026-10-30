@@ -26,6 +26,7 @@ $static = [
     ['loc' => 'blog',             'freq' => 'weekly',  'pri' => '0.8'],
     ['loc' => 'how-to',           'freq' => 'monthly', 'pri' => '0.7'],
     ['loc' => 'tutorials',        'freq' => 'monthly', 'pri' => '0.7'],
+    ['loc' => 'aov-calculator',   'freq' => 'monthly', 'pri' => '0.7'],
     ['loc' => 'about',            'freq' => 'yearly',  'pri' => '0.6'],
     ['loc' => 'author/irshaad',   'freq' => 'monthly', 'pri' => '0.4'],
     ['loc' => 'contact',          'freq' => 'yearly',  'pri' => '0.5'],

@@ -993,6 +993,154 @@ body.has-preview-bar .cs-article h3[id] {
   .calc-result-fig { font-size: 1.7rem; }
 }
 
+/* ---------- AOV calculator page (/aov-calculator) ----------
+   The calculator from /digital, in the site's own theme: live (nothing
+   to press), currency chips, and a dark result panel. The inputs reuse
+   .calc-field and .calc-input from the hero calculator above. Green is
+   only the result. */
+
+.calc-tool {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: 24px;
+  max-width: 1020px;
+  margin-inline: auto;
+  padding: 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+}
+
+.calc-tool-in { padding: 8px 10px; }
+
+.calc-tool-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 14px;
+  margin-bottom: 18px;
+}
+.calc-tool-head h2 { font-size: 1.15rem; }
+.calc-tool-hint { font-size: .8rem; font-weight: 600; color: var(--brand-deep); }
+
+.calc-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.calc-chip {
+  padding: 7px 13px;
+  border: 1.5px solid var(--line);
+  border-radius: 100px;
+  background: var(--paper);
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  transition: background .16s ease, border-color .16s ease, color .16s ease;
+}
+.calc-chip:hover { border-color: var(--brand); color: var(--brand-deep); }
+.calc-chip[aria-pressed="true"] {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+.calc-chip[aria-pressed="true"]:hover { background: var(--brand-deep); border-color: var(--brand-deep); }
+
+/* the result panel */
+.calc-out {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px;
+  border-radius: var(--radius);
+  background: var(--navy);
+  color: #fff;
+}
+.calc-out::before {
+  content: "";
+  position: absolute;
+  top: -70px;
+  right: -70px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--violet) 55%, transparent), transparent 70%);
+  pointer-events: none;
+}
+.calc-out > * { position: relative; }
+
+.calc-out-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.calc-out-label { font-size: .92rem; font-weight: 600; color: rgba(255, 255, 255, .72); }
+
+.calc-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, .08);
+  color: var(--violet-3);
+  font-size: .74rem;
+  font-weight: 700;
+}
+.calc-live::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--violet-3);
+  animation: calclive 1.6s ease-out infinite;
+}
+@keyframes calclive {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--violet-3) 60%, transparent); }
+  100% { box-shadow: 0 0 0 8px transparent; }
+}
+
+.calc-out-fig {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 5vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -.03em;
+  color: var(--green);
+  transform-origin: left center;
+}
+.calc-out-fig small {
+  margin-left: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, .6);
+}
+.calc-out-fig.calc-pop { animation: calcpop .4s ease; }
+
+.calc-out-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, .12);
+  font-size: .95rem;
+  color: rgba(255, 255, 255, .72);
+}
+.calc-out-row b { color: #fff; }
+.calc-out-row b.calc-up { color: var(--green); }
+.calc-out-note { font-size: .84rem; line-height: 1.5; color: rgba(255, 255, 255, .62); }
+.calc-out .btn { margin-top: auto; }
+
+@media (max-width: 900px) {
+  .calc-tool { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 680px) {
+  .calc-tool { padding: 14px; }
+  .calc-out { padding: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calc-live::before, .calc-out-fig.calc-pop { animation: none; }
+}
+
 /* ---------- AOV calculator wizard (step-by-step, /book-a-demo) ---------- */
 
 .wiz-card {

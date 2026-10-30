@@ -219,7 +219,6 @@ h1,h2,h3,p{margin:0}
             <span class="calc-box"><span style="font-weight:700;color:#6B7680;font-size:15px">{{ wizSym }}</span><input type="number" inputmode="decimal" min="0" step="any" value="{{ wiz.ad }}" onChange="{{ onWizAd }}" placeholder="6000"></span>
           </label>
         </div>
-        <p style="font-size:13px;line-height:1.5;color:#6B7680;padding:0 4px">{{ calcFormula }}</p>
       </div>
 
       <div style="background:#0B0F14;color:#FFFFFF;border-radius:20px;padding:clamp(14px,2.8vh,28px) clamp(18px,2.6vw,28px);display:flex;flex-direction:column;gap:clamp(8px,1.6vh,14px);position:relative;overflow:hidden">
@@ -672,7 +671,7 @@ class Component extends DCLogic {
     }
   }
   // Live AOV calculator: same math as the Brix site's js/wizard.js
-  // (monthly revenue x 18.5%, the midpoint of Brix's typical 17-20% AOV lift).
+  // (monthly revenue x Brix's typical AOV lift).
   wizMoney(n) { return this.state.wiz.currency + Math.round(n).toLocaleString('en-US'); }
   calc() {
     const w = this.state.wiz;
@@ -700,8 +699,6 @@ class Component extends DCLogic {
       wizAdNote: !r ? 'Enter your average order value and monthly revenue to see your estimate.'
         : r.ad > 0 ? 'That is on top of the ' + m(r.ad) + '/mo you already spend on ads. No increase needed to get it.'
         : 'No extra ad spend needed to get there.',
-      calcFormula: r ? m(r.revenue) + ' × 18.5% = ' + m(r.missing) + ' extra a month'
-        : 'Brix lift: 18.5%, the midpoint of the typical 17–20% AOV lift.'
     };
   }
   leadVals() {

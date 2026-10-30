@@ -28,6 +28,7 @@ differ from the defaults; don't touch header.php itself for a new page.
 | [blog.php](../blog.php) | Index of blog articles (`post_type = blog`), same DB source. |
 | [how-to.php](../how-to.php) | Setup guides, anchor-linked sections. |
 | [tutorials.php](../tutorials.php) | Video tutorials; the lesson list lives in `includes/tutorials.php` and is shared with /walkthrough. |
+| [aov-calculator.php](../aov-calculator.php) | The live AOV calculator from `/digital`, rebuilt in the site theme (`js/aov-calculator.js`: no button, currency chips, same maths as `calculator.js` / `wizard.js`). Just a hero line and the calculator, nothing below it. Indexed and in the sitemap, not in the nav, no lead form. The example store is rendered in PHP too, so it is never blank. |
 | [contact.php](../contact.php) | General contact form → `contact_submissions` table via `includes/lead-form.php`. |
 | [privacy.php](../privacy.php) / [terms.php](../terms.php) | Legal boilerplate, yearly-priority in the sitemap. |
 | [404.php](../404.php) | `.htaccess` sets this as `ErrorDocument 404`. |
