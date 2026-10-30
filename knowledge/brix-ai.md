@@ -27,6 +27,6 @@ making a change; it never edits the store silently. It does not act without appr
 ## AI Brix Credits
 
 Each plan includes a monthly allowance of Brix AI actions (writing copy, creating a rule,
-answering a question, etc.): 10 on Free, 20 on Lite, 30 on Starter, 60 on Growth and 90 on
-Pro; Enterprise has unlimited credits. A merchant who wants a larger monthly allowance can
+answering a question, etc.): 10 on Free, 20 on Lite, 30 on Starter, 60 on Growth, 90 on Pro,
+120 on Scale and 200 on Unlimited. A merchant who wants a larger monthly allowance can
 upgrade from the Billing dashboard.

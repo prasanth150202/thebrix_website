@@ -15,20 +15,23 @@ BRIX is organized into five feature groups. Every group is available on every pl
 ## Feature Availability by Plan
 
 Every feature is live on every plan, including Free. The paid plans raise the monthly
-order allowance and the Brix AI credit allowance; they do not unlock extra features.
+order allowance and the Brix AI credit allowance, and remove the “Powered by BRIX”
+watermark that the Free plan shows.
 
-| | Free | Lite | Starter | Growth | Pro | Enterprise |
-|---|---|---|---|---|---|---|
-| Price | $0/mo | $9/mo | $29/mo | $59/mo | $79/mo | $99/mo |
-| Orders per month | 50 | 100–200 | 200–500 | 500–1,000 | 1,000–2,000 | Unlimited |
-| AI prompt credits per month | 10, to try Brix AI | 20, for light tuning | 30, for regular tweaks | 60, for frequent edits | 90, for heavy AI use | Unlimited |
-| AI Cart Upsell | Live | Live | Live | Live | Live | Live |
-| FBT, AI Suggestion, Smart Recommendations | Live | Live | Live | Live | Live | Live |
-| Rewards Progress Bar | Live | Live | Live | Live | Live | Live |
-| Coupon Slider, Countdown Timer | Live | Live | Live | Live | Live | Live |
-| Bundle Builder, Packs | Live | Live | Live | Live | Live | Live |
-| COD Button + Prepaid Discount | Live | Live | Live | Live | Live | Live |
-| Mobile Swipe Checkout, AI Insights | Live | Live | Live | Live | Live | Live |
+| | Free | Lite | Starter | Growth | Pro | Scale | Unlimited |
+|---|---|---|---|---|---|---|---|
+| Price | $0/mo | $9/mo | $29/mo | $59/mo | $79/mo | $99/mo | $199/mo |
+| Price per year | n/a | $90 | $290 | $590 | $790 | $990 | $1,990 |
+| Orders per month | up to 50 | 51–250 | 251–500 | 501–2,000 | 2,001–5,000 | 5,001–10,000 | No limit |
+| AI prompt based feature update (credits per month) | 10 | 20 | 30 | 60 | 90 | 120 | 200 |
+| “Powered by BRIX” watermark | Shown | Removed | Removed | Removed | Removed | Removed | Removed |
+| Zero Commissions & No Extra Charges | Live | Live | Live | Live | Live | Live | Live |
+| COD Checkouts - Prepaid Order Booster | Live | Live | Live | Live | Live | Live | Live |
+| AI Cart Upsell - Increase your Store AOV | Live | Live | Live | Live | Live | Live | Live |
+| AI Bundles - Smart Bundles & Packs | Live | Live | Live | Live | Live | Live | Live |
+| AI Based FBT - For Product & Cart Pages | Live | Live | Live | Live | Live | Live | Live |
+| Rewards Progress Bar & Announcement Bar | Live | Live | Live | Live | Live | Live | Live |
+| Coupon Slider, Countdown Timer | Live | Live | Live | Live | Live | Live | Live |
 
 ## Feature Recommendation Guide
 

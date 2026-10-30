@@ -85,4 +85,4 @@ An in-dashboard AI assistant that manages your features in plain English.
 - **Swipe-to-checkout:** A mobile gesture that takes shoppers straight to payment
 - **Custom CSS editor:** Full pixel-perfect control
 - **Multi-store support:** Run every storefront from one Brix account, on any plan
-- **Branding removal:** Remove "Powered by BRIX" watermark, on any plan
+- **Branding removal:** Remove "Powered by BRIX" watermark, on any paid plan

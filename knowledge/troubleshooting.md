@@ -45,7 +45,7 @@ that specific tier (each tier has its own product picker).
 ## Brix AI says I'm out of credits
 
 You've used your plan's monthly AI credit allowance (10 on Free, 20 on Lite, 30 on Starter,
-60 on Growth, 90 on Pro; Enterprise has unlimited credits). To get a larger allowance,
+60 on Growth, 90 on Pro, 120 on Scale, 200 on Unlimited). To get a larger allowance,
 upgrade your plan from the Billing dashboard.
 
 ## My analytics numbers look locked or blurred

@@ -448,67 +448,97 @@ require BRIX_INCLUDES . '/header.php';
     <div class="section-head reveal">
       <p class="eyebrow">Pricing</p>
       <h2>Start on free. Pay when it has already paid off.</h2>
-      <p class="section-sub">Every plan includes every feature, and Free is free forever, so you can see your first lift before you spend anything. Paid plans bill through Shopify, and you cancel from your Shopify admin.</p>
+      <p class="section-sub">Every plan includes every feature, and Free is free forever, so you can see your first lift before you spend anything. Free shows a “Powered by BRIX” watermark that paid plans remove. Paid plans bill through Shopify, and you cancel from your Shopify admin.</p>
+    </div>
+    <div class="bill-toggle-wrap" data-bill-toggle hidden>
+      <div class="bill-toggle" role="group" aria-label="Billing period">
+        <button type="button" class="bill-opt is-on" data-bill="month" aria-pressed="true">Monthly</button>
+        <button type="button" class="bill-opt" data-bill="year" aria-pressed="false">Yearly <span class="bill-save">2 months free</span></button>
+      </div>
     </div>
     <div class="lp-price-grid">
       <div class="lp-price reveal">
         <h3>Free</h3>
         <p class="lp-price-fig"><b>$0</b><span>/month</span></p>
+        <p class="price-year">No credit card needed</p>
         <p class="lp-price-for">Up to 50 orders a month</p>
         <ul class="lp-price-list">
           <li>All features included</li>
-          <li>10 AI prompt credits to try Brix AI</li>
+          <li>AI prompt based feature update - 10 credits</li>
+          <li class="is-off">Shows a “Powered by BRIX” watermark</li>
         </ul>
         <a class="btn btn-ghost lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Install free</a>
       </div>
       <div class="lp-price reveal" style="--d:.06s">
         <h3>Lite</h3>
-        <p class="lp-price-fig"><b>$9</b><span>/month</span></p>
-        <p class="lp-price-for">100–200 orders a month</p>
+        <p class="lp-price-fig" data-monthly="$9" data-yearly="$90"><b>$9</b><span>/month</span></p>
+        <p class="price-year" data-monthly="or $90 billed yearly" data-yearly="Save $18 a year">or $90 billed yearly</p>
+        <p class="lp-price-for">51–250 orders a month</p>
         <ul class="lp-price-list">
           <li>All features included</li>
-          <li>20 AI prompt credits for light tuning</li>
+          <li>AI prompt based feature update - 20 credits</li>
+          <li>No “Powered by BRIX” watermark</li>
         </ul>
         <a class="btn btn-ghost lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Start free trial</a>
       </div>
       <div class="lp-price lp-price-hot reveal" style="--d:.12s">
         <span class="lp-price-flag">Most popular</span>
         <h3>Starter</h3>
-        <p class="lp-price-fig"><b>$29</b><span>/month</span></p>
-        <p class="lp-price-for">200–500 orders a month</p>
+        <p class="lp-price-fig" data-monthly="$29" data-yearly="$290"><b>$29</b><span>/month</span></p>
+        <p class="price-year" data-monthly="or $290 billed yearly" data-yearly="Save $58 a year">or $290 billed yearly</p>
+        <p class="lp-price-for">251–500 orders a month</p>
         <ul class="lp-price-list">
           <li>All features included</li>
-          <li>30 AI prompt credits for regular tweaks</li>
+          <li>AI prompt based feature update - 30 credits</li>
+          <li>No “Powered by BRIX” watermark</li>
         </ul>
         <a class="btn btn-primary lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Start free trial</a>
       </div>
       <div class="lp-price reveal" style="--d:.18s">
         <h3>Growth</h3>
-        <p class="lp-price-fig"><b>$59</b><span>/month</span></p>
-        <p class="lp-price-for">500–1,000 orders a month</p>
+        <p class="lp-price-fig" data-monthly="$59" data-yearly="$590"><b>$59</b><span>/month</span></p>
+        <p class="price-year" data-monthly="or $590 billed yearly" data-yearly="Save $118 a year">or $590 billed yearly</p>
+        <p class="lp-price-for">501–2,000 orders a month</p>
         <ul class="lp-price-list">
           <li>All features included</li>
-          <li>60 AI prompt credits for frequent edits</li>
+          <li>AI prompt based feature update - 60 credits</li>
+          <li>No “Powered by BRIX” watermark</li>
         </ul>
         <a class="btn btn-ghost lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Start free trial</a>
       </div>
       <div class="lp-price reveal" style="--d:.24s">
         <h3>Pro</h3>
-        <p class="lp-price-fig"><b>$79</b><span>/month</span></p>
-        <p class="lp-price-for">1,000–2,000 orders a month</p>
+        <p class="lp-price-fig" data-monthly="$79" data-yearly="$790"><b>$79</b><span>/month</span></p>
+        <p class="price-year" data-monthly="or $790 billed yearly" data-yearly="Save $158 a year">or $790 billed yearly</p>
+        <p class="lp-price-for">2,001–5,000 orders a month</p>
         <ul class="lp-price-list">
           <li>All features included</li>
-          <li>90 AI prompt credits for heavy AI use</li>
+          <li>AI prompt based feature update - 90 credits</li>
+          <li>No “Powered by BRIX” watermark</li>
         </ul>
         <a class="btn btn-ghost lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Start free trial</a>
       </div>
-      <div class="lp-price reveal" style="--d:.3s">
-        <h3>Enterprise</h3>
-        <p class="lp-price-fig"><b>$99</b><span>/month</span></p>
+      <div class="lp-price reveal" style="--d:.30s">
+        <h3>Scale</h3>
+        <p class="lp-price-fig" data-monthly="$99" data-yearly="$990"><b>$99</b><span>/month</span></p>
+        <p class="price-year" data-monthly="or $990 billed yearly" data-yearly="Save $198 a year">or $990 billed yearly</p>
+        <p class="lp-price-for">5,001–10,000 orders a month</p>
+        <ul class="lp-price-list">
+          <li>All features included</li>
+          <li>AI prompt based feature update - 120 credits</li>
+          <li>No “Powered by BRIX” watermark</li>
+        </ul>
+        <a class="btn btn-ghost lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Start free trial</a>
+      </div>
+      <div class="lp-price reveal" style="--d:.36s">
+        <h3>Unlimited</h3>
+        <p class="lp-price-fig" data-monthly="$199" data-yearly="$1,990"><b>$199</b><span>/month</span></p>
+        <p class="price-year" data-monthly="or $1,990 billed yearly" data-yearly="Save $398 a year">or $1,990 billed yearly</p>
         <p class="lp-price-for">Unlimited orders</p>
         <ul class="lp-price-list">
           <li>All features included</li>
-          <li>Unlimited AI prompt credits</li>
+          <li>AI prompt based feature update - 200 credits</li>
+          <li>No “Powered by BRIX” watermark</li>
         </ul>
         <a class="btn btn-ghost lp-price-cta" href="<?= e(SHOPIFY_APP_URL) ?>" target="_blank" rel="noopener">Start free trial</a>
       </div>
@@ -516,13 +546,14 @@ require BRIX_INCLUDES . '/header.php';
     <div class="price-includes reveal" style="--d:.1s">
       <h3>Every plan includes</h3>
       <ul class="price-list">
-        <li>AI Cart Upsell</li>
-        <li>FBT, AI Suggestion, Smart Recommendations</li>
-        <li>Rewards Progress Bar</li>
+        <li>Zero Commissions &amp; No Extra Charges</li>
+        <li>COD Checkouts - Prepaid Order Booster</li>
+        <li>AI Cart Upsell - Increase your Store AOV</li>
+        <li>AI Bundles - Smart Bundles &amp; Packs</li>
+        <li>AI Based FBT - For Product &amp; Cart Pages</li>
+        <li>AI prompt based feature update (credits vary by plan)</li>
+        <li>Rewards Progress Bar &amp; Announcement Bar</li>
         <li>Coupon Slider, Countdown Timer</li>
-        <li>Bundle Builder, Packs</li>
-        <li>COD Button + Prepaid Discount</li>
-        <li>Mobile Swipe Checkout, AI Insights</li>
       </ul>
     </div>
   </div>
@@ -550,7 +581,7 @@ require BRIX_INCLUDES . '/header.php';
       </details>
       <details class="faq-item">
         <summary>Do I have to pay to find out if it works?<span class="faq-ic"></span></summary>
-        <p>No. Free includes the analytics, so you can watch the revenue and AOV numbers move before you spend anything. Every paid plan adds a 14-day free trial on top of that.</p>
+        <p>No. Free includes the analytics, so you can watch the revenue and AOV numbers move before you spend anything. Every paid plan adds a 7-day free trial on top of that.</p>
       </details>
       <details class="faq-item">
         <summary>How do I cancel?<span class="faq-ic"></span></summary>

@@ -429,7 +429,7 @@ require BRIX_INCLUDES . '/header.php';
       <div class="xtra reveal"><b>Custom CSS editor</b><span>Full control for the pixel-perfect brands.</span></div>
       <div class="xtra reveal" style="--d:.04s"><b>Funnels &amp; attribution</b><span>See the path from nudge to checkout, dollar by dollar.</span></div>
       <div class="xtra reveal" style="--d:.08s"><b>Multi-store support</b><span>Run every storefront from one Brix account, on any plan.</span></div>
-      <div class="xtra reveal" style="--d:.12s"><b>Branding removal</b><span>Remove the “Powered by BRIX” watermark, on any plan.</span></div>
+      <div class="xtra reveal" style="--d:.12s"><b>Branding removal</b><span>Remove the “Powered by BRIX” watermark on any paid plan.</span></div>
     </div>
   </div>
 </section>
