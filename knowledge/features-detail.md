@@ -49,10 +49,7 @@ Build combo deals visually — no discount-code maze.
 - **Inventory aware:** Out-of-stock items drop out of bundles automatically
 - Brix generates the combo page, cart logic, and discount — all in sync
 
-**Plan limits:**
-- Free: 0 bundles (locked)
-- Starter: up to 3 bundles
-- Pro: unlimited bundles
+Combo Forge is included on every plan, Free too.
 
 ## 05 · Analytics & AI Insights
 
@@ -64,7 +61,7 @@ Brix shows you cause and effect — which tier, which upsell, which bundle earne
 - **Weekly email digest:** Your AOV story in three bullets every Monday
 - **Funnels & attribution:** See the path from nudge to checkout, dollar by dollar
 
-AI Analytics and Advanced AI Analytics are Pro plan features.
+AI Analytics and Advanced AI Analytics are available on every plan.
 
 ## 06 · Brix AI Chat
 
@@ -87,5 +84,5 @@ An in-dashboard AI assistant that manages your features in plain English.
 - **Coupon banner targeting:** Show offers only on specific products or collections
 - **Swipe-to-checkout:** A mobile gesture that takes shoppers straight to payment
 - **Custom CSS editor:** Full pixel-perfect control
-- **Multi-store support:** Run every storefront from one Brix account on Pro
-- **Branding removal:** Remove "Powered by BRIX" watermark on Starter and Pro
+- **Multi-store support:** Run every storefront from one Brix account, on any plan
+- **Branding removal:** Remove "Powered by BRIX" watermark, on any paid plan

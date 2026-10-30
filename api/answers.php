@@ -8,8 +8,8 @@
  * off-message.
  *
  * Generated from the original answers.js so the wording is byte-identical.
- * Answers are nowdoc strings: no interpolation, so the "$29" and "$0.10" in
- * the pricing copy stay literal.
+ * Answers are nowdoc strings: no interpolation, so the "$9", "$29", "$59",
+ * "$79", "$99" and "$199" in the pricing copy stay literal.
  */
 
 declare(strict_types=1);
@@ -118,30 +118,52 @@ BRIX_TXT,
         'id'     => 9,
         'topic'  => "Pricing overview / how much does BRIX cost / all plans",
         'answer' => <<<'BRIX_TXT'
-BRIX has three plans:
+BRIX has seven plans, and every plan includes the same features:
+- Zero Commissions & No Extra Charges
+- COD Checkouts - Prepaid Order Booster
+- AI Cart Upsell - Increase your Store AOV
+- AI Bundles - Smart Bundles & Packs
+- AI Based FBT - For Product & Cart Pages
+- AI prompt based feature update (credits vary by plan)
+- Rewards Progress Bar & Announcement Bar
+- Coupon Slider, Countdown Timer
+
+What changes is how many orders and AI prompt credits you get each month, and that the Free plan shows a “Powered by BRIX” watermark which every paid plan removes. Every paid plan can also be billed yearly:
 
  FREE — $0/month
-- 50 orders/month included
-- Cart Drawer, Announcement Bar, Brix AI (10 credits/month)
-- Most features are preview-only (not live on storefront)
-- "Powered by BRIX" watermark always shown
+- Up to 50 orders/month
+- AI prompt based feature update - 10 credits
+- Shows a “Powered by BRIX” watermark
 
- STARTER — $29/month (most popular)
-- 500 orders/month included
-- All features live: FBT, Coupon Slider, Rewards Bar, Cart Upsell, Countdown Timers, Custom CSS
-- Up to 3 Combo Forge bundles
-- 30 Brix AI credits/month
-- Watermark removable
-- 14-day free trial
+ LITE — $9/month or $90/year
+- 51–250 orders/month
+- AI prompt based feature update - 20 credits
+- 7-day free trial
 
- PRO — $79/month
-- Unlimited orders
-- Everything in Starter plus: AI Analytics, Advanced AI Analytics
-- Unlimited Combo Forge bundles
-- 90 Brix AI credits/month
-- 14-day free trial
+ STARTER — $29/month or $290/year (most popular)
+- 251–500 orders/month
+- AI prompt based feature update - 30 credits
+- 7-day free trial
 
-All plans can be billed annually at a discount ($290/yr Starter, $790/yr Pro).
+ GROWTH — $59/month or $590/year
+- 501–2,000 orders/month
+- AI prompt based feature update - 60 credits
+- 7-day free trial
+
+ PRO — $79/month or $790/year
+- 2,001–5,000 orders/month
+- AI prompt based feature update - 90 credits
+- 7-day free trial
+
+ SCALE — $99/month or $990/year
+- 5,001–10,000 orders/month
+- AI prompt based feature update - 120 credits
+- 7-day free trial
+
+ UNLIMITED — $199/month or $1,990/year
+- No order limit
+- AI prompt based feature update - 200 credits
+- 7-day free trial
 BRIX_TXT,
     ],
     [
@@ -151,54 +173,67 @@ BRIX_TXT,
 The Free plan is free forever — no time limit, no credit card required.
 
 What's included:
-- Cart Drawer, Announcement Bar, Empty Cart customisation
-- Brix AI (10 credits/month)
-- 50 orders/month (extra orders billed at $0.10 each)
-- Full feature preview inside the dashboard
+- Zero Commissions & No Extra Charges
+- COD Checkouts - Prepaid Order Booster
+- AI Cart Upsell - Increase your Store AOV
+- AI Bundles - Smart Bundles & Packs
+- AI Based FBT - For Product & Cart Pages
+- Rewards Progress Bar & Announcement Bar
+- Coupon Slider, Countdown Timer
+- Up to 50 orders/month
+- AI prompt based feature update - 10 credits
+- Shows a “Powered by BRIX” watermark
 
-Limitations:
-- Most premium features (FBT, Rewards, Cart Upsell, Coupons) are preview-only — they won't appear on your live storefront until you upgrade
-- Combo Forge (bundles) is locked
-- "Powered by BRIX" watermark is always shown
+The paid plans give you more orders and more Brix AI credits each month, and remove the watermark.
 BRIX_TXT,
     ],
     [
         'id'     => 11,
-        'topic'  => "Starter plan details / \$29 plan features",
+        'topic'  => "Lite plan details / \$9 plan / Starter plan details / \$29 plan features",
         'answer' => <<<'BRIX_TXT'
-The Starter plan costs $29/month (or $290/year) and includes a 14-day free trial.
+Lite costs $9/month and Starter costs $29/month. Both include a 7-day free trial.
 
-What's included:
-- 500 orders/month (extra orders billed at $0.30 each)
-- 30 Brix AI credits/month
-- All features live on your storefront: FBT, Coupon Slider, Rewards Progress Bar, Cart Upsell, Confetti, Mobile Swipe Checkout, Custom CSS, Countdown Timers
-- Up to 3 Combo Forge bundle pages
-- Watermark removable
-- Priority email support + 24/7 AI support
+LITE ($9/month or $90/year)
+- 51–250 orders/month
+- AI prompt based feature update - 20 credits
+
+STARTER ($29/month or $290/year, most popular)
+- 251–500 orders/month
+- AI prompt based feature update - 30 credits
+
+Both plans have the same features as every other plan, live on your storefront: Zero Commissions & No Extra Charges; COD Checkouts - Prepaid Order Booster; AI Cart Upsell - Increase your Store AOV; AI Bundles - Smart Bundles & Packs; AI Based FBT - For Product & Cart Pages; Rewards Progress Bar & Announcement Bar; and Coupon Slider, Countdown Timer.
 BRIX_TXT,
     ],
     [
         'id'     => 12,
-        'topic'  => "Pro plan details / \$79 plan features / high volume",
+        'topic'  => "Growth plan details / \$59 plan / Pro plan details / \$79 plan / Scale plan details / \$99 plan / Unlimited plan details / \$199 plan / unlimited orders / high volume",
         'answer' => <<<'BRIX_TXT'
-The Pro plan costs $79/month (or $790/year) and includes a 14-day free trial.
+Growth costs $59/month, Pro $79/month, Scale $99/month and Unlimited $199/month. All four include a 7-day free trial.
 
-What's included:
-- Unlimited orders — no overage charges
-- 90 Brix AI credits/month
-- Everything in Starter, plus:
-  - AI Analytics
-  - Advanced AI Analytics
-  - Unlimited Combo Forge bundles
-  - Unlimited Brix AI usage across your team
-- Watermark removable
+GROWTH ($59/month or $590/year)
+- 501–2,000 orders/month
+- AI prompt based feature update - 60 credits
+
+PRO ($79/month or $790/year)
+- 2,001–5,000 orders/month
+- AI prompt based feature update - 90 credits
+
+SCALE ($99/month or $990/year)
+- 5,001–10,000 orders/month
+- AI prompt based feature update - 120 credits
+
+UNLIMITED ($199/month or $1,990/year)
+- No order limit
+- AI prompt based feature update - 200 credits
+
+All four have the same features as every other plan (see the pricing overview for the full list). They are for stores with a higher order volume.
 BRIX_TXT,
     ],
     [
         'id'     => 13,
         'topic'  => "Free trial / is there a trial period",
         'answer' => <<<'BRIX_TXT'
-Yes! Both the Starter and Pro plans include a 14-day free trial — no credit card required upfront. You're billed monthly through Shopify after the trial ends.
+Yes! Every paid plan (Lite, Starter, Growth, Pro, Scale and Unlimited) includes a 7-day free trial — no credit card required upfront. You're billed monthly through Shopify after the trial ends.
 
 The Free plan has no trial because it's free indefinitely — no time limit.
 BRIX_TXT,
@@ -223,23 +258,31 @@ BRIX_TXT,
         'id'     => 16,
         'topic'  => "Order limit / what happens if I exceed order limit / overage",
         'answer' => <<<'BRIX_TXT'
-If you exceed your monthly order allowance, extra orders are billed automatically through Shopify at your plan's overage rate:
-- Free: $0.10 per extra order
-- Starter: $0.30 per extra order
-- Pro: Unlimited — no overage charges
+If you go over your monthly order allowance, your app is never blocked or paused. We'll email you to suggest the next plan, and we never switch your plan or charge you without your say-so.
 
-Your app is never blocked or paused due to overage. The extra charges simply appear in your Shopify billing.
+Monthly order allowances:
+- Free: up to 50 orders
+- Lite: 51–250 orders
+- Starter: 251–500 orders
+- Growth: 501–2,000 orders
+- Pro: 2,001–5,000 orders
+- Scale: 5,001–10,000 orders
+- Unlimited: no limit, so there is no order limit to go over
 BRIX_TXT,
     ],
     [
         'id'     => 17,
         'topic'  => "Annual billing / yearly plan / discount for annual",
         'answer' => <<<'BRIX_TXT'
-Yes, BRIX offers annual billing at a discount:
-- Starter: $290/year (saves ~$58 vs monthly)
-- Pro: $790/year (saves ~$158 vs monthly)
+Yes, every paid plan can be billed yearly:
+- Lite: $90/year
+- Starter: $290/year
+- Growth: $590/year
+- Pro: $790/year
+- Scale: $990/year
+- Unlimited: $1,990/year
 
-You can switch to annual billing from your BRIX Billing dashboard.
+Monthly prices are Lite $9, Starter $29, Growth $59, Pro $79, Scale $99 and Unlimited $199. Questions about yearly billing: support@thebrix.io.
 BRIX_TXT,
     ],
     [
@@ -420,7 +463,7 @@ Features:
 - Inventory-aware: out-of-stock items automatically drop out of bundles
 - Brix AI can write bundle copy (titles, descriptions, step names) for you
 
-Bundle page limits: 0 on Free, 3 on Starter, unlimited on Pro.
+Combo Forge is included on every plan, Free too.
 BRIX_TXT,
     ],
     [
@@ -442,12 +485,9 @@ BRIX_TXT,
         'id'     => 34,
         'topic'  => "How many bundles can I create / bundle limit per plan",
         'answer' => <<<'BRIX_TXT'
-Bundle limits per plan:
-- Free: 0 bundles (Combo Forge is locked)
-- Starter: up to 3 published bundles
-- Pro: Unlimited bundles
+Combo Forge is included on every plan, Free too, so your plan doesn't change which bundle features you get. Plans differ in monthly orders, Brix AI credits and the “Powered by BRIX” watermark (Free only).
 
-You can upgrade your plan anytime from the BRIX Billing dashboard to unlock more bundles.
+If you need to know about a specific bundle volume, email support@thebrix.io.
 BRIX_TXT,
     ],
     [
@@ -479,12 +519,16 @@ BRIX_TXT,
         'id'     => 37,
         'topic'  => "How many AI credits do I get / Brix AI credit limit",
         'answer' => <<<'BRIX_TXT'
-Brix AI credits per plan per month:
-- Free: 10 credits/month (extra billed at $0.01/credit)
-- Starter: 30 credits/month (extra billed at $0.03/credit)
-- Pro: 90 credits/month (extra billed at $0.09/credit)
+AI prompt credits per plan per month:
+- Free: 10 credits
+- Lite: 20 credits
+- Starter: 30 credits
+- Growth: 60 credits
+- Pro: 90 credits
+- Scale: 120 credits
+- Unlimited: 200 credits
 
-Each credit covers one AI action: writing a piece of copy, creating a rule, generating a recommendation, answering a question, etc. Extra usage is billed automatically — your AI is never blocked.
+Each credit covers one AI action: writing a piece of copy, creating a rule, generating a recommendation, answering a question, etc. For more credits each month, move up a plan from the BRIX Billing dashboard.
 BRIX_TXT,
     ],
     [
@@ -509,10 +553,10 @@ BRIX Analytics shows you exactly which features are driving revenue:
 - Tier funnel: how many carts reach each reward tier and where they drop off
 - Upsell attach rate: percentage of carts that added an upsell product
 - AOV trend over time
-- AI insight cards: specific suggestions with projected revenue impact (Starter and Pro)
-- Weekly email digest: your AOV story in three bullets every Monday (Pro)
+- AI insight cards: specific suggestions with projected revenue impact
+- Weekly email digest: your AOV story in three bullets every Monday
 
-Full analytics are available on Starter and Pro. The Free plan has limited analytics access.
+Every analytics view is available on every plan.
 BRIX_TXT,
     ],
     [
@@ -537,11 +581,9 @@ BRIX_TXT,
         'id'     => 42,
         'topic'  => "How to remove watermark / powered by BRIX / remove branding",
         'answer' => <<<'BRIX_TXT'
-The "Powered by BRIX" watermark is shown on the Free plan and can be removed on the Starter and Pro plans.
+The "Powered by BRIX" watermark is shown on the Free plan and is removed on every paid plan.
 
-To remove it:
-1. Upgrade to Starter or Pro from your BRIX Billing dashboard.
-2. In the Cart Editor, go to footer settings and toggle off the watermark.
+To remove it, upgrade to a paid plan from your BRIX Billing dashboard, then go to footer settings in the Cart Editor and toggle off the watermark.
 BRIX_TXT,
     ],
     [
@@ -557,7 +599,7 @@ BRIX_TXT,
         'id'     => 44,
         'topic'  => "Custom CSS / advanced theme customisation",
         'answer' => <<<'BRIX_TXT'
-Yes, BRIX includes a Custom CSS editor for pixel-perfect control over the cart drawer and widget appearance. This is available on the Starter and Pro plans.
+Yes, BRIX includes a Custom CSS editor for pixel-perfect control over the cart drawer and widget appearance. This is available on every plan.
 
 You can access it in the Cart Editor → Footer & Advanced Options.
 BRIX_TXT,
@@ -609,23 +651,20 @@ BRIX_TXT,
         'id'     => 49,
         'topic'  => "What features work on the free plan / free plan limitations / preview mode",
         'answer' => <<<'BRIX_TXT'
-On the Free plan, you can fully configure and preview all features inside the BRIX dashboard — but most premium features will NOT appear on your live storefront until you upgrade.
+Every feature works on the Free plan, live on your storefront. Nothing is preview-only.
 
 Features live on Free:
-- Cart Drawer (basic)
+- Cart Drawer
 - Announcement Bar
 - Empty Cart customisation
-- Brix AI (10 credits/month)
-
-Preview-only on Free (visible in dashboard but not on store):
 - Rewards Progress Bar
 - Cart Upsell
 - FBT (Frequently Bought Together)
 - Coupon Slider
 - Countdown Timers
-- Combo Forge (completely locked)
+- Combo Forge
 
-This lets you set everything up and evaluate every feature before committing to a paid plan.
+The Free plan's limits are 50 orders/month and 10 AI prompt credits/month. Free also shows the “Powered by BRIX” watermark. Paid plans raise those two limits and remove the watermark.
 BRIX_TXT,
     ],
     [
@@ -636,14 +675,14 @@ You can reach the BRIX support team at:
 
 support@thebrix.io
 
-Starter and Pro plan members also have access to 24/7 AI support inside the BRIX dashboard. For urgent issues, email is the fastest route to a human.
+24/7 AI support is available inside the BRIX dashboard on every plan. For urgent issues, email is the fastest route to a human.
 BRIX_TXT,
     ],
     [
         'id'     => 51,
         'topic'  => "Response time / how fast is support / SLA",
         'answer' => <<<'BRIX_TXT'
-The BRIX team aims to respond to all support emails within one business day. Priority email support is included on the Starter and Pro plans.
+The BRIX team aims to respond to all support emails within one business day. Priority email support is included on every plan.
 
 For general questions, the Brix AI assistant inside the dashboard is available 24/7 and can answer most product questions instantly.
 BRIX_TXT,
@@ -652,7 +691,7 @@ BRIX_TXT,
         'id'     => 52,
         'topic'  => "Multi-store support / can I use one BRIX account for multiple stores",
         'answer' => <<<'BRIX_TXT'
-Yes. The Pro plan supports multiple storefronts from a single BRIX account. If you need to manage several Shopify stores, Pro is the right plan.
+Yes. A single BRIX account can run multiple storefronts, on any plan.
 
 For details on multi-store setup, email support@thebrix.io.
 BRIX_TXT,
@@ -670,7 +709,7 @@ BRIX_TXT,
         'answer' => <<<'BRIX_TXT'
 Confetti is a celebratory animation that fires in the cart when a customer unlocks a reward tier. It's a small but effective engagement moment that reinforces the reward.
 
-You can enable or disable it in the Cart Editor under body features. It's available on the Starter and Pro plans.
+You can enable or disable it in the Cart Editor under body features. It's available on every plan.
 BRIX_TXT,
     ],
     [
@@ -679,7 +718,7 @@ BRIX_TXT,
         'answer' => <<<'BRIX_TXT'
 BRIX includes a Mobile Swipe Checkout feature — a swipe gesture on mobile that takes shoppers directly to the payment screen, reducing friction on mobile devices.
 
-This is available on Starter and Pro plans. You can enable it in the Cart Editor settings.
+This is available on every plan. You can enable it in the Cart Editor settings.
 BRIX_TXT,
     ],
     [
@@ -706,7 +745,7 @@ BRIX_TXT,
         'answer' => <<<'BRIX_TXT'
 Yes. You can add countdown timers to your Coupon Banner offers to create urgency. When enabled, a visible clock counts down next to the offer.
 
-Countdown timers are available on the Starter and Pro plans and are configured inside the Coupon Banner settings.
+Countdown timers are available on every plan and are configured inside the Coupon Banner settings.
 BRIX_TXT,
     ],
     ];

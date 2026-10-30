@@ -27,7 +27,6 @@ making a change; it never edits the store silently. It does not act without appr
 ## AI Brix Credits
 
 Each plan includes a monthly allowance of Brix AI actions (writing copy, creating a rule,
-answering a question, etc.): 10 on Free, 30 on Starter, 90 on Pro. Extra usage beyond the
-allowance is billed automatically at the plan's per-credit overage rate. No action is
-needed unless the merchant wants to upgrade for a larger included allowance. Brix AI is
-never blocked, even over the monthly allowance.
+answering a question, etc.): 10 on Free, 20 on Lite, 30 on Starter, 60 on Growth, 90 on Pro,
+120 on Scale and 200 on Unlimited. A merchant who wants a larger monthly allowance can
+upgrade from the Billing dashboard.

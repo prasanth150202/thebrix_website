@@ -54,6 +54,13 @@ h1,h2,h3,p{margin:0}
 @media (max-width:760px){.hx-feats{grid-template-columns:1fr!important}}
 @media (max-width:760px){.lf-grid{grid-template-columns:1fr!important}.lf-points{display:none!important}}
 @media (max-width:480px){.lf-form{grid-template-columns:1fr!important}}
+.pl-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:20px;align-items:stretch}
+.pl-card{grid-column:span 2;display:flex;flex-direction:column;gap:20px;padding:28px;border-radius:24px}
+.pl-card:nth-child(5){grid-column:2 / span 2}
+@media (max-width:1020px){.pl-grid{grid-template-columns:repeat(2,1fr)}.pl-card,.pl-card:nth-child(5){grid-column:auto}.pl-card:nth-child(7){grid-column:1 / -1;width:calc(50% - 10px);justify-self:center}}
+@media (max-width:680px){.pl-grid{grid-template-columns:1fr}.pl-card:nth-child(7){width:auto;justify-self:stretch}}
+.bill-chip{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:10px 20px;font:700 14px 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;transition:background .15s,color .15s}
+.bill-chip:focus-visible{outline:2px solid #1597E5;outline-offset:2px}
 .sticky-demo{
   position:fixed;
   left:0;
@@ -325,28 +332,49 @@ h1,h2,h3,p{margin:0}
     <div style="display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center">
       <span style="font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#1597E5">Pricing</span>
       <h2 style="font-size:clamp(32px,4vw,48px);line-height:1.08;letter-spacing:-0.03em;font-weight:800">Starts free. Scales when you do.</h2>
-      <p style="font-size:18px;color:#4A5560">Free is free forever. Starter and Pro are billed monthly. Cancel anytime.</p>
+      <p style="font-size:18px;color:#4A5560">Every plan includes every feature. Free is free forever and shows a “Powered by BRIX” watermark; paid plans remove it, start with a 7-day free trial and can be billed monthly or yearly. Cancel anytime.</p>
+      <div role="group" aria-label="Billing period" style="display:inline-flex;gap:4px;padding:4px;margin-top:12px;background:#F1F4F6;border:1px solid #E7ECEF;border-radius:999px">
+        <button type="button" class="bill-chip" onClick="{{ billMonth }}" aria-pressed="{{ billIsMonth }}" style="background:{{ billBgMonth }};color:{{ billFgMonth }}">Monthly</button>
+        <button type="button" class="bill-chip" onClick="{{ billYear }}" aria-pressed="{{ billIsYear }}" style="background:{{ billBgYear }};color:{{ billFgYear }}">Yearly<span style="font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;background:#1DBF73;color:#0B0F14">2 months free</span></button>
+      </div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;align-items:stretch">
-      <sc-for list="{{ plans }}" as="p" hint-placeholder-count="3">
-        <div style="border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:22px;background:{{ p.bg }};color:{{ p.fg }};border:1px solid {{ p.border }}">
+    <div class="pl-grid">
+      <sc-for list="{{ plans }}" as="p" hint-placeholder-count="7">
+        <div class="pl-card" style="background:{{ p.bg }};color:{{ p.fg }};border:1px solid {{ p.border }}">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
             <h3 style="font-size:20px;font-weight:700">{{ p.name }}</h3>
             <span style="font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:{{ p.tagBg }};color:{{ p.tagFg }}">{{ p.tag }}</span>
           </div>
-          <div style="display:flex;align-items:baseline;gap:6px">
-            <span style="font-size:52px;font-weight:800;letter-spacing:-0.04em">{{ p.price }}</span>
-            <span style="font-size:15px;opacity:0.7">/month</span>
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 6px">
+            <span style="font-size:44px;font-weight:800;letter-spacing:-0.04em">{{ p.price }}</span>
+            <span style="font-size:15px;opacity:0.7">{{ p.unit }}</span>
           </div>
+          <span style="font-size:14px;margin-top:-12px;opacity:{{ p.yearOpacity }};color:{{ p.yearColor }};font-weight:{{ p.yearWeight }}">{{ p.year }}</span>
           <span style="font-size:15px;font-weight:600;opacity:0.85">{{ p.sub }}</span>
           <div style="display:flex;flex-direction:column;gap:12px;flex:1">
             <sc-for list="{{ p.items }}" as="it" hint-placeholder-count="4">
               <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">{{ it }}</span></div>
             </sc-for>
+            <sc-for list="{{ p.off }}" as="no" hint-placeholder-count="0">
+              <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="font-weight:800;opacity:0.45">–</span><span style="opacity:0.6">{{ no }}</span></div>
+            </sc-for>
           </div>
           <a href="https://apps.shopify.com/thebrix-io" style="text-align:center;padding:15px;border-radius:999px;font-weight:700;background:{{ p.ctaBg }};color:{{ p.ctaFg }}">{{ p.cta }}</a>
         </div>
       </sc-for>
+    </div>
+    <div style="width:100%;max-width:820px;margin:0 auto;background:#FFFFFF;border:1px solid #E7ECEF;border-radius:24px;padding:28px 34px 30px">
+      <h3 style="font-size:18px;font-weight:700;text-align:center;margin-bottom:18px">Every plan includes</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px 40px">
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">Zero Commissions &amp; No Extra Charges</span></div>
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">COD Checkouts - Prepaid Order Booster</span></div>
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">AI Cart Upsell - Increase your Store AOV</span></div>
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">AI Bundles - Smart Bundles &amp; Packs</span></div>
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">AI Based FBT - For Product &amp; Cart Pages</span></div>
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">AI prompt based feature update (credits vary by plan)</span></div>
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">Rewards Progress Bar &amp; Announcement Bar</span></div>
+        <div style="display:flex;gap:10px;font-size:15px;line-height:1.5"><span style="color:#1DBF73;font-weight:800">✓</span><span style="opacity:0.88">Coupon Slider, Countdown Timer</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -491,7 +519,7 @@ class Component extends DCLogic {
   // Paste your Google Apps Script web app URL here (see google-apps-script.gs)
   SHEET_URL = 'https://script.google.com/macros/s/AKfycbxXnLAxY4pcF1A7p_SEcqRm-XR0ADxXNmlZVGyVVjikCzbj7cKtF5geI-o42Fqc-bVvJg/exec';
   emptyLead() { return { name: '', email: '', phone: '', store: '', revenue: '', message: '', website: '' }; }
-  state = { ...this.defaults(), mobile: typeof window !== 'undefined' && window.innerWidth < 820, menuOpen: false,
+  state = { ...this.defaults(), mobile: typeof window !== 'undefined' && window.innerWidth < 820, menuOpen: false, billing: 'month',
     wiz: { currency: '$', aov: '82', revenue: '40000', ad: '' }, wizTouched: false, pop: 0,
     lead: this.emptyLead(), leadOpen: false, thanksOpen: false, leadSending: false, leadError: '', thanksName: '',
     prompt: '', lastPrompt: '', reply: 'Tell me a goal in plain English and I’ll change your cart live.', status: 'Ready', thinking: false };
@@ -704,6 +732,51 @@ class Component extends DCLogic {
       bar3: menuOpen ? 'translateY(-7px) rotate(-45deg)' : 'none'
     };
   }
+  // The seven plans. Paid plans carry both prices and the yearly saving is
+  // worked out from them (12 x monthly - yearly), so the switch can never
+  // disagree with the numbers on the cards.
+  planList() {
+    const yearly = this.state.billing === 'year';
+    const num = s => parseInt(s.replace(/[$,]/g, ''), 10);
+    const usd = n => '$' + n.toLocaleString('en-US');
+    const light = { bg: '#FFFFFF', fg: '#0B0F14', border: '#E7ECEF', tagBg: '#F1F4F6', tagFg: '#4A5560', ctaBg: '#F1F4F6', ctaFg: '#0B0F14' };
+    const dark = { bg: '#0B0F14', fg: '#FFFFFF', border: '#0B0F14', tagBg: '#1DBF73', tagFg: '#0B0F14', ctaBg: '#FFFFFF', ctaFg: '#0B0F14', dark: true };
+    const best = { ...light, tagBg: '#EAF5FD', tagFg: '#0C6FAE', ctaBg: '#0B0F14', ctaFg: '#FFFFFF' };
+    const all = 'All features included', noMark = 'No “Powered by BRIX” watermark';
+    const base = [
+      { name: 'Free', tag: 'Free forever', monthly: '$0', note: 'No credit card needed', sub: 'Launch and learn: up to 50 orders/month', cta: 'Install free ↗',
+        items: [all, 'AI prompt based feature update - 10 credits'], off: ['Shows a “Powered by BRIX” watermark'], ...light },
+      { name: 'Lite', tag: '7-day trial', monthly: '$9', yearly: '$90', sub: 'Start growing: 51–250 orders/month', cta: 'Start free trial ↗',
+        items: [all, 'AI prompt based feature update - 20 credits', noMark], off: [], ...light },
+      { name: 'Starter', tag: 'Most popular', monthly: '$29', yearly: '$290', sub: 'Grow your AOV: 251–500 orders/month', cta: 'Start free trial ↗',
+        items: [all, 'AI prompt based feature update - 30 credits', noMark], off: [], ...dark },
+      { name: 'Growth', tag: '7-day trial', monthly: '$59', yearly: '$590', sub: 'Scale your AOV: 501–2,000 orders/month', cta: 'Start free trial ↗',
+        items: [all, 'AI prompt based feature update - 60 credits', noMark], off: [], ...light },
+      { name: 'Pro', tag: 'Best value', monthly: '$79', yearly: '$790', sub: 'High-volume brands: 2,001–5,000 orders/month', cta: 'Start free trial ↗',
+        items: [all, 'AI prompt based feature update - 90 credits', noMark], off: [], ...best },
+      { name: 'Scale', tag: '7-day trial', monthly: '$99', yearly: '$990', sub: 'Built for big stores: 5,001–10,000 orders/month', cta: 'Start free trial ↗',
+        items: [all, 'AI prompt based feature update - 120 credits', noMark], off: [], ...light },
+      { name: 'Unlimited', tag: '7-day trial', monthly: '$199', yearly: '$1,990', sub: 'No limits: Unlimited orders/month', cta: 'Start free trial ↗',
+        items: [all, 'AI prompt based feature update - 200 credits', noMark], off: [], ...light }
+    ];
+    return base.map(p => {
+      if (!p.yearly) return { ...p, price: p.monthly, unit: '/month', year: p.note, yearColor: 'inherit', yearOpacity: 0.7, yearWeight: 400 };
+      if (!yearly) return { ...p, price: p.monthly, unit: '/month', year: 'or ' + p.yearly + ' billed yearly', yearColor: 'inherit', yearOpacity: 0.7, yearWeight: 400 };
+      const save = 12 * num(p.monthly) - num(p.yearly);
+      return { ...p, price: p.yearly, unit: '/year', year: 'Save ' + usd(save) + ' a year', yearColor: p.dark ? '#1DBF73' : '#0B7A45', yearOpacity: 1, yearWeight: 700 };
+    });
+  }
+  billVals() {
+    const yearly = this.state.billing === 'year';
+    const on = { bg: '#0B0F14', fg: '#FFFFFF' }, off = { bg: 'transparent', fg: '#4A5560' };
+    return {
+      billMonth: () => this.setState({ billing: 'month' }),
+      billYear: () => this.setState({ billing: 'year' }),
+      billIsMonth: !yearly, billIsYear: yearly,
+      billBgMonth: yearly ? off.bg : on.bg, billFgMonth: yearly ? off.fg : on.fg,
+      billBgYear: yearly ? on.bg : off.bg, billFgYear: yearly ? on.fg : off.fg
+    };
+  }
   renderVals() {
     const st = this.state, money = v => '$' + v.toFixed(2);
     const items = st.items.map(k => ({ key: k, ...this.catalog[k] }));
@@ -732,6 +805,7 @@ class Component extends DCLogic {
       ...this.navVals(),
       ...this.leadVals(),
       ...this.wizVals(),
+      ...this.billVals(),
       prompt: st.prompt, lastPrompt: st.lastPrompt, hasLastPrompt: !!st.lastPrompt, reply: st.reply, status: st.status,
       dotColor: st.thinking ? '#1597E5' : '#1DBF73',
       onPrompt: e => { this.stopAuto(); this.setState({ prompt: e.target.value }); },
@@ -772,17 +846,7 @@ class Component extends DCLogic {
         { num: '05', title: 'Analytics & AI Insights', body: 'See exactly which nudge earned every extra dollar, and what Brix suggests you change next.' },
         { num: '06', title: 'Brix AI Chat', body: 'Tell Brix the goal in plain English. It adjusts tiers, offers and bundles, then reports back.' }
       ],
-      plans: [
-        { name: 'Free', tag: 'Free forever', price: '$0', sub: 'Launch and learn: 50 orders/month', cta: 'Install free ↗',
-          items: ['Cart Drawer, Announcement Bar & Empty Cart Customization', 'AI BRIX: 10 credits/month', 'Frequently Bought Together & Progress Bar: preview', 'Basic analytics (revenue, AOV, clicks)'],
-          bg: '#FFFFFF', fg: '#0B0F14', border: '#E7ECEF', tagBg: '#F1F4F6', tagFg: '#4A5560', ctaBg: '#F1F4F6', ctaFg: '#0B0F14' },
-        { name: 'Starter', tag: 'Most popular', price: '$29', sub: 'Grow your AOV: 500 orders/month', cta: 'Start 14-day free trial ↗',
-          items: ['AI Cart Upsell & Frequently Bought Together, fully unlocked', 'Build a Combo: up to 3 templates', 'AI BRIX: 30 credits/month', 'Priority email & 24/7 AI support', 'Removes the “Powered by BRIX” watermark'],
-          bg: '#0B0F14', fg: '#FFFFFF', border: '#0B0F14', tagBg: '#1DBF73', tagFg: '#0B0F14', ctaBg: '#FFFFFF', ctaFg: '#0B0F14' },
-        { name: 'Pro', tag: 'Best value', price: '$79', sub: 'High-revenue brands: unlimited orders', cta: 'Start 14-day free trial ↗',
-          items: ['Unlimited Build a Combo templates', 'AI Analytics, Advanced AI Analytics & Unlimited AI Agents', 'AI BRIX: 90 credits/month', 'Removes the “Powered by BRIX” watermark'],
-          bg: '#FFFFFF', fg: '#0B0F14', border: '#E7ECEF', tagBg: '#EAF5FD', tagFg: '#0C6FAE', ctaBg: '#0B0F14', ctaFg: '#FFFFFF' }
-      ],
+      plans: this.planList(),
       reviews: [
         { quote: 'We use it to show related products and combo-style recommendations. For breakfast products like chocos, pancakes, and snacks, this makes sense because customers can discover more products while they are already ready to buy.', store: 'Coreeat', meta: 'India · 3 months using Brix' },
         { quote: 'Earlier, customers had to search for related products manually. With BRIX, we can guide them better.', store: 'ulagnaturals', meta: 'India · 2 months using Brix' },

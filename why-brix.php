@@ -331,7 +331,7 @@ require BRIX_INCLUDES . '/header.php';
       </details>
       <details class="faq-item">
         <summary>Do I have to pay to find out if it works?<span class="faq-ic"></span></summary>
-        <p>No. Free includes the analytics, so you can watch the revenue and AOV numbers move before you spend anything. Starter and Pro add a 14-day free trial on top of that.</p>
+        <p>No. Free includes the analytics, so you can watch the revenue and AOV numbers move before you spend anything. Every paid plan adds a 7-day free trial on top of that.</p>
       </details>
       <details class="faq-item">
         <summary>How do I cancel?<span class="faq-ic"></span></summary>

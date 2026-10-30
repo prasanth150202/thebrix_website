@@ -10,7 +10,7 @@ First, choose from three available templates - a compact horizontal row, card gr
 
 Next, select how recommendations should be created. 
 
-Choose Manual to select products yourself, Automatic to let BRIX recommend related products, or AI-Powered for smarter personalized suggestions on supported plans. 
+Choose Manual to select products yourself, Automatic to let BRIX recommend related products, or AI-Powered for smarter personalized suggestions. 
 
 Now, customize the section title, button text, price visibility, maximum products, and display limit. 
 
@@ -96,7 +96,7 @@ Next, use the Body section to enable features like announcements, progress bar, 
 
 In the Footer, customize the checkout button, footer text, colors, and advanced options like custom CSS. 
 
-Some advanced features may be available only on selected plans. 
+Every feature is available on every plan. 
 
 Once everything looks good in the live preview, click Save. 
 

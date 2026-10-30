@@ -1,6 +1,6 @@
 # Rewards Progress Bar
 
-Starter and above to publish live (previewable on Free).
+Included on every plan, Free too.
 
 The progress bar shows shoppers how close they are to unlocking a reward, motivating them
 to add one more item instead of checking out early. You define one or more tiers, each

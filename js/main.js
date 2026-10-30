@@ -419,6 +419,39 @@ document.querySelectorAll('.price-cta, #ctaInstall, .btn-primary.btn-lg').forEac
   io.observe(cart);
 })();
 
+/* ---------- plan cards: monthly / yearly switch ---------- */
+
+/* The cards ship with monthly prices, so the page is complete without this
+   script and the switch stays hidden. Each paid card carries both prices and
+   the yearly saving in data attributes; all the switch does is swap the text. */
+(function billingToggle() {
+  document.querySelectorAll('[data-bill-toggle]').forEach(toggle => {
+    const grid = toggle.nextElementSibling;
+    if (!grid) return;
+    const buttons = toggle.querySelectorAll('[data-bill]');
+
+    const show = mode => {
+      const yearly = mode === 'year';
+      buttons.forEach(btn => {
+        const on = btn.dataset.bill === mode;
+        btn.classList.toggle('is-on', on);
+        btn.setAttribute('aria-pressed', on);
+      });
+      grid.querySelectorAll('.price[data-monthly], .lp-price-fig[data-monthly]').forEach(el => {
+        el.querySelector('b').textContent = yearly ? el.dataset.yearly : el.dataset.monthly;
+        el.querySelector('span').textContent = yearly ? '/year' : '/month';
+      });
+      grid.querySelectorAll('.price-year[data-monthly]').forEach(el => {
+        el.textContent = yearly ? el.dataset.yearly : el.dataset.monthly;
+        el.classList.toggle('is-save', yearly);
+      });
+    };
+
+    buttons.forEach(btn => btn.addEventListener('click', () => show(btn.dataset.bill)));
+    toggle.hidden = false;
+  });
+})();
+
 /* ---------- Brix AI chat loop ---------- */
 
 (function chatDemo() {
@@ -853,7 +886,7 @@ document.getElementById('newsForm')?.addEventListener('submit', async e => {
     { q: 'Does it work with subscription or currency apps?',
       a: 'Yes. Brix supports Shopify Markets, multi-currency and major subscription apps. Reward tiers convert to each shopper’s local currency automatically.' },
     { q: 'Can I try the paid features first?',
-      a: 'Starter and Pro both start with a 14-day free trial, billed monthly through Shopify afterwards. Cancel anytime. Free is free forever, no trial needed.' },
+      a: 'Every plan includes every feature, so Free lets you try all of them, forever, with no trial needed. Paid plans add more orders and AI credits, remove the “Powered by BRIX” watermark that Free shows, and start with a 7-day free trial, billed monthly through Shopify afterwards. Cancel anytime.' },
     { q: 'What happens if I uninstall?',
       a: 'Brix removes itself cleanly with no leftover code in your theme. Export your discounts and analytics first, and your store is exactly as it was.' }
   ];
